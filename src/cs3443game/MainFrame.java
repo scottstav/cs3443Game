@@ -1,9 +1,7 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class MainFrame extends JFrame {
@@ -23,22 +21,21 @@ public class MainFrame extends JFrame {
 
 	
 	public MainFrame(GameModel model){
-		super("cs3443 Game");
+		super("CyberBlocks version 1.0");
 		inputView = new InputView(model);
 		gameView = new GameView(model); 
 		this.add(inputView,BorderLayout.SOUTH);
 		this.add(gameView, BorderLayout.CENTER);
-
 	}
 
 	public static void createGame() {
 		GameModel model = new GameModel();
 		MainFrame game = new MainFrame(model);
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		game.setSize(700, 700);
+		game.setSize(1280, 710);  //game resolution, increased slightly
+		game.setResizable(false); //disables window resizing
 		game.setVisible(true);
 	}
-
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

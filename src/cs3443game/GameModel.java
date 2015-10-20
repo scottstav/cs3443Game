@@ -61,7 +61,7 @@ public class GameModel {
 		if(y<0)
 			y=y*-1;
 		y = y % 650;
-		return new Point(700, y);
+		return new Point(1280, y);
 	}
 	/**
 	 * gets a screen line from onScreenLines using index i 
