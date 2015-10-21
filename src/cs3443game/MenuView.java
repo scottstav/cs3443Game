@@ -4,11 +4,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
-import java.io.File;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,7 +17,7 @@ public class MenuView extends JFrame {
 		setSize(1280, 720); //window size
 	}
 
-	public static void createMenu() {
+	public void createMenu() {
 		MenuView frame = new MenuView();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false); //user cannot resize window
