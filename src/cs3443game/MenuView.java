@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
+import java.io.File;
+import java.net.URL;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.sound.sampled.AudioInputStream;
@@ -78,11 +81,13 @@ class menuPanel extends JPanel {
 		g.drawImage(button_exit, 450, 550, null);
 	}
 	
-	//currently broken. probably an easy fix. Paco will save the day! :P
+	//currently not working
 	protected void playMusic()
 	{
+		File file = new File("music/mainmenu.wav");
+		
 		try{
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(this.getClass().getResource("music/music_mainmenu.wav"));
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start( );
