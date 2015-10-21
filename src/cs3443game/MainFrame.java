@@ -45,8 +45,7 @@ public class MainFrame extends JFrame {
 			
 			public void run() {
 
-				MenuView menu = new MenuView();
-				menu.createMenu(); //loads the menu screen
+				new MenuView(); //runs the main menu screen
 				//createGame();  //commented this out as we don't want to "createGame" until the user hits start
 			}
 		});
