@@ -34,17 +34,20 @@ public class MainFrame extends JFrame {
 		GameModel model = new GameModel();
 		MainFrame game = new MainFrame(model);
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		game.setSize(1280, 710);  //game resolution, increased slightly
+		game.setSize(1280, 720);  //game resolution, increased slightly
 		game.setResizable(false); //disables window resizing
 		game.setVisible(true);
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createGame();
-			}
-		});
-	}
+//I have commented this out while I work on the main menu screen
+//	public static void main(String[] args) {
+//		SwingUtilities.invokeLater(new Runnable() {
+//			
+//			public void run() {
+//				
+//				//createGame(); 
+//			}
+//		});
+//	}
 
 }

@@ -66,6 +66,7 @@ public class GameModel {
 		//codeLineDB.add("System.out.println();");
 		//codeLineDB.add("ArrayList<String>;");
 		//codeLineDB.add("int count;");
+		
 		random = new Random();
 		
 	}
