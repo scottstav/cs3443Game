@@ -1,14 +1,23 @@
 package cs3443game;
 
 import java.awt.Point;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class GameModel {
     /**
      * Contains lines of code to be put on screen
      */
 	private ArrayList<String> codeLineDB;
+
+	
+	/**
+	 * Scanner to be used to populate codeLineDB
+	 */
+	Scanner input;
+
 	
 	/**
 	 * Collection of lines that are currently being displayed.
@@ -26,8 +35,10 @@ public class GameModel {
 	
 	/**
 	 * Used to generate random starting points
+	 * Used to generate random array index
 	 */
 	private Random random;
+	
 	
 	/**
 	 * put three arbitrary code lines into codeLineDB
@@ -36,20 +47,37 @@ public class GameModel {
 		codeLineDB = new ArrayList<String>();
 		onScreenLines = new ArrayList<String>();
 		screenLinePointDB = new ArrayList<Point>();
-		codeLineDB.add("System.out.println();");
-		codeLineDB.add("ArrayList<String>;");
-		codeLineDB.add("int count;");
+	
+		try {
+		    input = new Scanner(new File("input"));
+		} catch (Exception FileNotFoundException) {
+		    System.err.println("failed to open data.txt");
+		    System.exit(1);
+		}
+		String line = null;
+		
+		while (input.hasNext()) {
+			line = input.nextLine();
+			codeLineDB.add(line);	
+		}	
+		
+		
+		input.close();
+		//codeLineDB.add("System.out.println();");
+		//codeLineDB.add("ArrayList<String>;");
+		//codeLineDB.add("int count;");
 		random = new Random();
 		
 	}
 	
 	/**
-	 * gets a code line from codeLineDB at specified index
-	 * @param index code line to be returned
+	 * gets a random code line from codeLineDB
+	 * 
 	 * @return code line
 	 */
-	public String getCodeLine(int index){
-		return codeLineDB.get(index % codeLineDB.size());
+	public String getCodeLine(){
+		int index = random.nextInt(codeLineDB.size());
+		return codeLineDB.get(index);
 	}
 	
 	/**
@@ -110,11 +138,11 @@ public class GameModel {
 	 * use mod 3.
 	 */
 	public void newScreenLine(){
-		int i =random.nextInt();
+		int i = random.nextInt();
 		if(i<0)
 			i=i*-1;
 		i = i % 3;
-		onScreenLines.add(getCodeLine(i));
+		onScreenLines.add(getCodeLine());
 		screenLinePointDB.add(getRandomPoint());
 	}
 	/**

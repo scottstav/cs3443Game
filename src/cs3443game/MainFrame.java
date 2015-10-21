@@ -1,9 +1,11 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 
 	/**
