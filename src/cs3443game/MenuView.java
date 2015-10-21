@@ -6,8 +6,9 @@ import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.io.*;
-import sun.audio.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+ import javax.sound.sampled.Clip;
 
 @SuppressWarnings("serial")
 public class MenuView extends JFrame {
@@ -19,7 +20,7 @@ public class MenuView extends JFrame {
 		setSize(1280, 720);
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		MenuView frame = new MenuView();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
@@ -77,15 +78,17 @@ class menuPanel extends JPanel {
 		g.drawImage(button_exit, 450, 550, null);
 	}
 	
-	public void playMusic() throws IOException
+	//currently broken. probably an easy fix. Paco will save the day! :P
+	protected void playMusic()
 	{
-		// open the sound file
-		String mm_song = "music/music_mainmenu.wav";
-		InputStream in = new FileInputStream(mm_song);
-		
-		//really unsure we should use AudioStream, but for now we can try it
-		AudioStream audioStream = new AudioStream(in);
-		AudioPlayer.player.start(audioStream);
+		try{
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(this.getClass().getResource("music/music_mainmenu.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start( );
+		}
+		catch(Exception ex){  
+		}
 	}
 }
 
