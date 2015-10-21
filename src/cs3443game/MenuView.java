@@ -5,13 +5,12 @@ import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.io.File;
-import java.net.URL;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
- import javax.sound.sampled.Clip;
+import javax.sound.sampled.Clip;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class MenuView extends JFrame {
@@ -20,13 +19,13 @@ public class MenuView extends JFrame {
 	{
 		super("CyberBlocks version 1.0");
 		add(new menuPanel());
-		setSize(1280, 720);
+		setSize(1280, 720); //window size
 	}
 
 	public static void main(String[] args) {
 		MenuView frame = new MenuView();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		frame.setResizable(false); //user cannot resize window
 		frame.setVisible(true);
 	}
 }
@@ -41,9 +40,8 @@ class menuPanel extends JPanel {
 	Image button_lboards = null;
 	Image button_exit = null;
 	
-
 	/**
-	 * This method loads and places the images on the screen
+	 * menuPanel constructor
 	 */
 	menuPanel() {
 	  
@@ -73,6 +71,7 @@ class menuPanel extends JPanel {
 		
 		super.paintComponent(g);
 		
+		//places images at x,y coords on the screen
 		g.drawImage(background_image, 1, 1, null);
 		g.drawImage(button_start, 450, 310, null);
 		g.drawImage(button_howtoplay, 450, 370, null);
@@ -81,19 +80,20 @@ class menuPanel extends JPanel {
 		g.drawImage(button_exit, 450, 550, null);
 	}
 	
-	//currently not working
-	protected void playMusic()
-	{
-		File file = new File("music/mainmenu.wav");
-		
-		try{
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start( );
+	//currently not working - also we need to move to another class
+		public void playMusic()
+		{
+			File file = new File("music/mainmenu.mp3");
+			
+			try{
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+				//AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(this.getClass().getResource("src/music/mainmenu.mp3"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			}
+			catch(Exception ex){  
+			}
 		}
-		catch(Exception ex){  
-		}
-	}
 }
 
