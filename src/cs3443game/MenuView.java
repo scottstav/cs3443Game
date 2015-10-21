@@ -22,7 +22,7 @@ public class MenuView extends JFrame {
 		setSize(1280, 720); //window size
 	}
 
-	public static void main(String[] args) {
+	public static void createMenu() {
 		MenuView frame = new MenuView();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false); //user cannot resize window
@@ -79,21 +79,5 @@ class menuPanel extends JPanel {
 		g.drawImage(button_lboards, 450, 490, null);
 		g.drawImage(button_exit, 450, 550, null);
 	}
-	
-	//currently not working - also we need to move to another class
-		public void playMusic()
-		{
-			File file = new File("music/mainmenu.mp3");
-			
-			try{
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-				//AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(this.getClass().getResource("src/music/mainmenu.mp3"));
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-			}
-			catch(Exception ex){  
-			}
-		}
 }
 

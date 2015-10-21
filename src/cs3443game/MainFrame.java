@@ -40,14 +40,16 @@ public class MainFrame extends JFrame {
 	}
 
 //I have commented this out while I work on the main menu screen
-//	public static void main(String[] args) {
-//		SwingUtilities.invokeLater(new Runnable() {
-//			
-//			public void run() {
-//				
-//				//createGame(); 
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			public void run() {
+
+				MenuView menu = new MenuView();
+				menu.createMenu(); //loads the menu screen
+				//createGame();  //commented this out as we don't want to "createGame" until the user hits start
+			}
+		});
+	}
 
 }
