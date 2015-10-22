@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.Point;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,7 +39,6 @@ public class GameModel {
 	 * Used to generate random array index
 	 */
 	private Random random;
-	
 	
 	/**
 	 * put three arbitrary code lines into codeLineDB
