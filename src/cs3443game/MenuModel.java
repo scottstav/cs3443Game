@@ -14,11 +14,16 @@ public class MenuModel implements MouseListener {
 		JButton button = (JButton)arg0.getSource();
 		String str = button.getText();
 		
-		if(str.equals("button_exit"))
-		{
+		if(str.equals("button_exit")) {
 			System.exit(0); //exits the game if "exit" button is pressed
 		}
-		
+		//this is currently broken, hitting "start" will keep current frame open & open new game frame
+		else if(str.equals("button_start")) {
+			GameModel gm = new GameModel();
+			MainFrame mf = new MainFrame(gm);
+			new MenuView().setVisible(false);
+			mf.createGame();	
+		}	
 	}
 
 	@Override
