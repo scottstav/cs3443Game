@@ -79,6 +79,7 @@ public class MenuView extends JFrame {
     private void setButtons(JPanel menuContent) {
 	   	 
     	JButton button_start = new JButton(start);
+    	button_start.setText("button_start");
 	   	button_start.setLocation(450, 300);
 		button_start.setSize(405, 50);
 		button_start.setBorderPainted(false);
@@ -87,6 +88,7 @@ public class MenuView extends JFrame {
 		button_start.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	   	 
 	   	JButton button_howto = new JButton(howto);
+	   	button_howto.setText("button_howto");
 	   	button_howto.setLocation(450, 360);
 	   	button_howto.setSize(405, 50);
 	   	button_howto.setBorderPainted(false);
@@ -95,6 +97,7 @@ public class MenuView extends JFrame {
 	   	button_howto.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	   	
 	   	JButton button_options = new JButton(options);
+	   	button_options.setText("button_options");
 	   	button_options.setLocation(450, 420);
 	   	button_options.setSize(405, 50);
 	   	button_options.setBorderPainted(false);
@@ -103,6 +106,7 @@ public class MenuView extends JFrame {
 	   	button_options.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 	   	JButton button_lboards = new JButton(lboards);
+	   	button_lboards.setText("button_lboards");
 	   	button_lboards.setLocation(450, 480);
 	   	button_lboards.setSize(405, 50);
 	   	button_lboards.setBorderPainted(false);
@@ -111,12 +115,14 @@ public class MenuView extends JFrame {
 	   	button_lboards.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	   	
 	   	JButton button_exit = new JButton(exit);
+	   	button_exit.setText("button_exit");
 	   	button_exit.setLocation(450, 540);
 	   	button_exit.setSize(405, 50);
 	   	button_exit.setBorderPainted(false);
 	   	button_exit.setFocusPainted(false);
 	   	button_exit.setContentAreaFilled(false);
 	   	button_exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	button_exit.addMouseListener(new MenuModel());
 	   	
 	   	//adds the buttons to the JPanel
 	    menuContent.add(button_start);
