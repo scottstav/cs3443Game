@@ -40,8 +40,8 @@ public class InputView extends JPanel {
 			public void keyPressed(KeyEvent e) {
                 s=inputField.getText();
                 //check if string exists on screen
-                if(model.onScreenLines.contains(s)){
-					model.removeScreenLine(model.onScreenLines.indexOf(s));
+                if(model.contains(s)){
+					model.removeScreenLine(model.indexOf(s));
 					//reset text field after a match
 					inputField.setText("");
 				}

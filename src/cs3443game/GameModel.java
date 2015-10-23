@@ -25,12 +25,9 @@ public class GameModel {
 	 * This is treated as a queue. As of now, the player must always
 	 * target the first line that appears on the screen.  
 	 * 
-	 * temporarily changed this to not private
-	 * so i can access it from inputView. probably not the best solution
 	 * 
-	 * -scott
 	 */
-	 ArrayList<String> onScreenLines;
+	 private ArrayList<String> onScreenLines;
 	
 	/**
 	 * Collection of the current (x,y) points of all lines on screen
@@ -158,6 +155,24 @@ public class GameModel {
 		screenLinePointDB.remove(i);
 	}
 	
+	/**
+	 * @param s		string searched for in onScreenLine ArrayList
+	 * @return		result of ArrayList.contains function
+	 */
 	
+	public boolean contains(String s)
+	{
+		return onScreenLines.contains(s);
+	}
+	
+	/**
+	 * 
+	 * @param s		string of which the index is returned
+	 * @return		result of ArrayList.indexOf function
+	 */
+	public int indexOf(String s)
+	{
+		return onScreenLines.indexOf(s);
+	}
 	
 }
