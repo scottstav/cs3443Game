@@ -102,7 +102,7 @@ public class GameModel {
 	 */
 	public String getScreenLine(int i){
 		if(i>=0 && i<onScreenLines.size())
-		return onScreenLines.get(i);
+			return onScreenLines.get(i);
 		
 		return null;
 	}
@@ -113,7 +113,7 @@ public class GameModel {
 	 * @return Point at index i
 	 */
 	public Point getPointFromDB(int i){
-		if(i>=0 && i<screenLinePointDB.size())
+		if(i >= 0 && i < screenLinePointDB.size())
 			return screenLinePointDB.get(i);
 			
 			return null;
@@ -126,10 +126,10 @@ public class GameModel {
 	public void translateScreenLines(){
 		double x;
 		double y;
-		for(int i=0; i<screenLinePointDB.size(); i++){
-			x=  screenLinePointDB.get(i).getX();
-			y=  screenLinePointDB.get(i).getY();
-			x=x-10;
+		for(int i=0; i < screenLinePointDB.size(); i++){
+			x =  screenLinePointDB.get(i).getX();
+			y =  screenLinePointDB.get(i).getY();
+			x = x-1;
 			screenLinePointDB.get(i).setLocation(x, y);
 		}
 	}
@@ -147,12 +147,9 @@ public class GameModel {
 		screenLinePointDB.add(getRandomPoint());
 	}
 	/**
-	 * since onScreenLines is treated as a queue, 
-	 * we are always targeting the first line on the screen.
-	 * therefore we remove next available line from the queue 
-	 * after it has been correctly entered in the text box.
+	 *removes the line on the screen, given an index
 	 */
-	public void removeScreenLine(){
+	public void removeScreenLine(int i){
 		onScreenLines.remove(0);
 		screenLinePointDB.remove(0);
 	}

@@ -41,7 +41,9 @@ public class InputView extends JPanel {
 			public void keyPressed(KeyEvent e) {
                 s=inputField.getText();
 				if (s.equals(model.getScreenLine(0))){
-					model.removeScreenLine();
+					model.removeScreenLine(0);
+					//reset text field after a match
+					inputField.setText("");
 				}
 
 			}
