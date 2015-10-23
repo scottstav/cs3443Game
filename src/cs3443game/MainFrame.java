@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
 		this.add(gameView, BorderLayout.CENTER);
 	}
 
-	public static void createGame() {
+	public void createGame() {
 		GameModel model = new GameModel();
 		MainFrame game = new MainFrame(model);
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +39,8 @@ public class MainFrame extends JFrame {
 		game.setVisible(true);
 	}
 
-//I have commented this out while I work on the main menu screen
+
+	//I have commented this out while I work on the main menu screen
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			

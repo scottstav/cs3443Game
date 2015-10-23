@@ -1,6 +1,8 @@
 package cs3443game;
 
 import java.awt.Graphics;
+
+
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,9 +27,9 @@ public class GameView extends JPanel{
 	private Timer shiftLinesTimer;
 
 	GameView (GameModel m){
-		model =m;
+		model = m;
 		
-		shiftLinesTimer = new Timer(1000, new ActionListener(){
+		shiftLinesTimer = new Timer(30, new ActionListener(){
       
 			public void actionPerformed(ActionEvent e){
 				model.translateScreenLines();

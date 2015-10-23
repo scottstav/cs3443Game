@@ -9,7 +9,6 @@ public class MenuModel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 		JButton button = (JButton)arg0.getSource();
 		String str = button.getText();
