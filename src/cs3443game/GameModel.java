@@ -17,7 +17,7 @@ public class GameModel {
 	/**
 	 * Scanner to be used to populate codeLineDB
 	 */
-	Scanner input;
+	private Scanner input;
 
 	
 	/**
@@ -25,8 +25,12 @@ public class GameModel {
 	 * This is treated as a queue. As of now, the player must always
 	 * target the first line that appears on the screen.  
 	 * 
+	 * temporarily changed this to not private
+	 * so i can access it from inputView. probably not the best solution
+	 * 
+	 * -scott
 	 */
-	private ArrayList<String> onScreenLines;
+	 ArrayList<String> onScreenLines;
 	
 	/**
 	 * Collection of the current (x,y) points of all lines on screen
@@ -150,8 +154,8 @@ public class GameModel {
 	 *removes the line on the screen, given an index
 	 */
 	public void removeScreenLine(int i){
-		onScreenLines.remove(0);
-		screenLinePointDB.remove(0);
+		onScreenLines.remove(i);
+		screenLinePointDB.remove(i);
 	}
 	
 	
