@@ -23,8 +23,7 @@ public class InputView extends JPanel {
 	 * just here for code readability
 	 */
 	String s;
-
-
+	
 	public InputView(GameModel m){
 		super();
 		inputField = new JTextField(15);
@@ -40,8 +39,9 @@ public class InputView extends JPanel {
 			 */
 			public void keyPressed(KeyEvent e) {
                 s=inputField.getText();
-				if (s.equals(model.getScreenLine(0))){
-					model.removeScreenLine(0);
+                //check if string exists on screen
+                if(model.onScreenLines.contains(s)){
+					model.removeScreenLine(model.onScreenLines.indexOf(s));
 					//reset text field after a match
 					inputField.setText("");
 				}
