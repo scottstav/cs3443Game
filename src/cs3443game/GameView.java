@@ -12,6 +12,8 @@ import javax.swing.Timer;
 
 @SuppressWarnings("serial")
 public class GameView extends JPanel{
+	EnemyGrunt grunt = new EnemyGrunt("int testVariable;", new Point(50,50));
+	
 	/**
 	 * model for the game
 	 */
@@ -42,11 +44,13 @@ public class GameView extends JPanel{
 		      
 			public void actionPerformed(ActionEvent e){
 				model.newScreenLine();
+				model.createGrunt();
 			    GameView.this.repaint();
 			}
 		});
 		shiftLinesTimer.start();
 		newLineTimer.start();
+        
 	}
 	@Override
 	/**
@@ -54,13 +58,22 @@ public class GameView extends JPanel{
 	 */
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		//g.drawImage(grunt.getImage(), 300, 300, null);
+		
 		String s = model.getScreenLine(0);
 		Point p = model.getPointFromDB(0);
+		Enemy enemy = model.getScreenEnemy(0);
+		
 		for(int i=0;s!=null; i++){
 			g.drawString(s, (int) p.getX() , (int) p.getY());
 			s=model.getScreenLine(i);
 			p=model.getPointFromDB(i);
 		
+		}
+		
+		for(int j=0; enemy!=null; j++){
+			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
+			enemy = model.getScreenEnemy(j);
 		}
 		
 	}

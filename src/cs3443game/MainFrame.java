@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

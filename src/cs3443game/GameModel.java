@@ -19,6 +19,7 @@ public class GameModel {
 	 */
 	private Scanner input;
 
+	private ArrayList<Enemy> onScreenEnemies;
 	
 	/**
 	 * Collection of lines that are currently being displayed.
@@ -48,6 +49,7 @@ public class GameModel {
 		codeLineDB = new ArrayList<String>();
 		onScreenLines = new ArrayList<String>();
 		screenLinePointDB = new ArrayList<Point>();
+		onScreenEnemies = new ArrayList<Enemy>();
 	
 		try {
 		    input = new Scanner(new File("input"));
@@ -133,6 +135,10 @@ public class GameModel {
 			x = x-1;
 			screenLinePointDB.get(i).setLocation(x, y);
 		}
+		
+		for(int i=0; i<onScreenEnemies.size(); i++){
+			onScreenEnemies.get(i).translate(-1, 0);
+		}
 	}
 	/**
 	 * puts a "random" line on the screen. 
@@ -147,6 +153,26 @@ public class GameModel {
 		onScreenLines.add(getCodeLine());
 		screenLinePointDB.add(getRandomPoint());
 	}
+	/**
+	 * creates grunt enemy. will be loaded with different
+	 * code lines instead of just int a later on
+	 */
+	public void createGrunt(){
+		onScreenEnemies.add( new EnemyGrunt("int a;", getRandomPoint()));
+	}
+	
+	/**
+	 * returns a screen enemy at the specified position
+	 * @param i index of enemy to return
+	 * @return enemy at specified position, null if invalid value was given
+	 */
+	public Enemy getScreenEnemy(int i){
+		if(i>=0 && i<onScreenEnemies.size())
+			return onScreenEnemies.get(i);
+		
+		return null;
+	}
+	
 	/**
 	 *removes the line on the screen, given an index
 	 */
