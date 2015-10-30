@@ -174,7 +174,7 @@ public class GameModel {
 	}
 	
 	/**
-	 *removes the line on the screen, given an index
+	 *removes the line on the screen, given an index.
 	 */
 	public void removeScreenLine(int i){
 		onScreenLines.remove(i);
