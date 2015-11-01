@@ -61,7 +61,7 @@ public class InputView extends JPanel {
 			}
 
 		});
-		this.add(inputField,BorderLayout.SOUTH);
+		this.add(inputField);
 	}
 
 }

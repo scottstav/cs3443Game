@@ -15,12 +15,13 @@ public class MainFrame extends JFrame {
 	 * but the inputView is simple enough to run 
 	 * on its own for now.
 	 */
-	private InputView inputView;
+	//private InputView inputView;
 	
 	/**
 	 * View for the game model
 	 */
-	private GameView gameView;
+	/*private GameView gameView;
+
 
 	
 	public MainFrame(GameModel model){
@@ -39,15 +40,17 @@ public class MainFrame extends JFrame {
 		game.setResizable(false); //disables window resizing
 		game.setVisible(true);
 	}
-
+*/
 
 	//I have commented this out while I work on the main menu screen
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			public void run() {
-
-				new MenuView(); //runs the main menu screen
+                HostView host = new HostView();
+                HostController controller = new HostController(host);
+                host.register(controller);
+				//new MenuView(); //runs the main menu screen
 				//createGame();  //commented this out as we don't want to "createGame" until the user hits start
 			}
 		});

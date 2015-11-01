@@ -1,5 +1,6 @@
 package cs3443game;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 
 
@@ -7,12 +8,13 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 @SuppressWarnings("serial")
 public class GameView extends JPanel{
-	EnemyGrunt grunt = new EnemyGrunt("int testVariable;", new Point(50,50));
 	
 	/**
 	 * model for the game
@@ -27,9 +29,16 @@ public class GameView extends JPanel{
 	 * timer that controls how often to shift the lines to the right
 	 */
 	private Timer shiftLinesTimer;
-
+	
+	private InputView input;
+	
 	GameView (GameModel m){
 		model = m;
+		input= new InputView(model);
+		this.setLayout(new BorderLayout());
+		
+		add(input,BorderLayout.SOUTH);
+		
 		
 		shiftLinesTimer = new Timer(30, new ActionListener(){
       
@@ -48,9 +57,29 @@ public class GameView extends JPanel{
 			    GameView.this.repaint();
 			}
 		});
+		
 		shiftLinesTimer.start();
 		newLineTimer.start();
-        
+	}
+	/**
+	 * not currently used. the idea is to start the 
+	 * timers as soon as the game starts, else the timers begin
+	 * right when the instance is created, so the user might hop into
+	 * a game that has already begun, depending on how long he takes in 
+	 * the menu.
+	 */
+	public void start(){
+		shiftLinesTimer.start();
+		newLineTimer.start();
+	}
+	
+	/**
+	 * not currently used. the idea is to reset the timers for different
+	 * modes of the game. 
+	 */
+	public void reset(){
+		shiftLinesTimer.restart();
+		newLineTimer.restart();
 	}
 	@Override
 	/**
@@ -74,6 +103,7 @@ public class GameView extends JPanel{
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
 			enemy = model.getScreenEnemy(j);
+			
 		}
 		
 	}

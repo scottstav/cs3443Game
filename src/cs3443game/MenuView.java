@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class MenuView extends JFrame {
+public class MenuView extends JPanel {
     
     private Image background;
     private ImageIcon start;
@@ -28,17 +28,11 @@ public class MenuView extends JFrame {
 
     public MenuView() {
     	
-    	JPanel menuContent = new MyBackground();
-    	menuContent.setLayout(null); //this allows us to move the buttons to specific x,y coords
-    	
+    	this.setLayout(null); //this allows us to move the buttons to specific x,y coords
     	setIcons(); //calls method to set the images to icons
-    	setButtons(menuContent); //calls method to turn those images into JButtons
-    
-        add(menuContent);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setContentPane(menuContent);
+    	setButtons(this); //calls method to turn those images into JButtons
+    	setBackground(new Color(0, true));
         setSize(1280, 720);
-        setResizable(false);
         setVisible(true);
     }
 
@@ -46,19 +40,13 @@ public class MenuView extends JFrame {
 	 * Class to set the JPanel background
 	 *
 	 */
-	public class MyBackground extends JPanel {
-
-        public MyBackground() {
-            setBackground(new Color(0, true));
-        }
         @Override
-
         public void paintComponent(Graphics g) {
 
             //Paint background
            g.drawImage (background, 0, 0, null);
         }
-    }
+    
     
     /**
      * Method that sets the icons with images
@@ -87,7 +75,7 @@ public class MenuView extends JFrame {
 		button_start.setFocusPainted(false);
 		button_start.setContentAreaFilled(false);
 		button_start.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		button_start.addMouseListener(new MenuModel());
+		
 	   	 
 	   	JButton button_howto = new JButton(howto);
 	   	button_howto.setText("button_howto");
@@ -97,7 +85,7 @@ public class MenuView extends JFrame {
 	   	button_howto.setFocusPainted(false);
 	   	button_howto.setContentAreaFilled(false);
 	   	button_howto.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	button_howto.addMouseListener(new MenuModel());
+	   	
 	   	
 	   	JButton button_options = new JButton(options);
 	   	button_options.setText("button_options");
@@ -107,7 +95,7 @@ public class MenuView extends JFrame {
 	   	button_options.setFocusPainted(false);
 	   	button_options.setContentAreaFilled(false);
 	   	button_options.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	button_options.addMouseListener(new MenuModel());
+	   	
 		
 	   	JButton button_lboards = new JButton(lboards);
 	   	button_lboards.setText("button_lboards");
@@ -117,7 +105,7 @@ public class MenuView extends JFrame {
 	   	button_lboards.setFocusPainted(false);
 	   	button_lboards.setContentAreaFilled(false);
 	   	button_lboards.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	button_lboards.addMouseListener(new MenuModel());
+	   	
 	   	
 	   	JButton button_exit = new JButton(exit);
 	   	button_exit.setText("button_exit");
@@ -127,7 +115,7 @@ public class MenuView extends JFrame {
 	   	button_exit.setFocusPainted(false);
 	   	button_exit.setContentAreaFilled(false);
 	   	button_exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	button_exit.addMouseListener(new MenuModel());
+	   	
 	   	
 	   	//adds the buttons to the JPanel
 	    menuContent.add(button_start);
