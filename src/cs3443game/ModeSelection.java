@@ -48,11 +48,11 @@ public class ModeSelection extends JPanel{
 	private void setIcons() {
 
 		background = new ImageIcon("images/image_mainmenu.png").getImage();
-		mode1 = new ImageIcon("images/mode1.png");
-		mode2 = new ImageIcon("images/mode2.png");
-		mode3 = new ImageIcon("images/mode3.png");
-		mode4 = new ImageIcon("images/mode4.png");
-		back = new ImageIcon("images/back.png");	
+		mode1 = new ImageIcon("images/button_endlessmode.png");
+		mode2 = new ImageIcon("images/button_timedmode.png");
+		mode3 = new ImageIcon("images/button_mode_placeholder.png");
+		mode4 = new ImageIcon("images/button_mode_placeholder.png");
+		back = new ImageIcon("images/button_mainmenu.png");	//changed from back.png to menu-specific
 	}
 
 	/**

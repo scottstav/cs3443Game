@@ -1,13 +1,14 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
-
-
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -32,10 +33,16 @@ public class GameView extends JPanel{
 	
 	private InputView input;
 	
+	/**
+	 * background image for game stage
+	 */
+	private Image background;
+	
 	GameView (GameModel m){
 		model = m;
 		input= new InputView(model);
 		this.setLayout(new BorderLayout());
+		background = new ImageIcon("images/image_gamestage_background.png").getImage();
 		
 		add(input,BorderLayout.SOUTH);
 		
@@ -88,7 +95,7 @@ public class GameView extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//g.drawImage(grunt.getImage(), 300, 300, null);
-		
+		g.drawImage (background, 0, 0, null); //background image
 		String s = model.getScreenLine(0);
 		Point p = model.getPointFromDB(0);
 		Enemy enemy = model.getScreenEnemy(0);
