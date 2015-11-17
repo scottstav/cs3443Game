@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+
 import java.awt.Component;
 import java.util.ArrayList;
 
@@ -37,12 +38,14 @@ public class HostView extends JFrame {
 	GameView game;
 	ModeSelection modeScreen;
 	UserView userScreen;
+	GameModel mode;
 	
 
 
 	public HostView(){
 		menu = new MenuView();
-		game = new GameView(new GameModel());
+		mode = new GameModel();
+		game = new GameView(mode);
 		modeScreen = new ModeSelection();
 		userScreen = new UserView();
 		
@@ -75,6 +78,10 @@ public class HostView extends JFrame {
 				if(com instanceof JButton){
 					JButton button = (JButton)com;
 					button.addActionListener(c);
+				}
+				if(com instanceof JTextField){
+					JTextField field = (JTextField) com;
+					com.addKeyListener(c);
 				}
 
 			}
@@ -122,15 +129,24 @@ public class HostView extends JFrame {
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(modeScreen);
 		}
-	    System.out.println(currentIndex);
+	   
 		if(currentIndex!=-1){
-			System.out.println(previousIndex);
 			this.add(screenList.get(currentIndex));
-			
-			System.out.println(previousIndex);
 		}
 		validate();
 		repaint();
 		
+	}
+	
+	public String getText(){
+		return game.getText();
+	}
+	
+	public void resetText(){
+		game.resetText();
+	}
+	
+	public boolean process(String s){
+		return mode.process(s);
 	}
 }

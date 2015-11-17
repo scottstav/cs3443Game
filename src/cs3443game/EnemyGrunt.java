@@ -1,6 +1,8 @@
 package cs3443game;
 
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 import javax.swing.ImageIcon;
 
@@ -20,8 +22,7 @@ public class EnemyGrunt extends Enemy {
 
 	public EnemyGrunt(String line, Point pos){
 		
-		super(line, pos);
-		enemyIcon = new ImageIcon("images/testship.png");
+		super(line, pos, "images/blueShip.png", "images/smallExplosion.png");
 		
 	}
 	

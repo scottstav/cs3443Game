@@ -1,8 +1,16 @@
 package cs3443game;
 
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 
 
@@ -19,7 +27,7 @@ import javax.swing.ImageIcon;
  *
  */
 
-public class Enemy{
+public class Enemy implements Collidable{
 
 	/**
 	 * image icon of the enemy. kept with protected access modifier
@@ -28,25 +36,59 @@ public class Enemy{
 	protected ImageIcon enemyIcon;
 	private String codeLine;
 	private Point position; 
+	private boolean isTrash;
+	private Timer explosionTimer;
+	private boolean exploded;
+	protected BufferedImage bImage;
 	//possibly more instance variables later, although subclasses might have their own traits.
 	
 	//public enemy haha get it?
 	
-	public Enemy(String line, Point pos){
+	public Enemy(String line, Point pos, String ship, String explosion){
 		codeLine = line;
 		position= pos;
+		isTrash=false;
+		exploded=false;
+		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
+		enemyIcon = new ImageIcon("images/blueShip.png");
+		paintToImage();
 		
+		explosionTimer= new Timer(2000, new ActionListener(){
+
+			public void actionPerformed(ActionEvent e){
+				Enemy.this.isTrash=true;
+			}
+		});
+		
+	}
+	public int getRGB(int x, int y){
+		return bImage.getRGB(x,y);
+	}
+	public void paintToImage(){
+		enemyIcon.paintIcon(null, bImage.createGraphics(), getX(), getY());
 	}
 	
 	public int getX(){
 		return (int) position.getX();
+		
 	}
 	
 	public int getY(){
 		return (int) position.getY();
 	}
 	
+	public void  collision(){
+		enemyIcon= new ImageIcon("images/smallExplosion.png");
+	    startExplosion();
+	}
+	
+	public boolean isTrash()
+	{
+		return isTrash;
+	}
+	
 	public Image getImage(){
+		
 		return enemyIcon.getImage();
 	}
 	
@@ -59,8 +101,39 @@ public class Enemy{
 	 * @param y offset for y
 	 */
 	public void translate(double x, double y){
+		if(!exploded)
 		position.setLocation(position.getX()+x, position.getY()+y);
 	}
+	
+    public Rectangle2D getBounds(){
+    	Rectangle r = new Rectangle(getX(),getY(), getWidth(), getHeight());
+        return r.getBounds2D();
+    }
+    
+    public int getHeight(){
+    	return enemyIcon.getIconHeight();
+    }
+    
+    public int getWidth(){
+    	return enemyIcon.getIconWidth();
+    }
+    
+    public void bufferedImagePaint(int x, int y, Graphics2D g){
+    	enemyIcon.paintIcon(null, g, x, y);
+    }
+    
+    public String getLine(){
+    	return codeLine;
+    }
+    
+    public void startExplosion(){
+    	explosionTimer.start();
+    	exploded=true;
+    	codeLine="";
+    }
+    public boolean exploded(){
+    	return exploded;
+    }
 	
 	//public void paintComponent(Graphics g){
 		//super.paintComponent(g);

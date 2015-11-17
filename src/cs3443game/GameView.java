@@ -1,12 +1,17 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,7 +21,7 @@ import javax.swing.Timer;
 
 @SuppressWarnings("serial")
 public class GameView extends JPanel{
-	
+
 	/**
 	 * model for the game
 	 */
@@ -29,43 +34,50 @@ public class GameView extends JPanel{
 	/**
 	 * timer that controls how often to shift the lines to the right
 	 */
-	private Timer shiftLinesTimer;
-	
-	private InputView input;
-	
-	/**
-	 * background image for game stage
-	 */
+	private Timer shiftTimer;
+
+	private JTextField input;
+
 	private Image background;
+	private Earth earth;
+
+	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
+
 	
 	GameView (GameModel m){
+		this.setLayout(null);
 		model = m;
-		input= new InputView(model);
-		this.setLayout(new BorderLayout());
-		background = new ImageIcon("images/image_gamestage_background.png").getImage();
-		
-		add(input,BorderLayout.SOUTH);
+		input= new JTextField(15);
+		input.setLocation(0,360);
+		input.setSize(300,20);
 		
 		
-		shiftLinesTimer = new Timer(30, new ActionListener(){
-      
+		JTextField field = new JTextField(15);
+		field.setLocation(500,640);
+ 
+		add(input);
+		background = new ImageIcon("images/space.jpg").getImage();
+		earth = new Earth();
+
+		shiftTimer = new Timer(30, new ActionListener(){
+
 			public void actionPerformed(ActionEvent e){
-				model.translateScreenLines();
+				model.translate();
 				GameView.this.repaint();
-			
+
 			}
 		});
-		
+
 		newLineTimer = new Timer(5000, new ActionListener(){
-		      
+
 			public void actionPerformed(ActionEvent e){
-				model.newScreenLine();
 				model.createGrunt();
-			    GameView.this.repaint();
+				model.createProjo();
+				GameView.this.repaint();
 			}
 		});
-		
-		shiftLinesTimer.start();
+
+		shiftTimer.start();
 		newLineTimer.start();
 	}
 	/**
@@ -76,43 +88,52 @@ public class GameView extends JPanel{
 	 * the menu.
 	 */
 	public void start(){
-		shiftLinesTimer.start();
+		shiftTimer.start();
 		newLineTimer.start();
 	}
-	
+
 	/**
 	 * not currently used. the idea is to reset the timers for different
 	 * modes of the game. 
 	 */
 	public void reset(){
-		shiftLinesTimer.restart();
+		shiftTimer.restart();
 		newLineTimer.restart();
 	}
+	
+	public String getText(){
+		return input.getText();
+	}
+	
+	public void resetText(){
+		input.setText("");
+	}
+	
 	@Override
 	/**
 	 * repaints the newly shifted/created lines
 	 */
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//g.drawImage(grunt.getImage(), 300, 300, null);
-		g.drawImage (background, 0, 0, null); //background image
-		String s = model.getScreenLine(0);
-		Point p = model.getPointFromDB(0);
+		g.drawImage (background, 0, 0, null);
+		g.drawImage (earth.getImage(), 0, 0, null);
+
+		
 		Enemy enemy = model.getScreenEnemy(0);
-		
-		for(int i=0;s!=null; i++){
-			g.drawString(s, (int) p.getX() , (int) p.getY());
-			s=model.getScreenLine(i);
-			p=model.getPointFromDB(i);
-		
-		}
-		
+		Projectile projo = model.getScreenProjo(0); 
+
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
+			g.setColor(Color.WHITE);
+			g.drawString(enemy.getLine(), (int) enemy.getX() , (int) enemy.getY()+enemy.getHeight()+10);
 			enemy = model.getScreenEnemy(j);
-			
-		}
-		
-	}
 
+		}
+
+		for(int h=0; projo!=null; h++){
+			g.drawImage(projo.getImage(), projo.getX(), projo.getY(), null);
+			projo = model.getScreenProjo(h);
+
+		}
+	}
 }

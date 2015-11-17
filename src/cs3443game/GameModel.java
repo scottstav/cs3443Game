@@ -1,26 +1,26 @@
 package cs3443game;
 
 import java.awt.Point;
-
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class GameModel {
-    /**
-     * Contains lines of code to be put on screen
-     */
+	/**
+	 * Contains lines of code to be put on screen
+	 */
 	private ArrayList<String> codeLineDB;
 
-	
+
 	/**
 	 * Scanner to be used to populate codeLineDB
 	 */
 	private Scanner input;
 
 	private ArrayList<Enemy> onScreenEnemies;
-	
+	private ArrayList<Projectile>onScreenProjectiles;
 	/**
 	 * Collection of lines that are currently being displayed.
 	 * This is treated as a queue. As of now, the player must always
@@ -28,52 +28,47 @@ public class GameModel {
 	 * 
 	 * 
 	 */
-	 private ArrayList<String> onScreenLines;
-	
+	//private ArrayList<String> onScreenLines;
+
+
 	/**
 	 * Collection of the current (x,y) points of all lines on screen
 	 * index of onScreenLines corresponds to index of this variable
 	 */
-	private ArrayList<Point> screenLinePointDB;
-	
+	//private ArrayList<Point> screenLinePointDB;
+
 	/**
 	 * Used to generate random starting points
 	 * Used to generate random array index
 	 */
 	private Random random;
-	
+	Earth earth;
+
 	/**
 	 * put three arbitrary code lines into codeLineDB
 	 */
 	public GameModel(){
+		earth = new Earth();
+		random = new Random();
 		codeLineDB = new ArrayList<String>();
-		onScreenLines = new ArrayList<String>();
-		screenLinePointDB = new ArrayList<Point>();
 		onScreenEnemies = new ArrayList<Enemy>();
-	
+		onScreenProjectiles = new ArrayList<Projectile>();
+
 		try {
-		    input = new Scanner(new File("input"));
+			input = new Scanner(new File("input"));
 		} catch (Exception FileNotFoundException) {
-		    System.err.println("failed to open data.txt");
-		    System.exit(1);
+			System.err.println("failed to open data.txt");
+			System.exit(1);
 		}
 		String line = null;
-		
+
 		while (input.hasNext()) {
 			line = input.nextLine();
 			codeLineDB.add(line);	
 		}	
-		
-		
 		input.close();
-		//codeLineDB.add("System.out.println();");
-		//codeLineDB.add("ArrayList<String>;");
-		//codeLineDB.add("int count;");
-		
-		random = new Random();
-		
 	}
-	
+
 	/**
 	 * gets a random code line from codeLineDB
 	 * 
@@ -83,7 +78,7 @@ public class GameModel {
 		int index = random.nextInt(codeLineDB.size());
 		return codeLineDB.get(index);
 	}
-	
+
 	/**
 	 * gets a random Point
 	 * @return an (x,y) point
@@ -95,72 +90,51 @@ public class GameModel {
 		y = y % 650;
 		return new Point(1280, y);
 	}
-	/**
-	 * gets a screen line from onScreenLines using index i 
-	 *Since onScreenLines is essentially a queue right now, 
-	 *this is called using a hard 0 in the removeScreenLine function
-	 *of this class.
-	 * @param i index of line to be retrieved
-	 * @return
-	 */
-	public String getScreenLine(int i){
-		if(i>=0 && i<onScreenLines.size())
-			return onScreenLines.get(i);
-		
-		return null;
+	public Point getRandomProjoPoint(){
+		int y =random.nextInt();
+		if(y<0)
+			y=y*-1;
+		y = y % 650;
+		return new Point(-50, y);
 	}
-	
-	/**
-	 * returns a point from screenLinePointDB using index i
-	 * @param i index of point to be retrieved
-	 * @return Point at index i
-	 */
-	public Point getPointFromDB(int i){
-		if(i >= 0 && i < screenLinePointDB.size())
-			return screenLinePointDB.get(i);
-			
-			return null;
-	}
+
 	/**
 	 * translates screen lines to the left of the screen
 	 * Might want to use the translate method of the Point class,
 	 * but this works for now
 	 */
-	public void translateScreenLines(){
-		double x;
-		double y;
-		for(int i=0; i < screenLinePointDB.size(); i++){
-			x =  screenLinePointDB.get(i).getX();
-			y =  screenLinePointDB.get(i).getY();
-			x = x-1;
-			screenLinePointDB.get(i).setLocation(x, y);
-		}
-		
+	public void translate(){
+		Enemy e;
+		Projectile p;
+
 		for(int i=0; i<onScreenEnemies.size(); i++){
-			onScreenEnemies.get(i).translate(-1, 0);
+			e=onScreenEnemies.get(i);
+			e.translate(-1, 0);
+			e.paintToImage();
 		}
+
+		for(int i=0; i<onScreenProjectiles.size(); i++){
+			p=onScreenProjectiles.get(i);
+			p.translate(1, 0);
+			p.paintToImage();
+
+		}
+
+		collisions();
+		cleanUp();
 	}
-	/**
-	 * puts a "random" line on the screen. 
-	 * since there are only 3 lines in screenLinePointDB right now,
-	 * use mod 3.
-	 */
-	public void newScreenLine(){
-		int i = random.nextInt();
-		if(i<0)
-			i=i*-1;
-		i = i % 3;
-		onScreenLines.add(getCodeLine());
-		screenLinePointDB.add(getRandomPoint());
-	}
+
 	/**
 	 * creates grunt enemy. will be loaded with different
 	 * code lines instead of just int a later on
 	 */
 	public void createGrunt(){
-		onScreenEnemies.add( new EnemyGrunt("int a;", getRandomPoint()));
+		onScreenEnemies.add( new EnemyGrunt(getCodeLine(), getRandomPoint()));
 	}
-	
+	public void createProjo(){
+		onScreenProjectiles.add(new Projectile(getRandomProjoPoint()));
+	}
+
 	/**
 	 * returns a screen enemy at the specified position
 	 * @param i index of enemy to return
@@ -169,36 +143,100 @@ public class GameModel {
 	public Enemy getScreenEnemy(int i){
 		if(i>=0 && i<onScreenEnemies.size())
 			return onScreenEnemies.get(i);
-		
+
 		return null;
 	}
-	
-	/**
-	 *removes the line on the screen, given an index.
-	 */
-	public void removeScreenLine(int i){
-		onScreenLines.remove(i);
-		screenLinePointDB.remove(i);
+
+	public Projectile getScreenProjo(int i){
+		if(i>=0 && i<onScreenProjectiles.size())
+			return onScreenProjectiles.get(i);
+
+		return null;
 	}
-	
-	/**
-	 * @param s		string searched for in onScreenLine ArrayList
-	 * @return		result of ArrayList.contains function
-	 */
-	
-	public boolean contains(String s)
-	{
-		return onScreenLines.contains(s);
+
+
+	public boolean process(String s){
+		Enemy enemy;
+		for(int i=0; i<onScreenEnemies.size(); i++){
+			enemy=onScreenEnemies.get(i);
+			System.out.println(enemy.getLine());
+			if(enemy!=null){
+				if(enemy.getLine().equals(s)){
+					enemy.collision();
+					return true;
+				}
+			}
+		}
+		return false;
 	}
+
 	
-	/**
-	 * 
-	 * @param s		string of which the index is returned
-	 * @return		result of ArrayList.indexOf function
-	 */
-	public int indexOf(String s)
-	{
-		return onScreenLines.indexOf(s);
+
+	public int getProjoSize(){
+		return onScreenProjectiles.size();
 	}
+
+	public int getEnemySize(){
+		return onScreenEnemies.size();
+	}
+
+	public void collisions(){
+
+		Enemy enemy;
+		Projectile projo;
+
+		for(int i=0; i<getEnemySize(); i++){
+			enemy = getScreenEnemy(i);
+			if(collided(earth,enemy))
+				continue;
+			for(int j=0; j<getProjoSize(); j++){
+				projo = getScreenProjo(j);
+				if(projo.isTrash())
+					continue;
+				if(collided(projo,enemy))
+					break;
+			}
+		}
+	}
+
+	public boolean collided(Collidable a, Collidable b){
+
+		if(a.getBounds().intersects(b.getBounds())){
+			if(pixelPerfectCollision(a, b)){
+				a.collision();
+				b.collision();
+				return true;
+			}
+		}
+		return false;
+
+	}
+	public boolean pixelPerfectCollision(Collidable collidableA, Collidable collidableB){
+		int xStart= Math.max(collidableA.getX(), collidableB.getX());
+		int xEnd= Math.min(collidableA.getX() + collidableA.getWidth(), collidableB.getX() + collidableB.getWidth());
+		int yStart= Math.max(collidableA.getY(), collidableB.getY());
+		int yEnd= Math.min(collidableA.getY() + collidableA.getHeight(), collidableB.getY() + collidableB.getHeight());
 	
+		for(int i=xStart; i<xEnd; i++){
+			for(int j=yStart; j<yEnd; j++){
+				if(collidableA.getRGB(i,j)!= 0xff000000 && collidableB.getRGB(i, j)!= 0xff000000 )
+					return true;
+			}
+		}
+		return false;
+	}
+
+	public void cleanUp(){
+		for(int i=0; i<onScreenEnemies.size(); i++){
+			if(onScreenEnemies.get(i).isTrash()){
+				onScreenEnemies.remove(i);
+			}
+		}
+
+		for(int i=0; i<onScreenProjectiles.size(); i++){
+			if(onScreenProjectiles.get(i).isTrash()){
+				onScreenProjectiles.remove(i);
+			}
+		}
+	}
 }
