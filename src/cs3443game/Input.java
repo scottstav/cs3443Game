@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class InputView extends JPanel {
+public class Input extends JTextField {
     /**
      * input text box
      */
-	JTextField inputField;
+	//JTextField inputField;
 	/**
 	 * game model
 	 */
@@ -24,11 +24,11 @@ public class InputView extends JPanel {
 	 */
 	String s;
 	
-	public InputView(GameModel m){
-		super();
-		inputField = new JTextField(15);
+	public Input(GameModel m){
+		super(15);
+		//inputField = new JTextField(15);
 		model = m;
-		inputField.addKeyListener( new KeyListener(){
+		this.addKeyListener( new KeyListener(){
 
 			@Override
 			
@@ -38,13 +38,14 @@ public class InputView extends JPanel {
 			 * to be removed
 			 */
 			public void keyPressed(KeyEvent e) {
-                s=inputField.getText();
+                s=Input.this.getText();
                 //check if string exists on screen
-                if(model.contains(s)){
-					model.removeScreenLine(model.indexOf(s));
+                //if(model.contains(s)){
+					//model.removeScreenLine(model.indexOf(s));
 					//reset text field after a match
-					inputField.setText("");
-				}
+                if(model.process(s))
+					Input.this.setText("");
+				//}
 
 			}
 
@@ -61,7 +62,7 @@ public class InputView extends JPanel {
 			}
 
 		});
-		this.add(inputField);
+		//this.add(inputField);
 	}
 
 }

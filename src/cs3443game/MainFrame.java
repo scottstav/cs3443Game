@@ -2,6 +2,7 @@ package cs3443game;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -50,6 +51,8 @@ public class MainFrame extends JFrame {
                 HostView host = new HostView();
                 HostController controller = new HostController(host);
                 host.register(controller);
+               
+                
 				//new MenuView(); //runs the main menu screen
 				//createGame();  //commented this out as we don't want to "createGame" until the user hits start
 			}
