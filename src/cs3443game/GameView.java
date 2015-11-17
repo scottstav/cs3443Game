@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -42,6 +43,7 @@ public class GameView extends JPanel{
 
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
+	
 	GameView (GameModel m){
 		this.setLayout(null);
 		model = m;
@@ -116,6 +118,7 @@ public class GameView extends JPanel{
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
 
+		
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0); 
 
