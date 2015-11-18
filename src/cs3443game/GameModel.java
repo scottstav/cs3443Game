@@ -199,6 +199,7 @@ public class GameModel {
 		}
 	}
 
+	
 	public boolean collided(Collidable a, Collidable b){
 
 		if(a.getBounds().intersects(b.getBounds())){
@@ -211,6 +212,7 @@ public class GameModel {
 		return false;
 
 	}
+	
 	public boolean pixelPerfectCollision(Collidable collidableA, Collidable collidableB){
 		int xStart= Math.max(collidableA.getX(), collidableB.getX());
 		int xEnd= Math.min(collidableA.getX() + collidableA.getWidth(), collidableB.getX() + collidableB.getWidth());
