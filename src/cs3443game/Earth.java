@@ -1,5 +1,6 @@
 package cs3443game;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
@@ -9,11 +10,13 @@ import javax.swing.ImageIcon;
 
 public class Earth extends BufferedImage implements Collidable {
 	private ImageIcon imgEarth;
+	Health hbEarth;
 	
 	public Earth(){
 		super(1280,720, BufferedImage.TYPE_INT_RGB);
 		imgEarth = new ImageIcon("images/earth.png");
 		imgEarth.paintIcon(null, this.createGraphics(), 0, 0);
+		hbEarth = new Health(this);
 	}
 
 
@@ -48,7 +51,11 @@ public int getY() {
 
 @Override
 public void collision() {
-	System.out.println("Earth Collision!");
+	//get type of object collision to determine damage amount
+	
+	//for now just call 20 for testing
+	System.out.println("earth was struck, taking damage!");
+	hbEarth.hit(50);
 	
 }
 

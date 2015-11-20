@@ -5,31 +5,32 @@ import java.awt.Graphics;
 
 public class Health {
 
-	int health;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	int health, hbScale;
 	int maxHealth;
 	int hbX, hbY, hbWidth, hbHeight;
 	Color hbColor;
+	Graphics g;
 	
-	public Health(Collidable mortal) {
-		mortal.;
-		
+	public Health(Collidable col) {
+		// potentially, use collidable to determine health bar type and location
+		maxHealth = 100;
+		health = 100;
+		hbX = 10;
+		hbY = 10;
+		hbWidth = 350;
+		hbHeight = 30;
+		hbColor = Color.green;
+		hbScale = 1;
 	}
 
-	/**
-	 * redraws the health bar 
-	 * @param g
-	 */
-	public void draw(Graphics g)
-	{
-	    float hbScale = health / maxHealth;
-	    hbColor = determineColor(hbScale);
-	    g.setColor(hbColor);
-	   // g.fillRect(healthBarX, healthBarY, healthBarWidth * healthScale, healthBarHeight);
-	}
-
+	
 	/**
 	 * health bar changes from red -> green -> yellow
-	 * here we determine that color based on ccurrent health / maxhealth
+	 * here we determine that color based on current health / maxhealth
 	 * @param hbScale
 	 * @return
 	 */
@@ -41,5 +42,38 @@ public class Health {
 			return Color.yellow;
 		else
 			return Color.red;
+	}
+	
+	public int getHeight()
+	{
+		return this.hbHeight;
+	}
+	
+	public int getWidth()
+	{
+		return this.hbWidth;
+	}
+	
+	public int getX()
+	{
+		return this.hbX;
+	}
+	
+	public int getY()
+	{
+		return this.hbY;
+	}
+	
+	/**
+	 * 
+	 * @param hitSz - hits can deal variable damage
+	 * @return 
+	 */
+	public void hit(int damage)
+	{
+		
+		health-=damage;
+	    hbScale = health / maxHealth;
+		hbColor = determineColor(hbScale);
 	}
 }

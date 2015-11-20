@@ -120,6 +120,7 @@ public class GameModel {
 
 		}
 
+		//check for collisions after this translation
 		collisions();
 		cleanUp();
 	}
@@ -187,6 +188,8 @@ public class GameModel {
 
 		for(int i=0; i<getEnemySize(); i++){
 			enemy = getScreenEnemy(i);
+			if(enemy.exploded())
+				continue;
 			if(collided(earth,enemy))
 				continue;
 			for(int j=0; j<getProjoSize(); j++){
