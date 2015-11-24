@@ -82,6 +82,7 @@ public class Enemy implements Collidable{
 	    startExplosion();
 	}
 	
+	
 	public boolean isTrash()
 	{
 		return isTrash;
@@ -106,7 +107,7 @@ public class Enemy implements Collidable{
 	}
 	
     public Rectangle2D getBounds(){
-    	Rectangle r = new Rectangle(getX(),getY(), getWidth(), getHeight());
+    	Rectangle r = new Rectangle(getX(),getY(), getWidth()*2, getHeight()*2);
         return r.getBounds2D();
     }
     
@@ -120,7 +121,9 @@ public class Enemy implements Collidable{
     
     public void bufferedImagePaint(int x, int y, Graphics2D g){
     	enemyIcon.paintIcon(null, g, x, y);
+    	
     }
+    
     
     public String getLine(){
     	return codeLine;

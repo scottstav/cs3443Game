@@ -21,6 +21,7 @@ public class GameModel {
 
 	private ArrayList<Enemy> onScreenEnemies;
 	private ArrayList<Projectile>onScreenProjectiles;
+	private ArrayList<PowerUp>onScreenPowerUps;
 	/**
 	 * Collection of lines that are currently being displayed.
 	 * This is treated as a queue. As of now, the player must always
@@ -53,6 +54,7 @@ public class GameModel {
 		codeLineDB = new ArrayList<String>();
 		onScreenEnemies = new ArrayList<Enemy>();
 		onScreenProjectiles = new ArrayList<Projectile>();
+		onScreenPowerUps = new ArrayList<PowerUp>();
 
 		try {
 			input = new Scanner(new File("input"));
@@ -134,6 +136,9 @@ public class GameModel {
 	public void createProjo(){
 		onScreenProjectiles.add(new Projectile(getRandomProjoPoint()));
 	}
+	public void createPowerUp(){
+		onScreenPowerUps.add(new PowerUp("images/powerUpShip"));
+	}
 
 	/**
 	 * returns a screen enemy at the specified position
@@ -157,6 +162,12 @@ public class GameModel {
 
 	public boolean process(String s){
 		Enemy enemy;
+		
+		if(s.equals("power up")){
+			createPowerUp();
+			return true;
+		}
+		
 		for(int i=0; i<onScreenEnemies.size(); i++){
 			enemy=onScreenEnemies.get(i);
 			System.out.println(enemy.getLine());
@@ -170,7 +181,7 @@ public class GameModel {
 		return false;
 	}
 
-	
+
 
 	public int getProjoSize(){
 		return onScreenProjectiles.size();
@@ -202,6 +213,7 @@ public class GameModel {
 	public boolean collided(Collidable a, Collidable b){
 
 		if(a.getBounds().intersects(b.getBounds())){
+			System.out.println("intersection");
 			if(pixelPerfectCollision(a, b)){
 				a.collision();
 				b.collision();
@@ -212,11 +224,17 @@ public class GameModel {
 
 	}
 	public boolean pixelPerfectCollision(Collidable collidableA, Collidable collidableB){
+
 		int xStart= Math.max(collidableA.getX(), collidableB.getX());
 		int xEnd= Math.min(collidableA.getX() + collidableA.getWidth(), collidableB.getX() + collidableB.getWidth());
 		int yStart= Math.max(collidableA.getY(), collidableB.getY());
 		int yEnd= Math.min(collidableA.getY() + collidableA.getHeight(), collidableB.getY() + collidableB.getHeight());
-	
+		/*if(collidableA instanceof Projectile){
+		 xStart= Math.max((int)collidableA.getBounds().getX(), collidableB.getX());
+		 xEnd= Math.min((int)collidableA.getBounds().getX() + (int)collidableA.getBounds().getWidth(), collidableB.getX() + collidableB.getWidth());
+		 yStart= Math.max((int)collidableA.getBounds().getY(), collidableB.getY());
+		 yEnd= Math.min((int)collidableA.getBounds().getY() + (int)collidableA.getBounds().getHeight(), collidableB.getY() + collidableB.getHeight());
+		}*/
 		for(int i=xStart; i<xEnd; i++){
 			for(int j=yStart; j<yEnd; j++){
 				if(collidableA.getRGB(i,j)!= 0xff000000 && collidableB.getRGB(i, j)!= 0xff000000 )

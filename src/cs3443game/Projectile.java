@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -19,6 +20,10 @@ public class Projectile implements Collidable {
 	private Point position; 
 	private boolean isTrash;
 	protected BufferedImage bImage;
+	private int height;
+	private int width;
+	private Rectangle bounds;
+	private double angle;
 	//possibly more instance variables later, although subclasses might have their own traits.
 
 
@@ -27,7 +32,16 @@ public class Projectile implements Collidable {
 		position= pos;
 		projectileIcon=new ImageIcon("images/laser.png");
 		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
-
+		height= projectileIcon.getIconHeight();
+		width = projectileIcon.getIconWidth();
+		bounds = new Rectangle(getX(),getY(), getWidth(), getHeight());
+		angle=0d;
+	}
+	
+	public boolean isRotated(){
+		if(angle==0d)
+			return false;
+		else return true;
 	}
 
 	public int getX(){
@@ -64,21 +78,50 @@ public class Projectile implements Collidable {
 		position.setLocation(position.getX()+x, position.getY()+y);
 	}
 
+	public void calculateBounds(double angle){
+		int newWidth;
+		int newHeight;
+		int newX;
+		int newY;
+		newWidth = (int) ((height*Math.abs(Math.sin(angle))) + (width * Math.abs(Math.cos(angle))));
+		newHeight = (int)((width*Math.abs(Math.sin(angle))) + (height * Math.abs(Math.cos(angle))));
+		//System.out.println(angle);
+		
+		newX= getX()+(width-newWidth)/2;
+		newY=getY()+(height-newHeight)/2;
+		
+		//System.out.println(newWidth);
+		bounds.setBounds(newX,newY,newWidth,newHeight);
+		
+
+	}
 	public Rectangle2D getBounds(){
-		Rectangle r = new Rectangle(getX(),getY(), getWidth(), getHeight());
-		return r.getBounds2D();
+		return bounds.getBounds2D();
 	}
 
 	public int getHeight(){
-		return projectileIcon.getIconHeight();
+		return height;
 	}
 
 	public int getWidth(){
-		return projectileIcon.getIconWidth();
+		return width;
 	}
 
 	public void paintToImage(){
 		projectileIcon.paintIcon(null, bImage.createGraphics(), getX(), getY());
+	}
+
+	public void updateBufferedImage(double angle){
+		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = bImage.createGraphics();
+		AffineTransform oldXForm = g2d.getTransform();
+		int tx = getX() + getWidth() / 2;
+		int ty = getY() + getHeight() / 2;
+		g2d.translate(tx, ty);
+		g2d.rotate(angle);
+		g2d.translate(tx * -1, ty * -1);
+		projectileIcon.paintIcon(null, g2d, getX(), getY());
+		g2d.setTransform(oldXForm);
 	}
 
 	@Override
