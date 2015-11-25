@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -45,6 +46,7 @@ public class GameView extends JPanel{
 
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
+	
 	GameView (GameModel m){
 		this.setLayout(null);
 		model = m;
@@ -120,6 +122,7 @@ public class GameView extends JPanel{
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
 		ImageIcon icon = new ImageIcon("images/blueShip.png");
+
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0); 
         //Projectile projo = null;
@@ -131,7 +134,10 @@ public class GameView extends JPanel{
 			enemy = model.getScreenEnemy(j);
 
 		}
-
+/**
+ * 	THIS STUFF ONLY PAINTED IF :
+ * 	* powerups exist
+ *  * maybe we launche a projectile at enemies whose lines have been typed
 		Graphics2D g2d = (Graphics2D) g;
 		//int tx = 100 + icon.getIconWidth() / 2;
 		//int ty = 100 + icon.getIconHeight() / 2;
@@ -151,7 +157,7 @@ public class GameView extends JPanel{
 
 			
 		}
-		
+**/	
 		
 		
 		
