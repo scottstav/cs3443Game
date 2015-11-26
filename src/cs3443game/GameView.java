@@ -40,7 +40,7 @@ public class GameView extends JPanel{
 
 	private Image background;
 	private Earth earth;
-
+	
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
 	
@@ -49,8 +49,7 @@ public class GameView extends JPanel{
 		model = m;
 		input= new JTextField(15);
 		input.setLocation(0,360);
-		input.setSize(300,20);
-		
+		input.setSize(300,20);	
 		
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);

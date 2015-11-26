@@ -23,7 +23,7 @@ public class HostView extends JFrame {
 	private static final String LEADERBOARDS = "button_lboards";
 	private static final String EXIT = "button_exit";
 	private static final String MODE1 = "button_mode1";
-	private static final String BACK = "button_back";
+	private static final String BACK = "button_goback";
 	private static final String MODE_SELECT ="Select Mode";
 	/**
 	 * index of the previous screen, used for back button
@@ -34,11 +34,17 @@ public class HostView extends JFrame {
 	 */
 	int currentIndex;
 	
+	String filename = "hi";
+	private Music mm_music = new Music(); //main menu music
+	
 	MenuView menu;
 	GameView game;
 	ModeSelection modeScreen;
-	UserView userScreen;
+	//UserView userScreen;
 	GameModel mode;
+	HowToView howToScreen;
+	SettingsView settingsScreen;
+	LeaderboardView leaderboardScreen;
 	
 
 
@@ -47,12 +53,18 @@ public class HostView extends JFrame {
 		mode = new GameModel();
 		game = new GameView(mode);
 		modeScreen = new ModeSelection();
-		userScreen = new UserView();
+		//userScreen = new UserView();
+		howToScreen = new HowToView();
+		settingsScreen = new SettingsView();
+		leaderboardScreen = new LeaderboardView();
 		
 		screenList.add(menu);
 		screenList.add(game);
 		screenList.add(modeScreen);
-		screenList.add(userScreen);
+		//screenList.add(userScreen);
+		screenList.add(howToScreen);
+		screenList.add(settingsScreen);
+		screenList.add(leaderboardScreen);
 		
 		previousIndex=0;
 		currentIndex=0;
@@ -109,8 +121,10 @@ public class HostView extends JFrame {
 	public void switchView(String screen){
 		remove(menu);
 		remove(modeScreen);
-		remove(userScreen);
-		
+		//remove(userScreen);
+		remove(howToScreen);
+		remove(settingsScreen);
+		remove(leaderboardScreen);
 		
 		if(screen.equals(EXIT))
 			System.exit(1);
@@ -119,15 +133,28 @@ public class HostView extends JFrame {
 		
 		else if(screen.equals(START)){
 			previousIndex=currentIndex;
-			currentIndex = screenList.indexOf(userScreen);
+			currentIndex = screenList.indexOf(modeScreen);
 		}		
 		else if(screen.equals(MODE1)){
+			mm_music.stop();//this should stop the music
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(game);
 		}
 		else if(screen.equals(MODE_SELECT)){
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(modeScreen);
+		}
+		else if(screen.equals(HOW_TO)){
+			previousIndex=currentIndex;
+			currentIndex = screenList.indexOf(howToScreen);
+		}
+		else if(screen.equals(OPTIONS)){
+			previousIndex=currentIndex;
+			currentIndex = screenList.indexOf(settingsScreen);
+		}
+		else if(screen.equals(LEADERBOARDS)){
+			previousIndex=currentIndex;
+			currentIndex = screenList.indexOf(leaderboardScreen);
 		}
 	   
 		if(currentIndex!=-1){

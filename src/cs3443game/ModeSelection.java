@@ -18,7 +18,7 @@ public class ModeSelection extends JPanel{
 	private ImageIcon mode2;
 	private ImageIcon mode3;
 	private ImageIcon mode4;
-	private ImageIcon back;
+	private ImageIcon mainmenu;
 
 	public ModeSelection() {
 
@@ -52,7 +52,7 @@ public class ModeSelection extends JPanel{
 		mode2 = new ImageIcon("images/button_timedmode.png");
 		mode3 = new ImageIcon("images/button_mode_placeholder.png");
 		mode4 = new ImageIcon("images/button_mode_placeholder.png");
-		back = new ImageIcon("images/button_mainmenu.png");	//changed from back.png to menu-specific
+		mainmenu = new ImageIcon("images/button_goback.png");	
 	}
 
 	/**
@@ -101,9 +101,9 @@ public class ModeSelection extends JPanel{
 		button_mode4.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 
-		JButton button_back = new JButton(back);
-		button_back.setText("button_back");
-		button_back.setLocation(450, 540);
+		JButton button_back = new JButton(mainmenu);
+		button_back.setText("button_goback");
+		button_back.setLocation(450, 600);
 		button_back.setSize(405, 50);
 		button_back.setBorderPainted(false);
 		button_back.setFocusPainted(false);
