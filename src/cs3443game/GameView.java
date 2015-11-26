@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -54,7 +55,6 @@ public class GameView extends JPanel{
 		input.setLocation(0,360);
 		input.setSize(300,20);
 
-		//projo = new Projectile(new Point(1280/2, 720/2));
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
 
