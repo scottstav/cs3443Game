@@ -73,7 +73,7 @@ public class GameView extends JPanel{
 
 			public void actionPerformed(ActionEvent e){
 				model.createGrunt();
-				model.createProjo();
+				//model.createProjo();
 				GameView.this.repaint();
 			}
 		});
@@ -110,24 +110,39 @@ public class GameView extends JPanel{
 		input.setText("");
 	}
 
+	private void paintRotatedObject(Image image, Collidable coll, Graphics g, double angle){
+		
+		Graphics2D g2d = (Graphics2D) g;
+		AffineTransform oldXForm = g2d.getTransform();
+		int tx = coll.getX() + coll.getWidth() / 2;
+		int ty = coll.getY() + coll.getHeight() / 2;
+		g2d.translate(tx, ty);
+		g2d.rotate(angle);
+		g2d.translate(tx * -1, ty * -1);
+		g2d.drawImage(image, coll.getX(), coll.getY(), null);
+		g2d.setTransform(oldXForm);
+
+	}
+	
 	@Override
 	/**
 	 * repaints the newly shifted/created lines
 	 */
 	protected void paintComponent(Graphics g) {
-		
+
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
 		ImageIcon icon = new ImageIcon("images/blueShip.png");
 		Enemy enemy = model.getScreenEnemy(0);
-		Projectile projo = model.getScreenProjo(0); 
-        //Projectile projo = null;
+		Projectile projo = model.getScreenProjo(0);
+		PowerUp pUp = model.getScreenPowerUp(0);
+		//Projectile projo = null;
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
 			g.setColor(Color.WHITE);
 			g.drawString(enemy.getLine(), (int) enemy.getX() , (int) enemy.getY()+enemy.getHeight()+10);
-			
+
 			enemy = model.getScreenEnemy(j);
 
 		}
@@ -149,34 +164,43 @@ public class GameView extends JPanel{
 			projo = model.getScreenProjo(h);
 			g2d.setTransform(oldXForm);
 
-			
+
 		}
-		
-		
-		
-		
+
+		for(int i=0; pUp!=null; i++){
+			if(pUp.isRotated())
+				paintRotatedObject(pUp.getImage(), pUp,g, pUp.getAngle());
+				else
+					g.drawImage(pUp.getImage(), pUp.getX(), pUp.getY(), null);			
+			pUp = model.getScreenPowerUp(i);
+
+		}
+
+
+
+
 		/*int tx = projo.getX() + projo.getWidth() / 2;
 		int ty = projo.getY() + projo.getHeight() / 2;
 		g2d.translate(tx, ty);
 		g2d.rotate(angle);
 		g2d.translate(tx * -1, ty * -1);
 		g2d.drawImage(projo.getImage(), projo.getX(), projo.getY(), null);
-	    
+
 	    g2d.setTransform(oldXForm);
 	    g2d.drawRect((int)projo.getBounds().getX(),(int)projo.getBounds().getY(),(int)projo.getBounds().getWidth(),(int)projo.getBounds().getHeight());
 	    //System.out.printf("%d  %d  %d  %d\n",(int)projo.getBounds().getX(),(int)projo.getBounds().getY(),(int)projo.getBounds().getWidth(),(int)projo.getBounds().getHeight());
 	    projo.calculateBounds(angle);*/
-	    //System.out.println(projo.getBounds());
+		//System.out.println(projo.getBounds());
 		//BufferedImage img = new BufferedImage(400,400,BufferedImage.TYPE_INT_RGB);
-		
-		//icon.paintIcon(null, img.createGraphics(),100,100);
-	
 
-		
+		//icon.paintIcon(null, img.createGraphics(),100,100);
+
+
+
 		//g2d.drawImage(icon.getImage(), 100, 100, null);
-	    angle=angle+.01d;
-	    if(angle >= 6.28)
+		angle=angle+.01d;
+		if(angle >= 6.28)
 			angle = 0;
 	}
-	
+
 }

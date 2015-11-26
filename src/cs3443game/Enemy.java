@@ -49,7 +49,7 @@ public class Enemy implements Collidable{
 		position= pos;
 		isTrash=false;
 		exploded=false;
-		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
+		bImage = new BufferedImage(2000,2000,BufferedImage.TYPE_INT_RGB);
 		enemyIcon = new ImageIcon("images/blueShip.png");
 		paintToImage();
 		
