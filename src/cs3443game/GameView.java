@@ -45,14 +45,13 @@ public class GameView extends JPanel{
 
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
-	GameView (GameModel m){
+	GameView (){
 		this.setLayout(null);
-		model = m;
+		model = null;
 		input= new JTextField(15);
 		input.setLocation(0,360);
 		input.setSize(300,20);
 
-		//projo = new Projectile(new Point(1280/2, 720/2));
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
 
@@ -68,7 +67,7 @@ public class GameView extends JPanel{
 
 			}
 		});
-
+       
 		newLineTimer = new Timer(5000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
@@ -78,8 +77,12 @@ public class GameView extends JPanel{
 			}
 		});
 
-		shiftTimer.start();
-		newLineTimer.start();
+		//shiftTimer.start();
+		//newLineTimer.start();
+	}
+	
+	public void setMode(GameModel m){
+		model = m;
 	}
 	/**
 	 * not currently used. the idea is to start the 
