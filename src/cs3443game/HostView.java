@@ -14,6 +14,10 @@ import javax.swing.JTextField;
 
 public class HostView extends JFrame {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * list of all screens in the game
 	 */
 	private ArrayList<JPanel> screenList = new ArrayList<JPanel>();
@@ -21,6 +25,8 @@ public class HostView extends JFrame {
 	private static final String HOW_TO = "button_howto";
 	private static final String OPTIONS = "button_options";
 	private static final String LEADERBOARDS = "button_lboards";
+	private static final String CREATUSER = "button_createUser";
+	private static final String SELUSER = "button_selectUser";
 	private static final String EXIT = "button_exit";
 	private static final String MODE1 = "button_mode1";
 	private static final String BACK = "button_back";
@@ -39,10 +45,9 @@ public class HostView extends JFrame {
 	ModeSelection modeScreen;
 	UserView userScreen;
 	GameModel mode;
-	
 
-
-	public HostView(){
+	public HostView()
+	{
 		menu = new MenuView();
 		mode = new GameModel();
 		game = new GameView(mode);
@@ -70,7 +75,8 @@ public class HostView extends JFrame {
 	 * affect the switch view function of this class. 
 	 * @param c HostController instance
 	 */
-	public void register(HostController c){
+	public void register(HostController c)
+	{
 		Component components[];
 		for(int i=0; i<screenList.size(); i++){
 			components = screenList.get(i).getComponents();
@@ -106,7 +112,8 @@ public class HostView extends JFrame {
 	 *  
 	 * @param screen the command given by the button. 
 	 */
-	public void switchView(String screen){
+	public void switchView(String screen)
+	{
 		remove(menu);
 		remove(modeScreen);
 		remove(userScreen);
@@ -120,7 +127,11 @@ public class HostView extends JFrame {
 		else if(screen.equals(START)){
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(userScreen);
-		}		
+		}
+		else if(screen.equals(CREATUSER)){
+			previousIndex = currentIndex;
+			currentIndex = screenList.indexOf(game);
+		}
 		else if(screen.equals(MODE1)){
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(game);
