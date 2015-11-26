@@ -2,7 +2,7 @@ package cs3443game;
 import java.awt.geom.Rectangle2D;
 
 public interface Collidable {
-	  
+	  	
     public int getHeight();
     
     public int getWidth();
