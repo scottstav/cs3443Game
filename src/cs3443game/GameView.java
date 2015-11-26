@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -40,7 +41,9 @@ public class GameView extends JPanel{
 
 	private Image background;
 	private Earth earth;
-	
+	private double angle = 0;
+	//private Projectile projo;
+
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 	Graphics hbVisual;
 	
@@ -50,10 +53,11 @@ public class GameView extends JPanel{
 		input= new JTextField(15);
 		input.setLocation(0,360);
 		input.setSize(300,20);
-		
+
+		//projo = new Projectile(new Point(1280/2, 720/2));
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
- 
+
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 		
@@ -103,45 +107,96 @@ public class GameView extends JPanel{
 		shiftTimer.restart();
 		newLineTimer.restart();
 	}
-	
+
 	public String getText(){
 		return input.getText();
 	}
-	
+
 	public void resetText(){
 		input.setText("");
 	}
-	
+
 	@Override
 	/**
 	 * repaints the newly shifted/created lines
 	 */
 	protected void paintComponent(Graphics g) {
+		
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
 		
-		g.setColor(earth.hbEarth.hbColor);
-		System.out.println(earth.hbEarth.hbScale);
-		g.fillRect(earth.hbEarth.getX(), earth.hbEarth.getY(), (int) (earth.hbEarth.getWidth()*earth.hbEarth.hbScale), earth.hbEarth.getHeight() );
+		// access the model's health bar instance
+		g.setColor(model.earth.hbEarth.getColor());
+		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
 		
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0); 
 
 		//repaints all enemies
+		ImageIcon icon = new ImageIcon("images/blueShip.png");
+
+        //Projectile projo = null;
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
 			g.setColor(Color.WHITE);
 			g.drawString(enemy.getLine(), (int) enemy.getX() , (int) enemy.getY()+enemy.getHeight()+10);
+			
 			enemy = model.getScreenEnemy(j);
 
 		}
 
 		//repaints all projectiles
+ /**
+ * 	THIS STUFF ONLY PAINTED IF :
+ * 	* powerups exist
+ *  * maybe we launche a projectile at enemies whose lines have been typed
+		Graphics2D g2d = (Graphics2D) g;
+		//int tx = 100 + icon.getIconWidth() / 2;
+		//int ty = 100 + icon.getIconHeight() / 2;
+		//g2d.drawImage(icon.getImage(), 50, 50, null);
+		AffineTransform oldXForm = g2d.getTransform();
+>>>>>>> master
 		for(int h=0; projo!=null; h++){
-			g.drawImage(projo.getImage(), projo.getX(), projo.getY(), null);
+			int tx = projo.getX() + projo.getWidth() / 2;
+			int ty = projo.getY() + projo.getHeight() / 2;
+			g2d.translate(tx, ty);
+			g2d.rotate(angle);
+			g2d.translate(tx * -1, ty * -1);
+			projo.calculateBounds(angle);
+			g2d.drawImage(projo.getImage(), projo.getX(), projo.getY(), null);
+			projo.updateBufferedImage(angle);
 			projo = model.getScreenProjo(h);
+			g2d.setTransform(oldXForm);
 
+			
 		}
+ **/	
+		
+		
+		
+		/*int tx = projo.getX() + projo.getWidth() / 2;
+		int ty = projo.getY() + projo.getHeight() / 2;
+		g2d.translate(tx, ty);
+		g2d.rotate(angle);
+		g2d.translate(tx * -1, ty * -1);
+		g2d.drawImage(projo.getImage(), projo.getX(), projo.getY(), null);
+	    
+	    g2d.setTransform(oldXForm);
+	    g2d.drawRect((int)projo.getBounds().getX(),(int)projo.getBounds().getY(),(int)projo.getBounds().getWidth(),(int)projo.getBounds().getHeight());
+	    //System.out.printf("%d  %d  %d  %d\n",(int)projo.getBounds().getX(),(int)projo.getBounds().getY(),(int)projo.getBounds().getWidth(),(int)projo.getBounds().getHeight());
+	    projo.calculateBounds(angle);*/
+	    //System.out.println(projo.getBounds());
+		//BufferedImage img = new BufferedImage(400,400,BufferedImage.TYPE_INT_RGB);
+		
+		//icon.paintIcon(null, img.createGraphics(),100,100);
+	
+
+		
+		//g2d.drawImage(icon.getImage(), 100, 100, null);
+	    angle=angle+.01d;
+	    if(angle >= 6.28)
+			angle = 0;
 	}
+	
 }

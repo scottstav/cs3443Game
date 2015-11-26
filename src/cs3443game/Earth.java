@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 
 public class Earth extends BufferedImage implements Collidable {
 	private ImageIcon imgEarth;
-	Health hbEarth;
+	public Health hbEarth;
 	
 	public Earth(){
 		super(1280,720, BufferedImage.TYPE_INT_RGB);
@@ -52,10 +52,9 @@ public int getY() {
 @Override
 public void collision() {
 	//get type of object collision to determine damage amount
-	
-	//for now just call 20 for testing
+	//for now just call 10 for testing
 	System.out.println("earth was struck, taking damage!");
-	hbEarth.hit(50);
+	hbEarth.hit(10);
 	
 }
 

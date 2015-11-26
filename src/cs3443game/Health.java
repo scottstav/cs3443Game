@@ -9,11 +9,11 @@ public class Health {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	int health, hbScale;
-	int maxHealth;
-	int hbX, hbY, hbWidth, hbHeight;
-	Color hbColor;
-	Graphics g;
+	public double health;
+	public double hbScale;
+	public double maxHealth;
+	public int hbX, hbY, hbWidth, hbHeight;
+	private Graphics g;
 	
 	public Health(Collidable col) {
 		// potentially, use collidable to determine health bar type and location
@@ -23,7 +23,6 @@ public class Health {
 		hbY = 10;
 		hbWidth = 350;
 		hbHeight = 30;
-		hbColor = Color.green;
 		hbScale = 1;
 	}
 
@@ -34,7 +33,7 @@ public class Health {
 	 * @param hbScale
 	 * @return
 	 */
-	private Color determineColor(float hbScale) {
+	private Color determineColor() {
 		
 		if(hbScale > .40)
 			return Color.green;
@@ -49,9 +48,9 @@ public class Health {
 		return this.hbHeight;
 	}
 	
-	public int getWidth()
+	public double getWidth()
 	{
-		return this.hbWidth;
+		return (hbWidth * (hbScale));
 	}
 	
 	public int getX()
@@ -64,16 +63,20 @@ public class Health {
 		return this.hbY;
 	}
 	
+	public Color getColor()
+	{
+		return determineColor();
+	
+	}
+	
 	/**
 	 * 
 	 * @param hitSz - hits can deal variable damage
 	 * @return 
 	 */
-	public void hit(int damage)
+	public void hit(int d)
 	{
-		
-		health-=damage;
-	    hbScale = health / maxHealth;
-		hbColor = determineColor(hbScale);
+		health -= d;
+		hbScale = health / maxHealth;
 	}
 }
