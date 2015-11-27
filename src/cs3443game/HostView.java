@@ -34,8 +34,9 @@ public class HostView extends JFrame {
 	 */
 	int currentIndex;
 	
-	String filename = "hi";
-	private Music mm_music = new Music(); //main menu music
+	private Music music = new Music(); //main menu music
+	private static final String MAIN_MENU_MUSIC = "music/mainmenu.wav";
+	private static final String GAME_MUSIC = "music/gamemusic.wav";
 	
 	MenuView menu;
 	GameView game;
@@ -71,6 +72,8 @@ public class HostView extends JFrame {
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		add(menu); //first screen is always menu
+		music.loadFile(MAIN_MENU_MUSIC);
+		music.play();
 		setSize(1280, 720);
 		setResizable(false);
 		setVisible(true);
@@ -132,13 +135,16 @@ public class HostView extends JFrame {
 			currentIndex=previousIndex;
 		
 		else if(screen.equals(START)){
+			
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(modeScreen);
 		}		
 		else if(screen.equals(MODE1)){
-			mm_music.stop();//this should stop the music
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(game);
+			music.stop();//this should stop the main menu music
+			music.loadFile(GAME_MUSIC);
+			music.play();			
 		}
 		else if(screen.equals(MODE_SELECT)){
 			previousIndex=currentIndex;

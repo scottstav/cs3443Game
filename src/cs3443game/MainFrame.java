@@ -3,7 +3,10 @@ package cs3443game;
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -52,14 +55,6 @@ public class MainFrame extends JFrame {
                 HostView host = new HostView();
                 HostController controller = new HostController(host);
                 host.register(controller);
-                
-                //music
-                String fileName = "music/test.wav";
-                Music mainmenuMusic = new Music();
-                mainmenuMusic.play(fileName);
-
-				//new MenuView(); //runs the main menu screen
-				//createGame();  //commented this out as we don't want to "createGame" until the user hits start
 			}
 		});
 	}
