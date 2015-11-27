@@ -56,6 +56,7 @@ public class GameView extends JPanel{
 		model = null;
 		input= new JTextField(15);
 		input.setLocation(0,360);
+		
 		input.setSize(300,20);
 
 		JTextField field = new JTextField(15);

@@ -44,6 +44,7 @@ public class GameModel {
 	 */
 	private Random random;
 	Earth earth;
+	
 
 	/**
 	 * put three arbitrary code lines into codeLineDB
@@ -54,6 +55,7 @@ public class GameModel {
 		codeLineDB = new ArrayList<String>();
 		onScreenEnemies = new ArrayList<Enemy>();
 		onScreenProjectiles = new ArrayList<Projectile>();
+		
 		onScreenPowerUps = new ArrayList<PowerUp>();
 
 		try {

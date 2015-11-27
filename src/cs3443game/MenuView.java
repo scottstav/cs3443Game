@@ -3,8 +3,11 @@ package cs3443game;
 import java.awt.Color;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,12 +32,14 @@ public class MenuView extends JPanel {
     public MenuView() {
     	
     	this.setLayout(null); //this allows us to move the buttons to specific x,y coords
+    	
     	setIcons(); //calls method to set the images to icons
     	setButtons(this); //calls method to turn those images into JButtons
     	setBackground(new Color(0, true));
         setSize(1280, 720);
         setVisible(true);
     }
+    
 
 	/**
 	 * Class to set the JPanel background

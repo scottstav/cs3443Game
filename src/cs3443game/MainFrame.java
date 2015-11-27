@@ -36,6 +36,7 @@ public class MainFrame extends JFrame {
 		this.add(gameView, BorderLayout.CENTER);
 	}
 
+
 	public void createGame() {
 		GameModel model = new GameModel();
 		MainFrame game = new MainFrame(model);
@@ -54,8 +55,12 @@ public class MainFrame extends JFrame {
                 HostView host = new HostView();
                 HostController controller = new HostController(host);
                 host.register(controller);
-               
                 
+                //music
+                String fileName = "music/test.wav";
+                Music mainmenuMusic = new Music();
+                mainmenuMusic.play(fileName);
+
 				//new MenuView(); //runs the main menu screen
 				//createGame();  //commented this out as we don't want to "createGame" until the user hits start
 			}
