@@ -45,16 +45,11 @@ public class Music {
 	            throw new RuntimeException("Sound: Line Unavailable Exception Error: " + e);
 	        }
 
-	    // play, stop, loop the sound clip
 	    }
 	    public void play(){
 	    	
-	        clip.setFramePosition(0);
-	        
-	        System.out.println(clip.isRunning() + " " + clip.isActive());
-	        
-	        if(clip.isRunning() == false)
-	        	clip.start();
+	        clip.setFramePosition(0); //resets clip to the beginning
+	        clip.start();
 	    }
 	    
 	    public void loop(){
@@ -64,6 +59,7 @@ public class Music {
 	    
 	    public void stop(){
 	    	if (clip.isRunning()) 
+	    		System.out.println(clip.isRunning());
 	    		clip.stop();
 	     }
 }
