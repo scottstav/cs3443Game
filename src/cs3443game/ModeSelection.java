@@ -16,7 +16,7 @@ public class ModeSelection extends JPanel{
 	private Image background;
 	private ImageIcon mode1;
 	private ImageIcon mode2;
-	private ImageIcon mode3;
+	private ImageIcon endGame;
 	private ImageIcon mode4;
 	private ImageIcon mainmenu;
 
@@ -50,7 +50,7 @@ public class ModeSelection extends JPanel{
 		background = new ImageIcon("images/image_mainmenu.png").getImage();
 		mode1 = new ImageIcon("images/button_endlessmode.png");
 		mode2 = new ImageIcon("images/button_timedmode.png");
-		mode3 = new ImageIcon("images/button_mode_placeholder.png");
+		endGame = new ImageIcon("images/button_mode_placeholder.png");
 		mode4 = new ImageIcon("images/button_mode_placeholder.png");
 		mainmenu = new ImageIcon("images/button_goback.png");	
 	}
@@ -81,14 +81,14 @@ public class ModeSelection extends JPanel{
 		button_mode2.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 
-		JButton button_mode3 = new JButton(mode3);
-		button_mode3.setText("button_mode3");
-		button_mode3.setLocation(450, 420);
-		button_mode3.setSize(405, 50);
-		button_mode3.setBorderPainted(false);
-		button_mode3.setFocusPainted(false);
-		button_mode3.setContentAreaFilled(false);
-		button_mode3.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		JButton button_endGame = new JButton(endGame);
+		button_endGame.setText("button_endgame");
+		button_endGame.setLocation(450, 420);
+		button_endGame.setSize(405, 50);
+		button_endGame.setBorderPainted(false);
+		button_endGame.setFocusPainted(false);
+		button_endGame.setContentAreaFilled(false);
+		button_endGame.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 
 		JButton button_mode4 = new JButton(mode4);
@@ -114,7 +114,7 @@ public class ModeSelection extends JPanel{
 		//adds the buttons to the JPanel
 		menuContent.add(button_mode1);
 		menuContent.add(button_mode2);
-		menuContent.add(button_mode3);
+		menuContent.add(button_endGame);
 		menuContent.add(button_mode4);
 		menuContent.add(button_back);
 
