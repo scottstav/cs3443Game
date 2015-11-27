@@ -9,8 +9,11 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+
+import cs3443game.Collidable;
 
 
 

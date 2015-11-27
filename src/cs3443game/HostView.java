@@ -1,7 +1,8 @@
 package cs3443game;
 
-import java.awt.BorderLayout;
 
+
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class HostView extends JFrame {
 	public HostView(){
 		menu = new MenuView();
 		mode = new GameModel();
-		game = new GameView(mode);
+		game = new GameView();
 		modeScreen = new ModeSelection();
 		userScreen = new UserView();
 		
@@ -63,7 +64,9 @@ public class HostView extends JFrame {
 		setResizable(false);
 		setVisible(true);
 	}
-	
+	public void setMode(GameModel mode){
+		game.setMode(mode);
+	}
 	/**
 	 * registers all buttons of all components to a HostController instance.
 	 * If your button doesn't deal with switching views, no worries. It will not
@@ -123,6 +126,8 @@ public class HostView extends JFrame {
 		}		
 		else if(screen.equals(MODE1)){
 			previousIndex=currentIndex;
+			game.setMode(mode);
+			game.start();
 			currentIndex = screenList.indexOf(game);
 		}
 		else if(screen.equals(MODE_SELECT)){

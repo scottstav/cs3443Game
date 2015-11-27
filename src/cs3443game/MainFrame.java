@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import cs3443game.HostController;
+import cs3443game.HostView;
+
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 
