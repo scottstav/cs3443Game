@@ -129,6 +129,7 @@ public class GameModel {
 
 		}
 
+		//check for collisions after this translation
 		collisions();
 		cleanUp();
 	}
@@ -213,6 +214,8 @@ public class GameModel {
 
 		for(int i=0; i<getEnemySize(); i++){
 			enemy = getScreenEnemy(i);
+			if(enemy.exploded())
+				continue;
 			if(collided(earth,enemy))
 				continue;
 			
@@ -232,6 +235,7 @@ public class GameModel {
 		
 	}
 
+	
 	public boolean collided(Collidable a, Collidable b){
 
 		if(a.getBounds().intersects(b.getBounds())){
@@ -245,6 +249,7 @@ public class GameModel {
 		return false;
 
 	}
+	
 	public boolean pixelPerfectCollision(Collidable collidableA, Collidable collidableB){
 
 		//int xStart= Math.max(collidableA.getX(), collidableB.getX());

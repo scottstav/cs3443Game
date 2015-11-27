@@ -9,8 +9,11 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+
+import cs3443game.Collidable;
 
 
 
@@ -34,23 +37,27 @@ public class Enemy implements Collidable{
 	 * to hard code paths to images for now. 
 	 */
 	protected ImageIcon enemyIcon;
+	protected ImageIcon explosionIcon;
 	private String codeLine;
 	private Point position; 
 	private boolean isTrash;
 	private Timer explosionTimer;
 	private boolean exploded;
 	protected BufferedImage bImage;
+	
 	//possibly more instance variables later, although subclasses might have their own traits.
 	
 	//public enemy haha get it?
+	//lol
 	
 	public Enemy(String line, Point pos, String ship, String explosion){
 		codeLine = line;
 		position= pos;
 		isTrash=false;
 		exploded=false;
-		bImage = new BufferedImage(2000,2000,BufferedImage.TYPE_INT_RGB);
-		enemyIcon = new ImageIcon("images/blueShip.png");
+		explosionIcon = new ImageIcon(explosion);
+		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
+		enemyIcon = new ImageIcon(ship);
 		paintToImage();
 		
 		explosionTimer= new Timer(2000, new ActionListener(){
@@ -61,9 +68,11 @@ public class Enemy implements Collidable{
 		});
 		
 	}
+	
 	public int getRGB(int x, int y){
 		return bImage.getRGB(x,y);
 	}
+	
 	public void paintToImage(){
 		enemyIcon.paintIcon(null, bImage.createGraphics(), getX(), getY());
 	}
@@ -77,8 +86,9 @@ public class Enemy implements Collidable{
 		return (int) position.getY();
 	}
 	
-	public void  collision(){
-		enemyIcon= new ImageIcon("images/smallExplosion.png");
+	public void collision(){
+		//enemyIcon= new ImageIcon("images/smallExplosion.png");
+		enemyIcon = explosionIcon;
 	    startExplosion();
 	}
 	
@@ -103,7 +113,7 @@ public class Enemy implements Collidable{
 	 */
 	public void translate(double x, double y){
 		if(!exploded)
-		position.setLocation(position.getX()+x, position.getY()+y);
+			position.setLocation(position.getX()+x, position.getY()+y);
 	}
 	
     public Rectangle2D getBounds(){
@@ -137,7 +147,10 @@ public class Enemy implements Collidable{
     public boolean exploded(){
     	return exploded;
     }
+    
+    
 	
+    
 	//public void paintComponent(Graphics g){
 		//super.paintComponent(g);
 		//g.drawString(codeLine, 200, 200);

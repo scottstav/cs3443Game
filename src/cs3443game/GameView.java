@@ -1,5 +1,7 @@
 package cs3443game;
 
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -18,6 +21,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+
+import cs3443game.Collidable;
 
 @SuppressWarnings("serial")
 public class GameView extends JPanel{
@@ -46,6 +51,7 @@ public class GameView extends JPanel{
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
 	GameView (){
+	
 		this.setLayout(null);
 		model = null;
 		input= new JTextField(15);
@@ -57,9 +63,13 @@ public class GameView extends JPanel{
 
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
+		
 		earth = new Earth();
-
-		shiftTimer = new Timer(30, new ActionListener(){
+		
+		//sets up health stat instance
+		
+		// speed up time foe easier testing: sped up from 30 to 10
+		shiftTimer = new Timer(10, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				model.translate();
@@ -136,11 +146,20 @@ public class GameView extends JPanel{
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
-		ImageIcon icon = new ImageIcon("images/blueShip.png");
+		
+		// access the model's health bar instance
+		g.setColor(model.earth.hbEarth.getColor());
+		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
+		
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0);
 		PowerUp pUp = model.getScreenPowerUp(0);
 		//Projectile projo = null;
+
+		//repaints all enemies
+		ImageIcon icon = new ImageIcon("images/blueShip.png");
+
+        //Projectile projo = null;
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
 			g.setColor(Color.WHITE);
@@ -150,6 +169,11 @@ public class GameView extends JPanel{
 
 		}
 
+		//repaints all projectiles
+ /**
+ * 	THIS STUFF ONLY PAINTED IF :
+ * 	* powerups exist
+ *  * maybe we launche a projectile at enemies whose lines have been typed
 		Graphics2D g2d = (Graphics2D) g;
 		//int tx = 100 + icon.getIconWidth() / 2;
 		//int ty = 100 + icon.getIconHeight() / 2;
@@ -169,7 +193,7 @@ public class GameView extends JPanel{
 
 
 		}
-
+ **/
 		for(int i=0; pUp!=null; i++){
 			if(pUp.isRotated())
 				paintRotatedObject(pUp.getImage(), pUp,g, pUp.getAngle());
@@ -182,6 +206,10 @@ public class GameView extends JPanel{
 
 
 
+	
+		
+		
+		
 		/*int tx = projo.getX() + projo.getWidth() / 2;
 		int ty = projo.getY() + projo.getHeight() / 2;
 		g2d.translate(tx, ty);
