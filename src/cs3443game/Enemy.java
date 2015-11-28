@@ -47,6 +47,10 @@ public class Enemy implements Collidable{
 	
 	//possibly more instance variables later, although subclasses might have their own traits.
 	
+	//sound effects
+	private static String EXPLOSION = "soundeffects/ship_explosion.wav";
+	private SoundEffects explosion = new SoundEffects();
+	
 	//public enemy haha get it?
 	//lol
 	
@@ -140,6 +144,7 @@ public class Enemy implements Collidable{
     }
     
     public void startExplosion(){
+    	explosion.playSound(EXPLOSION);
     	explosionTimer.start();
     	exploded=true;
     	codeLine="";

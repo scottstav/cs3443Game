@@ -26,11 +26,15 @@ public class Projectile implements Collidable {
 	private double angle;
 	//possibly more instance variables later, although subclasses might have their own traits.
 
+	//sound effects
+	private static String LASER = "soundeffects/laser.wav";
+	private SoundEffects laser = new SoundEffects();
 
 	public Projectile(Point pos){
 		isTrash=false;
 		position= pos;
 		projectileIcon=new ImageIcon("images/laser.png");
+		laser.playSound(LASER); //Laser sound effect
 		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
 		height= projectileIcon.getIconHeight();
 		width = projectileIcon.getIconWidth();

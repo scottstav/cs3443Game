@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +30,9 @@ public class MenuView extends JPanel {
     private ImageIcon options;
     private ImageIcon lboards;
     private ImageIcon exit;
+    
+    private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
 
     public MenuView() {
     	
@@ -80,6 +85,13 @@ public class MenuView extends JPanel {
 		button_start.setFocusPainted(false);
 		button_start.setContentAreaFilled(false);
 		button_start.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_start.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 		
 	   	 
 	   	JButton button_howto = new JButton(howto);
@@ -90,7 +102,13 @@ public class MenuView extends JPanel {
 	   	button_howto.setFocusPainted(false);
 	   	button_howto.setContentAreaFilled(false);
 	   	button_howto.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	
+	   	button_howto.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 	   	
 	   	JButton button_options = new JButton(options);
 	   	button_options.setText("button_options");
@@ -100,7 +118,13 @@ public class MenuView extends JPanel {
 	   	button_options.setFocusPainted(false);
 	   	button_options.setContentAreaFilled(false);
 	   	button_options.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	
+	   	button_options.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 		
 	   	JButton button_lboards = new JButton(lboards);
 	   	button_lboards.setText("button_lboards");
@@ -110,7 +134,13 @@ public class MenuView extends JPanel {
 	   	button_lboards.setFocusPainted(false);
 	   	button_lboards.setContentAreaFilled(false);
 	   	button_lboards.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	
+	   	button_lboards.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 	   	
 	   	JButton button_exit = new JButton(exit);
 	   	button_exit.setText("button_exit");
@@ -120,7 +150,13 @@ public class MenuView extends JPanel {
 	   	button_exit.setFocusPainted(false);
 	   	button_exit.setContentAreaFilled(false);
 	   	button_exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	   	
+	   	button_exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 	   	
 	   	//adds the buttons to the JPanel
 	    menuContent.add(button_start);
