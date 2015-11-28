@@ -3,13 +3,11 @@
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class GameModel {
@@ -53,6 +51,7 @@ public class GameModel {
 	 */
 	private Random random;
 	Earth earth;
+	public static boolean pause;
 	
 
 	/**
@@ -66,8 +65,8 @@ public class GameModel {
 		onScreenProjectiles = new ArrayList<Projectile>();
 		bossProjectiles = new ArrayList<Bullet>();
 		points=0;
-		bossFireTimer =  new Timer(3000, new ActionListener(){
-
+		
+		bossFireTimer = new Timer(3000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				int cannon;
 				Random r = new Random();
@@ -78,11 +77,10 @@ public class GameModel {
 					GameModel.this.bossProjectiles.add(boss.fireCannon1());
 				if(cannon==2)
 					GameModel.this.bossProjectiles.add(boss.fireCannon2());
-				
-				
 			}
 		});
 		
+		pause = false;
 		onScreenPowerUps = new ArrayList<PowerUp>();
 
 		try {
@@ -118,14 +116,20 @@ public class GameModel {
 		int y =random.nextInt();
 		if(y<0)
 			y=y*-1;
-		y = y % 650;
+		y = y % 720;
+		
+		if((y+200) >= 720)
+			y=y-((y+200)-720);
+
 		return new Point(1280, y);
 	}
 	public Point getRandomProjoPoint(){
+		
 		int y =random.nextInt();
 		if(y<0)
 			y=y*-1;
 		y = y % 650;
+		
 		return new Point(-50, y);
 	}
 
@@ -137,8 +141,28 @@ public class GameModel {
 	public void translate(){
 		Enemy e;
 		Projectile p;
-        PowerUp u;
+        PowerUp u = null;
+        if(pause)
+        {
+        	for(int i=0; i<onScreenPowerUps.size(); i++){
+    			u=onScreenPowerUps.get(i);
+    			u.translate(1);
+    			//u.paintToImage();
+        	}
+        	collisions();
+    		cleanUp();
+        	return;
+        }
+        
 
+        for(int i=0; i<onScreenPowerUps.size(); i++){
+       		u=onScreenPowerUps.get(i);
+       		u.translate(-1);
+       		if(u.inPosition == true)
+       			onScreenPowerUps.remove(u);
+       		//u.paintToImage();
+       	}
+        
 		for(int i=0; i<onScreenEnemies.size(); i++){
 			e=onScreenEnemies.get(i);
 			if(e instanceof Boss){
@@ -157,12 +181,6 @@ public class GameModel {
 
 		}
 		
-		for(int i=0; i<onScreenPowerUps.size(); i++){
-			u=onScreenPowerUps.get(i);
-			u.translate();
-			//u.paintToImage();
-
-		}
 		
 		for(int i=0; i<bossProjectiles.size(); i++){
 			bossProjectiles.get(i).translate(-1, 0);
@@ -173,7 +191,7 @@ public class GameModel {
 		cleanUp();
 	}
 	public void beginFireSequence(){
-		bossFireTimer.start();
+		 bossFireTimer.start();
 	}
 
 	/**
@@ -181,7 +199,8 @@ public class GameModel {
 	 * code lines instead of just int a later on
 	 */
 	public void createGrunt(){
-		onScreenEnemies.add( new EnemyGrunt(getCodeLine(), getRandomPoint()));
+		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
+		onScreenEnemies.add(enemy);
 	}
 	public void createProjo(){
 		onScreenProjectiles.add(new Projectile(getRandomProjoPoint(), "images/laser.png"));
@@ -213,14 +232,14 @@ public class GameModel {
 	}
 	public Projectile getScreenProjo(int i){
 		if(i>=0 && i<onScreenProjectiles.size())
-			return onScreenProjectiles.get(i);
+	    	    return onScreenProjectiles.get(i);
 
 		return null;
 	}
 	
 	public PowerUp getScreenPowerUp(int i){
 		if(i>=0 && i<onScreenPowerUps.size())
-			return onScreenPowerUps.get(i);
+		    return onScreenPowerUps.get(i);
 
 		return null;
 	}
@@ -231,6 +250,9 @@ public class GameModel {
 		
 		if(s.equals("power up")){
 			createPowerUp();
+			pause = true;
+			java.util.Timer pUpSequence = new java.util.Timer();
+			 pUpSequence.schedule(new setFalse(), 15*1000);
 			return true;
 		}
 		
@@ -249,12 +271,12 @@ public class GameModel {
 	}
 
 
-public void updateScore(){
-	points=points+10;
-	if(points%10==0)
+        public void updateScore(){
+	    points=points+10;
+	    if(points%10==0)
 		createBoss();
 	
-}
+        }
 	public int getProjoSize(){
 		return onScreenProjectiles.size();
 	}
@@ -296,7 +318,7 @@ public void updateScore(){
 	public boolean collided(Collidable a, Collidable b){
 
 		if(a.getBounds().intersects(b.getBounds())){
-			System.out.println("intersection");
+			//System.out.println("intersection");
 			if(pixelPerfectCollision(a, b)){
 				a.collision();
 				b.collision();

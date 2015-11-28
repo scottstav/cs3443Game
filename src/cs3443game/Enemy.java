@@ -44,6 +44,7 @@ public class Enemy implements Collidable{
 	private Timer explosionTimer;
 	private boolean exploded;
 	protected BufferedImage bImage;
+	public int size;
 	
 	//possibly more instance variables later, although subclasses might have their own traits.
 	
@@ -59,9 +60,12 @@ public class Enemy implements Collidable{
 		position= pos;
 		isTrash=false;
 		exploded=false;
+		
 		explosionIcon = new ImageIcon(explosion);
 		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
 		enemyIcon = new ImageIcon(ship);
+		
+		
 		paintToImage();
 		
 		explosionTimer= new Timer(2000, new ActionListener(){

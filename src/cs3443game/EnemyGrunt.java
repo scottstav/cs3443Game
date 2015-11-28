@@ -22,6 +22,7 @@ public class EnemyGrunt extends Enemy {
 
 	public EnemyGrunt(String line, Point pos){
 		
+		
 		super(line, pos, "images/blueShip.png", "images/smallExplosion.png");
 		
 	}
