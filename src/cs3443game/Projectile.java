@@ -17,6 +17,7 @@ public class Projectile implements Collidable {
 	 * to hard code paths to images for now. 
 	 */
 	protected ImageIcon projectileIcon;
+	private ImageIcon explosionIcon;
 	private Point position; 
 	private boolean isTrash;
 	protected BufferedImage bImage;
@@ -28,13 +29,13 @@ public class Projectile implements Collidable {
 
 	//sound effects
 	private static String LASER = "soundeffects/laser.wav";
-	private SoundEffects laser = new SoundEffects();
+	private SoundEffects laserSound = new SoundEffects();
 
-	public Projectile(Point pos){
+	public Projectile(Point pos, String laser){
 		isTrash=false;
 		position= pos;
 		projectileIcon=new ImageIcon("images/laser.png");
-		laser.playSound(LASER); //Laser sound effect
+		laserSound.playSound(LASER); //Laser sound effect
 		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
 		height= projectileIcon.getIconHeight();
 		width = projectileIcon.getIconWidth();
