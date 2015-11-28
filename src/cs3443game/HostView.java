@@ -147,9 +147,12 @@ public class HostView extends JFrame {
 			currentIndex = screenList.indexOf(game);
 			
 			music.stop();//this should stop the main menu music
-			music.loadFile(GAME_MUSIC);
-			music.play();		
-			music.loop(); //loops the game music
+			
+			if(music.getMute() == false){
+				music.loadFile(GAME_MUSIC);
+				music.play();		
+				music.loop(); //loops the game music
+			}
 		}
 		else if(screen.equals(MODE_SELECT)){
 			previousIndex=currentIndex;

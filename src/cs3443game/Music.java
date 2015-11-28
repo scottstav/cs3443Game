@@ -11,7 +11,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Music {
 	
-	private Clip clip = null;
+	private static Clip clip = null;
+	private static boolean mute = false; //game is not muted by default
 	
 	public Music(){}
 
@@ -62,6 +63,19 @@ public class Music {
 	    		System.out.println(clip.isRunning());
 	    		clip.stop();
 	     }
+	    
+	    public Clip getClip() {
+	    	return clip;
+	    }
+	    
+	    public void setMute(boolean changeMute){
+	    	mute = changeMute;
+	    }
+	    
+	    public boolean getMute(){
+	    	return mute;
+	    }
+	    
 }
 	
 //	//CURRENTLY NOT LOOPING
