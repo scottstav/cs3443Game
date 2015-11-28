@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,14 +13,15 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class ModeSelection extends JPanel{
 
-
-
 	private Image background;
 	private ImageIcon mode1;
 	private ImageIcon mode2;
 	private ImageIcon mode3;
 	private ImageIcon mode4;
 	private ImageIcon mainmenu;
+	
+	private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
 
 	public ModeSelection() {
 
@@ -69,6 +72,13 @@ public class ModeSelection extends JPanel{
 		button_mode1.setFocusPainted(false);
 		button_mode1.setContentAreaFilled(false);
 		button_mode1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_mode1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 
 
 		JButton button_mode2 = new JButton(mode2);
@@ -79,7 +89,13 @@ public class ModeSelection extends JPanel{
 		button_mode2.setFocusPainted(false);
 		button_mode2.setContentAreaFilled(false);
 		button_mode2.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+		button_mode2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 
 //		JButton button_mode3 = new JButton(mode3);
 //		button_mode3.setText("button_mode3");
@@ -109,6 +125,13 @@ public class ModeSelection extends JPanel{
 		button_back.setFocusPainted(false);
 		button_back.setContentAreaFilled(false);
 		button_back.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 
 
 		//adds the buttons to the JPanel

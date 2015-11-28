@@ -26,6 +26,10 @@ public class SettingsView extends JPanel {
 	private ImageIcon music_on;
 	private ImageIcon music_off;
 	
+	private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
+    private static String MUTE_PRESS = "soundeffects/mute_button_sound.wav";
+	
 	private Clip clip = null;
 	private Music music = new Music();
 	
@@ -77,6 +81,13 @@ public class SettingsView extends JPanel {
 		button_mainmenu.setFocusPainted(false);
 		button_mainmenu.setContentAreaFilled(false);
 		button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_mainmenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 		
 		JButton button_music_off = new JButton(music_off);
 		button_music_off.setText("button_music_off");
@@ -101,6 +112,8 @@ public class SettingsView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				button_press.playSound(MUTE_PRESS);
+				
 				settings.remove(button_music_on);
 				settings.add(button_music_off);
 				settings.revalidate();
@@ -116,6 +129,8 @@ public class SettingsView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				button_press.playSound(MUTE_PRESS);
+				
 				settings.remove(button_music_off);
 				settings.add(button_music_on);
 				settings.revalidate();
