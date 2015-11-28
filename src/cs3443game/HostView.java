@@ -175,7 +175,6 @@ public class HostView extends JFrame {
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(menu);
 		}
-		
 	   
 		if(currentIndex!=-1){
 			this.add(screenList.get(currentIndex));

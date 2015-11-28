@@ -2,6 +2,7 @@ package cs3443game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -21,6 +22,7 @@ public class EndGameView extends JPanel {
 	private ImageIcon addplayer;
 	private ImageIcon tryagain;
 	JTextField textField;
+	JList<String> listbox;
 
 	public EndGameView()
 	{	
@@ -69,7 +71,7 @@ public class EndGameView extends JPanel {
     	String user[] = {"Susan", "Scott", "Paco", "Kurt" };
   
     	// Create a new listbox control
-    	JList listbox = new JList(user);
+    	listbox = new JList<String>(user);
     	listbox.setSize(200, 200);
     	listbox.setLocation(560, 360);
     	lboardContent.add(listbox);
