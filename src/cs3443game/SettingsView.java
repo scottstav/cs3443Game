@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.sun.scenario.Settings;
 
 @SuppressWarnings("serial")
 public class SettingsView extends JPanel {
@@ -71,7 +70,7 @@ public class SettingsView extends JPanel {
     /**
      * Method that turns the images into JButtons
      * @param menuContent
-     */private void setButtons(JPanel settings) {
+     */private void setButtons(final JPanel settings) {
     	
 		JButton button_mainmenu = new JButton(back);
 		button_mainmenu.setText("button_goback");
@@ -89,7 +88,7 @@ public class SettingsView extends JPanel {
 			}
 		});
 		
-		JButton button_music_off = new JButton(music_off);
+		final JButton button_music_off = new JButton(music_off);
 		button_music_off.setText("button_music_off");
 		button_music_off.setLocation(640, 370);
 		button_music_off.setSize(50, 39);
@@ -98,7 +97,7 @@ public class SettingsView extends JPanel {
 		button_music_off.setContentAreaFilled(false);
 		button_music_off.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		JButton button_music_on = new JButton(music_on);
+		final JButton button_music_on = new JButton(music_on);
 		button_music_on.setText("button_music_on");
 		button_music_on.setLocation(640, 370);
 		button_music_on.setSize(50, 39);

@@ -184,7 +184,7 @@ public class GameModel {
 		onScreenEnemies.add( new EnemyGrunt(getCodeLine(), getRandomPoint()));
 	}
 	public void createProjo(){
-		onScreenProjectiles.add(new Projectile(getRandomProjoPoint(), ""));
+		onScreenProjectiles.add(new Projectile(getRandomProjoPoint(), "images/laser.png"));
 	}
 	public void createPowerUp(){
 		onScreenPowerUps.add(new PowerUp("images/powerUpShip.png"));

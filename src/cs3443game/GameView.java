@@ -49,6 +49,7 @@ public class GameView extends JPanel{
 	private double angle = 0;
 	private JLabel score;
 	//private Projectile projo;
+	public int speed;
 
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
@@ -69,6 +70,7 @@ public class GameView extends JPanel{
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
 
+		speed = 10;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 		
@@ -77,7 +79,7 @@ public class GameView extends JPanel{
 		//sets up health stat instance
 		
 		// speed up time foe easier testing: sped up from 30 to 10
-		shiftTimer = new Timer(30, new ActionListener(){
+		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				model.translate();
@@ -86,7 +88,7 @@ public class GameView extends JPanel{
 			}
 		});
        
-		newLineTimer = new Timer(10000, new ActionListener(){
+		newLineTimer = new Timer(speed*500, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				model.createGrunt();
@@ -113,6 +115,7 @@ public class GameView extends JPanel{
 		shiftTimer.start();
 		newLineTimer.start();
 	}
+	
 
 	/**
 	 * not currently used. the idea is to reset the timers for different
@@ -161,7 +164,7 @@ public class GameView extends JPanel{
 		
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0);
-		PowerUp pUp = model.getScreenPowerUp(0);
+	    PowerUp pUp = model.getScreenPowerUp(0);
 		Bullet bullet = model.getScreenBossBullet(0);
 		
 		//g.drawImage(boss.getImage(), boss.getX(), boss.getY(), null);
