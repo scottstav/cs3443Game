@@ -16,6 +16,7 @@ public class HostController implements ActionListener, KeyListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
 		System.out.println(arg0.getActionCommand());
 		view.switchView(arg0.getActionCommand());
 	}

@@ -17,6 +17,7 @@ public class Projectile implements Collidable {
 	 * to hard code paths to images for now. 
 	 */
 	protected ImageIcon projectileIcon;
+	private ImageIcon explosionIcon;
 	private Point position; 
 	private boolean isTrash;
 	protected BufferedImage bImage;
@@ -27,10 +28,10 @@ public class Projectile implements Collidable {
 	//possibly more instance variables later, although subclasses might have their own traits.
 
 
-	public Projectile(Point pos){
+	public Projectile(Point pos, String laser){
 		isTrash=false;
 		position= pos;
-		projectileIcon=new ImageIcon("images/laser.png");
+		projectileIcon=new ImageIcon(laser);
 		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
 		height= projectileIcon.getIconHeight();
 		width = projectileIcon.getIconWidth();
