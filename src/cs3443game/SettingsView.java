@@ -17,11 +17,14 @@ import com.sun.scenario.Settings;
 @SuppressWarnings("serial")
 public class SettingsView extends JPanel {
 	
+	/**
+	 * Image variables
+	 */
 	private Image background;
+	private ImageIcon mute_unmute;
 	private ImageIcon back;
 	private ImageIcon music_on;
 	private ImageIcon music_off;
-	private boolean musicOn = true;
 	
 	private Clip clip = null;
 	private Music music = new Music();
@@ -56,7 +59,8 @@ public class SettingsView extends JPanel {
 		background = new ImageIcon("images/image_mainmenu.png").getImage();
 		back = new ImageIcon("images/button_goback.png");
 		music_on = new ImageIcon("images/button_musicon.png");
-		music_off = new ImageIcon ("images/button_musicoff.png");
+		music_off = new ImageIcon("images/button_musicoff.png");
+		mute_unmute = new ImageIcon("images/muteunmute.png");
 		
 	}
 	
@@ -64,7 +68,7 @@ public class SettingsView extends JPanel {
      * Method that turns the images into JButtons
      * @param menuContent
      */private void setButtons(JPanel settings) {
-
+    	
 		JButton button_mainmenu = new JButton(back);
 		button_mainmenu.setText("button_goback");
 		button_mainmenu.setLocation(450, 600);
@@ -76,7 +80,7 @@ public class SettingsView extends JPanel {
 		
 		JButton button_music_off = new JButton(music_off);
 		button_music_off.setText("button_music_off");
-		button_music_off.setLocation(800, 400);
+		button_music_off.setLocation(640, 370);
 		button_music_off.setSize(50, 39);
 		button_music_off.setBorderPainted(false);
 		button_music_off.setFocusPainted(false);
@@ -85,7 +89,7 @@ public class SettingsView extends JPanel {
 		
 		JButton button_music_on = new JButton(music_on);
 		button_music_on.setText("button_music_on");
-		button_music_on.setLocation(800, 400);
+		button_music_on.setLocation(640, 370);
 		button_music_on.setSize(50, 39);
 		button_music_on.setBorderPainted(false);
 		button_music_on.setFocusPainted(false);
@@ -122,9 +126,17 @@ public class SettingsView extends JPanel {
 			}
 		});
 		
+    	JButton button_mute = new JButton(mute_unmute);
+    	button_mute.setLocation(350, 300);
+    	button_mute.setSize(600, 50);
+    	button_mute.setBorderPainted(false);
+    	button_mute.setFocusPainted(false);
+    	button_mute.setContentAreaFilled(false);
+		
 		//adds the buttons to the JPanel
 		settings.add(button_mainmenu);
 		settings.add(button_music_on);
+		settings.add(button_mute);
 	}
      
 
