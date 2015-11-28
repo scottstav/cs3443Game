@@ -14,6 +14,12 @@ import javax.swing.JPanel;
 
 import com.sun.scenario.Settings;
 
+/**
+ * The settings page. From here a person can choose to 
+ * mute/unmute the music. May add volume slider if have time.
+ * @author Taylor
+ *
+ */
 @SuppressWarnings("serial")
 public class SettingsView extends JPanel {
 	
@@ -26,13 +32,18 @@ public class SettingsView extends JPanel {
 	private ImageIcon music_on;
 	private ImageIcon music_off;
 	
+	/**
+	 * Sound effects 
+	 */
 	private SoundEffects button_press = new SoundEffects();
     private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
     private static String MUTE_PRESS = "soundeffects/mute_button_sound.wav";
-	
 	private Clip clip = null;
 	private Music music = new Music();
 	
+	/**
+	 * Constructor
+	 */
 	public SettingsView() {
     	
     	this.setLayout(null); //this allows us to move the buttons to specific x,y coords
@@ -84,7 +95,6 @@ public class SettingsView extends JPanel {
 		button_mainmenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				button_press.playSound(BUTTON_PRESS);
 			}
 		});
@@ -107,11 +117,10 @@ public class SettingsView extends JPanel {
 		button_music_on.setContentAreaFilled(false);
 		button_music_on.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		//if the music on button is pressed, it mutes the music
+		//if the music on button is pressed, it MUTES the music
 		button_music_on.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				button_press.playSound(MUTE_PRESS);
 				
 				settings.remove(button_music_on);
@@ -125,10 +134,10 @@ public class SettingsView extends JPanel {
 			}
 		});
 		
+		//if the music off button is pressed, it UNMUTES the music
 		button_music_off.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				button_press.playSound(MUTE_PRESS);
 				
 				settings.remove(button_music_off);
