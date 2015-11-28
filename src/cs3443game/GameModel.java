@@ -1,11 +1,16 @@
-package cs3443game;
+  package cs3443game;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+import javax.swing.JLabel;
+import javax.swing.Timer;
 
 public class GameModel {
 	/**
@@ -22,6 +27,10 @@ public class GameModel {
 	private ArrayList<Enemy> onScreenEnemies;
 	private ArrayList<Projectile>onScreenProjectiles;
 	private ArrayList<PowerUp>onScreenPowerUps;
+	private ArrayList<Bullet>bossProjectiles;
+	private Boss boss;
+	private Timer bossFireTimer;
+	private Integer points;
 	/**
 	 * Collection of lines that are currently being displayed.
 	 * This is treated as a queue. As of now, the player must always
@@ -55,6 +64,24 @@ public class GameModel {
 		codeLineDB = new ArrayList<String>();
 		onScreenEnemies = new ArrayList<Enemy>();
 		onScreenProjectiles = new ArrayList<Projectile>();
+		bossProjectiles = new ArrayList<Bullet>();
+		points=0;
+		bossFireTimer =  new Timer(3000, new ActionListener(){
+
+			public void actionPerformed(ActionEvent e){
+				int cannon;
+				Random r = new Random();
+				cannon=r.nextInt()%3;
+				if(cannon==0)
+					GameModel.this.bossProjectiles.add(boss.fireCannon0());
+				if(cannon==1)
+					GameModel.this.bossProjectiles.add(boss.fireCannon1());
+				if(cannon==2)
+					GameModel.this.bossProjectiles.add(boss.fireCannon2());
+				
+				
+			}
+		});
 		
 		onScreenPowerUps = new ArrayList<PowerUp>();
 
@@ -111,8 +138,14 @@ public class GameModel {
 		Enemy e;
 		Projectile p;
         PowerUp u;
+
 		for(int i=0; i<onScreenEnemies.size(); i++){
 			e=onScreenEnemies.get(i);
+			if(e instanceof Boss){
+				if(boss.translate())
+					beginFireSequence();
+			}
+			else 
 			e.translate(-1, 0);
 			e.paintToImage();
 		}
@@ -130,10 +163,17 @@ public class GameModel {
 			//u.paintToImage();
 
 		}
+		
+		for(int i=0; i<bossProjectiles.size(); i++){
+			bossProjectiles.get(i).translate(-1, 0);
+		}
 
 		//check for collisions after this translation
 		collisions();
 		cleanUp();
+	}
+	public void beginFireSequence(){
+		bossFireTimer.start();
 	}
 
 	/**
@@ -144,10 +184,14 @@ public class GameModel {
 		onScreenEnemies.add( new EnemyGrunt(getCodeLine(), getRandomPoint()));
 	}
 	public void createProjo(){
-		onScreenProjectiles.add(new Projectile(getRandomProjoPoint()));
+		onScreenProjectiles.add(new Projectile(getRandomProjoPoint(), ""));
 	}
 	public void createPowerUp(){
 		onScreenPowerUps.add(new PowerUp("images/powerUpShip.png"));
+	}
+	public void createBoss(){
+		boss = new Boss("code line", "images/boss.png", "explosion", new Point(1300,70) );
+		onScreenEnemies.add(boss);
 	}
 
 	/**
@@ -161,7 +205,12 @@ public class GameModel {
 
 		return null;
 	}
+	public Bullet getScreenBossBullet(int i){
+		if(i>=0 && i<bossProjectiles.size())
+			return bossProjectiles.get(i);
 
+		return null;
+	}
 	public Projectile getScreenProjo(int i){
 		if(i>=0 && i<onScreenProjectiles.size())
 			return onScreenProjectiles.get(i);
@@ -191,6 +240,7 @@ public class GameModel {
 			if(enemy!=null){
 				if(enemy.getLine().equals(s)){
 					enemy.collision();
+				updateScore();
 					return true;
 				}
 			}
@@ -199,7 +249,12 @@ public class GameModel {
 	}
 
 
-
+public void updateScore(){
+	points=points+10;
+	if(points%10==0)
+		createBoss();
+	
+}
 	public int getProjoSize(){
 		return onScreenProjectiles.size();
 	}
@@ -250,6 +305,10 @@ public class GameModel {
 		}
 		return false;
 
+	}
+	
+	public String getScore(){
+		return "Score: "+points.toString();
 	}
 	
 	public boolean pixelPerfectCollision(Collidable collidableA, Collidable collidableB){
