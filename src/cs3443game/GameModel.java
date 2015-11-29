@@ -199,6 +199,8 @@ public class GameModel {
 	 * code lines instead of just int a later on
 	 */
 	public void createGrunt(){
+		if(pause)
+			return;
 		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
 		onScreenEnemies.add(enemy);
 	}

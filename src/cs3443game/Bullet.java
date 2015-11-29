@@ -2,14 +2,10 @@ package cs3443game;
 
 import java.awt.Point;
 
-public class Bullet extends Projectile{
+public class Bullet extends Enemy{
 
-	private String codeLine;
-	public Bullet(String line, Point pos, String bullet, String explosion){
-		super(pos, bullet);
-		codeLine = line;
+	public Bullet(String line, Point pos){
+		super(line, pos, "images/bossBullet.png", "");
+		
 	}
-	 public String getLine(){
-	    	return codeLine;
-	    }
 }

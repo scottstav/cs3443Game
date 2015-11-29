@@ -25,14 +25,19 @@ public class Boss extends Enemy{
 
 	}
 	public Bullet fireCannon0(){
-		return new Bullet("code line", new Point(950,70+225),"images/bossBullet.png", "explosion" );
+		return new Bullet("code", new Point(950,70+225));
 	}
 
 	public Bullet fireCannon1(){
-		return new Bullet("code line", new Point(950,70+110),"images/bossBullet.png", "explosion" );
+		return new Bullet("code", new Point(950,70+110));
 	}
 
 	public Bullet fireCannon2(){
-		return new Bullet("code line", new Point(950,70+340),"images/bossBullet.png", "explosion" );
+		return new Bullet("code li", new Point(950,70+340));
+	}
+	public boolean hasLine(){
+		if (getLine().equals(""))
+			return false;
+		else return true;
 	}
 }
