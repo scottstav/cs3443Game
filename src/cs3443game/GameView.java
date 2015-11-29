@@ -173,13 +173,13 @@ public class GameView extends JPanel{
 		//repaints all enemies
 		ImageIcon icon = new ImageIcon("images/blueShip.png");
 
-		for(int j=0; bullet!=null; j++){
+	/*	for(int j=0; bullet!=null; j++){
 			g.drawImage(bullet.getImage(), bullet.getX(), bullet.getY(), null);
 			g.setColor(Color.BLACK);
 			g.drawString(bullet.getLine(), (int) bullet.getX() +20 , (int) bullet.getY()+30);
 
 			bullet = model.getScreenBossBullet(j);
-		}
+		}*/
 		
         //Projectile projo = null;
 		for(int j=0; enemy!=null; j++){
