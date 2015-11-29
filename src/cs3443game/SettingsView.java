@@ -4,15 +4,33 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+
 @SuppressWarnings("serial")
 public class SettingsView extends JPanel {
 	
+	/**
+	 * Image variables
+	 */
 	private Image background;
+	private ImageIcon mute_unmute;
 	private ImageIcon back;
+	private ImageIcon music_on;
+	private ImageIcon music_off;
+	
+	private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
+    private static String MUTE_PRESS = "soundeffects/mute_button_sound.wav";
+	
+	private Clip clip = null;
+	private Music music = new Music();
 	
 	public SettingsView() {
     	
@@ -43,14 +61,17 @@ public class SettingsView extends JPanel {
 
 		background = new ImageIcon("images/image_mainmenu.png").getImage();
 		back = new ImageIcon("images/button_goback.png");
+		music_on = new ImageIcon("images/button_musicon.png");
+		music_off = new ImageIcon("images/button_musicoff.png");
+		mute_unmute = new ImageIcon("images/muteunmute.png");
 		
 	}
 	
     /**
      * Method that turns the images into JButtons
      * @param menuContent
-     */private void setButtons(JPanel howToContent) {
-
+     */private void setButtons(final JPanel settings) {
+    	
 		JButton button_mainmenu = new JButton(back);
 		button_mainmenu.setText("button_goback");
 		button_mainmenu.setLocation(450, 600);
@@ -59,9 +80,78 @@ public class SettingsView extends JPanel {
 		button_mainmenu.setFocusPainted(false);
 		button_mainmenu.setContentAreaFilled(false);
 		button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_mainmenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
+		
+		final JButton button_music_off = new JButton(music_off);
+		button_music_off.setText("button_music_off");
+		button_music_off.setLocation(640, 370);
+		button_music_off.setSize(50, 39);
+		button_music_off.setBorderPainted(false);
+		button_music_off.setFocusPainted(false);
+		button_music_off.setContentAreaFilled(false);
+		button_music_off.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		final JButton button_music_on = new JButton(music_on);
+		button_music_on.setText("button_music_on");
+		button_music_on.setLocation(640, 370);
+		button_music_on.setSize(50, 39);
+		button_music_on.setBorderPainted(false);
+		button_music_on.setFocusPainted(false);
+		button_music_on.setContentAreaFilled(false);
+		button_music_on.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		//if the music on button is pressed, it mutes the music
+		button_music_on.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(MUTE_PRESS);
+				
+				settings.remove(button_music_on);
+				settings.add(button_music_off);
+				settings.revalidate();
+				settings.repaint();
+				
+				clip = music.getClip();
+				clip.stop();
+				music.setMute(true); //mutes
+			}
+		});
+		
+		button_music_off.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(MUTE_PRESS);
+				
+				settings.remove(button_music_off);
+				settings.add(button_music_on);
+				settings.revalidate();
+				settings.repaint();
+				
+				music.setMute(false); //unmute
+				music.play();
+			}
+		});
+		
+    	JButton button_mute = new JButton(mute_unmute);
+    	button_mute.setLocation(350, 300);
+    	button_mute.setSize(600, 50);
+    	button_mute.setBorderPainted(false);
+    	button_mute.setFocusPainted(false);
+    	button_mute.setContentAreaFilled(false);
 		
 		//adds the buttons to the JPanel
-		howToContent.add(button_mainmenu);
+		settings.add(button_mainmenu);
+		settings.add(button_music_on);
+		settings.add(button_mute);
 	}
+     
 
 }

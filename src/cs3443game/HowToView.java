@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -13,7 +16,9 @@ public class HowToView extends JPanel {
 	
 	private Image background;
 	private ImageIcon back;
-	
+	private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
+    
 	public HowToView() {
     	
     	this.setLayout(null); //this allows us to move the buttons to specific x,y coords
@@ -59,6 +64,13 @@ public class HowToView extends JPanel {
 		button_mainmenu.setFocusPainted(false);
 		button_mainmenu.setContentAreaFilled(false);
 		button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_mainmenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 		
 		//adds the buttons to the JPanel
 		howToContent.add(button_mainmenu);

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,14 +13,15 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class ModeSelection extends JPanel{
 
-
-
 	private Image background;
 	private ImageIcon mode1;
 	private ImageIcon mode2;
 	private ImageIcon mode3;
 	private ImageIcon mode4;
 	private ImageIcon mainmenu;
+	
+	private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
 
 	public ModeSelection() {
 
@@ -50,8 +53,8 @@ public class ModeSelection extends JPanel{
 		background = new ImageIcon("images/image_mainmenu.png").getImage();
 		mode1 = new ImageIcon("images/button_endlessmode.png");
 		mode2 = new ImageIcon("images/button_timedmode.png");
-		mode3 = new ImageIcon("images/button_mode_placeholder.png");
-		mode4 = new ImageIcon("images/button_mode_placeholder.png");
+//		mode3 = new ImageIcon("images/button_mode_placeholder.png");
+//		mode4 = new ImageIcon("images/button_mode_placeholder.png");
 		mainmenu = new ImageIcon("images/button_goback.png");	
 	}
 
@@ -69,6 +72,13 @@ public class ModeSelection extends JPanel{
 		button_mode1.setFocusPainted(false);
 		button_mode1.setContentAreaFilled(false);
 		button_mode1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_mode1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 
 
 		JButton button_mode2 = new JButton(mode2);
@@ -79,26 +89,32 @@ public class ModeSelection extends JPanel{
 		button_mode2.setFocusPainted(false);
 		button_mode2.setContentAreaFilled(false);
 		button_mode2.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_mode2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 
-
-		JButton button_mode3 = new JButton(mode3);
-		button_mode3.setText("button_mode3");
-		button_mode3.setLocation(450, 420);
-		button_mode3.setSize(405, 50);
-		button_mode3.setBorderPainted(false);
-		button_mode3.setFocusPainted(false);
-		button_mode3.setContentAreaFilled(false);
-		button_mode3.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-
-		JButton button_mode4 = new JButton(mode4);
-		button_mode4.setText("button_mode4");
-		button_mode4.setLocation(450, 480);
-		button_mode4.setSize(405, 50);
-		button_mode4.setBorderPainted(false);
-		button_mode4.setFocusPainted(false);
-		button_mode4.setContentAreaFilled(false);
-		button_mode4.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//		JButton button_mode3 = new JButton(mode3);
+//		button_mode3.setText("button_mode3");
+//		button_mode3.setLocation(450, 420);
+//		button_mode3.setSize(405, 50);
+//		button_mode3.setBorderPainted(false);
+//		button_mode3.setFocusPainted(false);
+//		button_mode3.setContentAreaFilled(false);
+//		button_mode3.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//
+//
+//		JButton button_mode4 = new JButton(mode4);
+//		button_mode4.setText("button_mode4");
+//		button_mode4.setLocation(450, 480);
+//		button_mode4.setSize(405, 50);
+//		button_mode4.setBorderPainted(false);
+//		button_mode4.setFocusPainted(false);
+//		button_mode4.setContentAreaFilled(false);
+//		button_mode4.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 
 		JButton button_back = new JButton(mainmenu);
@@ -109,13 +125,20 @@ public class ModeSelection extends JPanel{
 		button_back.setFocusPainted(false);
 		button_back.setContentAreaFilled(false);
 		button_back.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button_back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				button_press.playSound(BUTTON_PRESS);
+			}
+		});
 
 
 		//adds the buttons to the JPanel
 		menuContent.add(button_mode1);
 		menuContent.add(button_mode2);
-		menuContent.add(button_mode3);
-		menuContent.add(button_mode4);
+//		menuContent.add(button_mode3);
+//		menuContent.add(button_mode4);
 		menuContent.add(button_back);
 
 	}

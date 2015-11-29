@@ -1,4 +1,4 @@
-package cs3443game;
+  package cs3443game;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -31,8 +31,8 @@ public class GameModel {
 	private Boss boss;
 	private Timer bossFireTimer;
 	private Timer bossChangeLine;
-	private Integer points;
 	private boolean bossOnScreen;
+	private Integer points;
 	/**
 	 * Collection of lines that are currently being displayed.
 	 * This is treated as a queue. As of now, the player must always
@@ -56,6 +56,8 @@ public class GameModel {
 	private Random random;
 	Earth earth;
 
+	public static boolean pause;
+	
 
 	/**
 	 * put three arbitrary code lines into codeLineDB
@@ -100,6 +102,7 @@ public class GameModel {
 			}
 		});
 
+		pause = false;
 		onScreenPowerUps = new ArrayList<PowerUp>();
 
 		try {
@@ -127,47 +130,77 @@ public class GameModel {
 			return codeLineDB.get(index);
 		}
 
-		/**
-		 * gets a random Point
-		 * @return an (x,y) point
-		 */
-		public Point getRandomPoint(){
-			int y =random.nextInt();
-			if(y<0)
-				y=y*-1;
-			y = y % 650;
-			return new Point(1280, y);
-		}
-		public Point getRandomProjoPoint(){
-			int y =random.nextInt();
-			if(y<0)
-				y=y*-1;
-			y = y % 650;
-			return new Point(-50, y);
-		}
+	/**
+	 * gets a random Point
+	 * @return an (x,y) point
+	 */
+	public Point getRandomPoint(){
+		int y =random.nextInt();
+		if(y<0)
+			y=y*-1;
+		y = y % 720;
+		
+		if((y+200) >= 720)
+			y=y-((y+200)-720);
 
-		/**
-		 * translates screen lines to the left of the screen
-		 * Might want to use the translate method of the Point class,
-		 * but this works for now
-		 */
-		public void translate(){
-			Enemy e;
-			Projectile p;
-			PowerUp u;
+		return new Point(1280, y);
+	}
+	public Point getRandomProjoPoint(){
+		
+		int y =random.nextInt();
+		if(y<0)
+			y=y*-1;
+		y = y % 650;
+		
+		return new Point(-50, y);
+	}
 
-			for(int i=0; i<onScreenEnemies.size(); i++){
-				e=onScreenEnemies.get(i);
-				if(e instanceof Boss){
-					if(boss.translate()){
-						bossOnScreen=true;
-						beginFireSequence();
-					}
+	/**
+	 * translates screen lines to the left of the screen
+	 * Might want to use the translate method of the Point class,
+	 * but this works for now
+	 */
+	public void translate(){
+		Enemy e;
+		Projectile p;
+        PowerUp u = null;
+        if(pause)
+        {
+        	for(int i=0; i<onScreenPowerUps.size(); i++){
+    			u=onScreenPowerUps.get(i);
+    			u.translate(1);
+    			//u.paintToImage();
+        	}
+        	collisions();
+    		cleanUp();
+        	return;
+        }
+        
+
+        for(int i=0; i<onScreenPowerUps.size(); i++){
+       		u=onScreenPowerUps.get(i);
+       		u.translate(-1);
+       		if(u.inPosition == true)
+       			onScreenPowerUps.remove(u);
+       		//u.paintToImage();
+       	}
+
+		for(int i=0; i<onScreenEnemies.size(); i++){
+			e=onScreenEnemies.get(i);
+			if(e instanceof Boss){
+				if(boss.translate()){
+					bossOnScreen=true;
+					beginFireSequence();
 				}
-				else 
-					e.translate(-1, 0);
-				e.paintToImage();
 			}
+			else 
+			{
+				e.translate(-1, 0);
+			}
+			
+			e.paintToImage();
+		}
+	
 
 			for(int i=0; i<onScreenProjectiles.size(); i++){
 				p=onScreenProjectiles.get(i);
@@ -176,21 +209,12 @@ public class GameModel {
 
 			}
 
-			for(int i=0; i<onScreenPowerUps.size(); i++){
-				u=onScreenPowerUps.get(i);
-				u.translate();
-				//u.paintToImage();
-
-			}
-
-			for(int i=0; i<bossProjectiles.size(); i++){
-				bossProjectiles.get(i).translate(-1, 0);
-			}
 
 			//check for collisions after this translation
 			collisions();
 			cleanUp();
 		}
+	
 		public void beginFireSequence(){
 			bossChangeLine.start();
 			bossFireTimer.start();
@@ -200,22 +224,17 @@ public class GameModel {
 		 * creates grunt enemy. will be loaded with different
 		 * code lines instead of just int a later on
 		 */
-		public void createGrunt(){
-			if(!bossOnScreen)
-				onScreenEnemies.add( new EnemyGrunt(getCodeLine(), getRandomPoint()));
-		}
-		public void createProjo(){
-			onScreenProjectiles.add(new Projectile(getRandomProjoPoint(), ""));
-		}
+		
 		public void createPowerUp(){
 			onScreenPowerUps.add(new PowerUp("images/powerUpShip.png"));
 		}
+		
 		public void createBoss(){
 			if(!bossOnScreen){
 				boss = new Boss(""  , "images/boss.png", "explosion", new Point(1300,70) );
 				onScreenEnemies.add(boss);
-
 			}
+
 		}
 
 		/**
@@ -226,27 +245,42 @@ public class GameModel {
 		public Enemy getScreenEnemy(int i){
 			if(i>=0 && i<onScreenEnemies.size())
 				return onScreenEnemies.get(i);
-
-			return null;
+		
+		return null;
 		}
-		public Bullet getScreenBossBullet(int i){
-			if(i>=0 && i<bossProjectiles.size())
-				return bossProjectiles.get(i);
+	
 
-			return null;
-		}
-		public Projectile getScreenProjo(int i){
-			if(i>=0 && i<onScreenProjectiles.size())
-				return onScreenProjectiles.get(i);
+	/**
+	 * creates grunt enemy. will be loaded with different
+	 * code lines instead of just int a later on
+	 */
+	public void createGrunt(){
+		if(pause && !bossOnScreen)
+			return;
+		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
+		onScreenEnemies.add(enemy);
+	}
 
-			return null;
-		}
 
-		public PowerUp getScreenPowerUp(int i){
-			if(i>=0 && i<onScreenPowerUps.size())
-				return onScreenPowerUps.get(i);
 
-			return null;
+	public Bullet getScreenBossBullet(int i){
+		if(i>=0 && i<bossProjectiles.size())
+			return bossProjectiles.get(i);
+
+		return null;
+	}
+	public Projectile getScreenProjo(int i){
+		if(i>=0 && i<onScreenProjectiles.size())
+	    	    return onScreenProjectiles.get(i);
+
+		return null;
+	}
+	
+	public PowerUp getScreenPowerUp(int i){
+		if(i>=0 && i<onScreenPowerUps.size())
+		    return onScreenPowerUps.get(i);
+
+		return null;
 		}
 
 
@@ -255,6 +289,9 @@ public class GameModel {
 			Boolean processed=false;
 			if(s.equals("power up")){
 				createPowerUp();
+				pause = true;
+				java.util.Timer pUpSequence = new java.util.Timer();
+				pUpSequence.schedule(new setFalse(), 15*1000);
 				processed=true;
 				return true;
 			}
@@ -277,6 +314,7 @@ public class GameModel {
 				}
 			}
 			return processed;
+			
 		}
 
 
@@ -289,6 +327,7 @@ public class GameModel {
 		public int getProjoSize(){
 			return onScreenProjectiles.size();
 		}
+		
 
 		public int getEnemySize(){
 			return onScreenEnemies.size();
@@ -325,18 +364,19 @@ public class GameModel {
 
 
 		public boolean collided(Collidable a, Collidable b){
-
+					
 			if(a.getBounds().intersects(b.getBounds())){
-				System.out.println("intersection");
+				//System.out.println("intersection");
 				if(pixelPerfectCollision(a, b)){
 					a.collision();
 					b.collision();
 					return true;
 				}
 			}
-			return false;
-
-		}
+		return false;
+	}
+	
+	
 
 		public String getScore(){
 			return "Score: "+points.toString();
