@@ -71,7 +71,7 @@ public class GameModel {
 		bossProjectiles = new ArrayList<Bullet>();
 		points=0;
 		bossOnScreen=false;
-		bossChangeLine =  new Timer(3000, new ActionListener(){
+		bossChangeLine =  new Timer(5000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				if(GameModel.this.bossOnScreen==true){
@@ -84,7 +84,7 @@ public class GameModel {
 				
 		});
 
-		bossFireTimer =  new Timer(3000, new ActionListener(){
+		bossFireTimer =  new Timer(5000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				int cannon;
@@ -189,13 +189,21 @@ public class GameModel {
 			e=onScreenEnemies.get(i);
 			if(e instanceof Boss){
 				if(boss.translate()){
-					bossOnScreen=true;
 					beginFireSequence();
 				}
 			}
 			else 
 			{
-				e.translate(-1, 0);
+				if(bossOnScreen && (e instanceof Bullet))
+				{
+					e.translate(-1,0);
+					
+					
+				}
+				else
+				{
+					e.translate(-1, 0);
+				}	
 			}
 			
 			e.paintToImage();
@@ -233,6 +241,7 @@ public class GameModel {
 			if(!bossOnScreen){
 				boss = new Boss(""  , "images/boss.png", "explosion", new Point(1300,70) );
 				onScreenEnemies.add(boss);
+				bossOnScreen = true;
 			}
 
 		}
@@ -255,7 +264,7 @@ public class GameModel {
 	 * code lines instead of just int a later on
 	 */
 	public void createGrunt(){
-		if(pause && !bossOnScreen)
+		if(pause || bossOnScreen)
 			return;
 		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
 		onScreenEnemies.add(enemy);
