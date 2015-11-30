@@ -182,7 +182,7 @@ public class GameModel {
         }
         
         // first power up option clears the screen
-        if(pIncoming)
+        if(pIncoming && pUpAvail == 1)
         {
         	for(int i=0; i<onScreenPowerUps.size(); i++){
     			u=onScreenPowerUps.get(i);
@@ -194,7 +194,22 @@ public class GameModel {
         	return;
         }
         
+        // second power up freezes the screen for 15 seconds
+        if(pIncoming && pUpAvail == 2)
+        {
+        	collisions();
+        	cleanUp();
+        	return;
+        }
         
+        // 3rd power up refills health by 30 points
+        if(pIncoming && pUpAvail == 3)
+        {
+        	earth.hbEarth.hit(-30);
+        	pIncoming = false;
+        	pUpAvail = 0;
+        	
+        }
 
         for(int i=0; i<onScreenPowerUps.size(); i++){
        		u=onScreenPowerUps.get(i);
@@ -317,11 +332,15 @@ public class GameModel {
 			Enemy enemy;
 			Boolean processed=false;
 			if(s.equals("power up") && pUpAvail > 0 && !bossOnScreen){
-				createPowerUp();
-				pUpAvail = 0;
+				
 				pIncoming = true;
-				java.util.Timer pUpSequence = new java.util.Timer();
-				pUpSequence.schedule(new setFalse(), 15*1000);
+				if(pUpAvail == 1)
+					createPowerUp();
+				if(pUpAvail != 3)
+				{
+					java.util.Timer pUpSequence = new java.util.Timer();
+					pUpSequence.schedule(new setFalse(), 15*1000);
+				}
 				processed=true;
 				return true;
 			}
@@ -346,9 +365,11 @@ public class GameModel {
 								onScreenEnemies.remove(boss);
 								bossOnScreen=false;
 								// ***pick a power up, corresponding to 1- ship,2 - freeze, or 3- health***//
-								pUpAvail = 1;
+								pUpAvail = random.nextInt(3) + 1;
+								pUpAvail = 3;
+								System.out.println("Boss defeated, acquired powerup: " + pUpAvail);
 								boss.collision();
-								updateScore(30);
+								updateScore(50);
 								bossCount = points + 100;
 							}
 							return processed;
