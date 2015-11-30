@@ -22,8 +22,11 @@ public class HostView extends JFrame {
 	private static final String HOW_TO = "button_howto";
 	private static final String OPTIONS = "button_options";
 	private static final String LEADERBOARDS = "button_lboards";
+	private static final String ENDGAME = "button_endgame";
 	private static final String EXIT = "button_exit";
 	//private static final String MODE1 = "button_mode1";
+	private static final String MAIN = "button_mainmenu";
+	private static final String MODE1 = "button_mode1";
 	private static final String BACK = "button_goback";
 	//private static final String MODE_SELECT ="Select Mode";
 	/**
@@ -47,6 +50,7 @@ public class HostView extends JFrame {
 	HowToView howToScreen;
 	SettingsView settingsScreen;
 	LeaderboardView leaderboardScreen;
+	EndGameView endGameScreen;
 	
 
 
@@ -59,6 +63,7 @@ public class HostView extends JFrame {
 		howToScreen = new HowToView();
 		settingsScreen = new SettingsView();
 		leaderboardScreen = new LeaderboardView();
+		endGameScreen = new EndGameView();
 		
 		screenList.add(menu);
 		screenList.add(game);
@@ -67,6 +72,7 @@ public class HostView extends JFrame {
 		screenList.add(howToScreen);
 		screenList.add(settingsScreen);
 		screenList.add(leaderboardScreen);
+		screenList.add(endGameScreen);
 		
 		previousIndex=0;
 		currentIndex=0;
@@ -134,6 +140,7 @@ public class HostView extends JFrame {
 		remove(howToScreen);
 		remove(settingsScreen);
 		remove(leaderboardScreen);
+		remove(endGameScreen);
 		
 		if(screen.equals(EXIT))
 			System.exit(1);
@@ -177,6 +184,14 @@ public class HostView extends JFrame {
 		else if(screen.equals(LEADERBOARDS)){
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(leaderboardScreen);
+		}
+		else if(screen.equals(ENDGAME)){
+			previousIndex=currentIndex;
+			currentIndex = screenList.indexOf(endGameScreen);
+		}
+		else if(screen.equals(MAIN)){
+			previousIndex=currentIndex;
+			currentIndex = screenList.indexOf(menu);
 		}
 	   
 		if(currentIndex!=-1){

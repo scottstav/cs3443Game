@@ -2,6 +2,7 @@ package cs3443game;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * The "how to play" page.
@@ -66,8 +68,22 @@ public class HowToView extends JPanel {
     /**
      * Method that turns the images into JButtons
      * @param menuContent
-     */private void setButtons(JPanel howToContent) {
-
+     */private void setButtons(JPanel howToContent)
+     {
+    	 
+    	 JTextArea textArea = new JTextArea(
+    			    "How to play CyberBlocks" + "\n" +
+    			    "CyberBlocks is a typing test game that challenges the user at typing lines of code." +
+    			    "More info goes here " +
+    			    "info info info"
+    			);
+    	textArea.setFont(new Font("Consolas", Font.ITALIC, 16));
+    	textArea.setSize(400,250);
+    	textArea.setLocation(440,260);
+    	textArea.setLineWrap(true);
+    	textArea.setWrapStyleWord(true);
+    	add(textArea);
+    	
 		JButton button_mainmenu = new JButton(back);
 		button_mainmenu.setText("button_goback");
 		button_mainmenu.setLocation(450, 600);
