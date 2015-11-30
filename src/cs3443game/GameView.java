@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -46,7 +47,9 @@ public class GameView extends JPanel{
 	private Image background;
 	private Earth earth;
 	private double angle = 0;
+	private JLabel score;
 	//private Projectile projo;
+	public int speed;
 
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
@@ -54,6 +57,11 @@ public class GameView extends JPanel{
 	
 		this.setLayout(null);
 		model = null;
+		score = new JLabel("Score: 0");
+		score.setLocation(1150,0);
+		score.setSize(150,50);
+		score.setForeground(Color.WHITE);
+		add(score);
 		input= new JTextField(15);
 		input.setLocation(0,360);
 		
@@ -62,6 +70,7 @@ public class GameView extends JPanel{
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
 
+		speed = 10;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 		
@@ -70,7 +79,7 @@ public class GameView extends JPanel{
 		//sets up health stat instance
 		
 		// speed up time foe easier testing: sped up from 30 to 10
-		shiftTimer = new Timer(10, new ActionListener(){
+		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				model.translate();
@@ -79,7 +88,7 @@ public class GameView extends JPanel{
 			}
 		});
        
-		newLineTimer = new Timer(5000, new ActionListener(){
+		newLineTimer = new Timer(speed*500, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				model.createGrunt();
@@ -106,6 +115,7 @@ public class GameView extends JPanel{
 		shiftTimer.start();
 		newLineTimer.start();
 	}
+	
 
 	/**
 	 * not currently used. the idea is to reset the timers for different
@@ -154,12 +164,30 @@ public class GameView extends JPanel{
 		
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0);
-		PowerUp pUp = model.getScreenPowerUp(0);
+	    PowerUp pUp = model.getScreenPowerUp(0);
+		Bullet bullet = model.getScreenBossBullet(0);
+		
+		//g.drawImage(boss.getImage(), boss.getX(), boss.getY(), null);
+
+		//g.setColor(Color.BLACK);
+		//g.drawString("int a;", bullet.getX()+20 , bullet.getY()+30);
 		//Projectile projo = null;
 
 		//repaints all enemies
 		ImageIcon icon = new ImageIcon("images/blueShip.png");
 
+	/*	for(int j=0; bullet!=null; j++){
+=======
+		for(int j=0; bullet!=null; j++){
+>>>>>>> master
+			g.drawImage(bullet.getImage(), bullet.getX(), bullet.getY(), null);
+			g.setColor(Color.BLACK);
+			g.drawString(bullet.getLine(), (int) bullet.getX() +20 , (int) bullet.getY()+30);
+
+			bullet = model.getScreenBossBullet(j);
+<<<<<<< HEAD
+		}*/
+		
         //Projectile projo = null;
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
@@ -167,9 +195,9 @@ public class GameView extends JPanel{
 			g.drawString(enemy.getLine(), (int) enemy.getX() , (int) enemy.getY()+enemy.getHeight()+10);
 
 			enemy = model.getScreenEnemy(j);
-
+          
 		}
-
+	     score.setText(model.getScore());
 		//repaints all projectiles
  /**
  * 	THIS STUFF ONLY PAINTED IF :
@@ -204,6 +232,7 @@ public class GameView extends JPanel{
 
 		}
 
+		
 
 
 

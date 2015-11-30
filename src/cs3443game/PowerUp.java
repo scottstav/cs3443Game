@@ -23,7 +23,7 @@ public class PowerUp implements Collidable{
 	private int width;
 	private Rectangle bounds;
 	private double angle;
-	private boolean inPosition;
+	public boolean inPosition;
 	private Timer rotationTimer;
 	private boolean reverse;
 
@@ -92,18 +92,30 @@ public class PowerUp implements Collidable{
 		//System.out.println(newWidth);
 		bounds.setBounds(newX,newY,newWidth,newHeight);
 
-
 	}
+	
 	public boolean inPosition(){
 		return inPosition;
 	}
-	public void translate(){
-		if(inPosition)
+	
+	public void translate(int dir){
+		
+		if(dir == -1)
+		{
+			powerUpIcon = new ImageIcon("images/powerUpShip.png");
+			inPosition = false;
+		}
+		if(inPosition && (dir == 1))
 			return;
-		position.setLocation(position.getX()+1, position.getY());
-		if(getX()==-50){
+		
+		position.setLocation(position.getX()+dir, position.getY());
+		if((getX()==-50) && (dir == 1)){
 			inPosition=true;
 			beginRotation();
+		}
+		else if((getX() == -500) && (dir == -1))
+		{
+			inPosition = true;
 		}
 
 

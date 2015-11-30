@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.Color;
+
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;

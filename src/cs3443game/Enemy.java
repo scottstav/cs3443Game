@@ -44,8 +44,13 @@ public class Enemy implements Collidable{
 	private Timer explosionTimer;
 	private boolean exploded;
 	protected BufferedImage bImage;
+	public int size;
 	
 	//possibly more instance variables later, although subclasses might have their own traits.
+	
+	//sound effects
+	private static String EXPLOSION = "soundeffects/ship_explosion.wav";
+	private SoundEffects explosion = new SoundEffects();
 	
 	//public enemy haha get it?
 	//lol
@@ -55,9 +60,12 @@ public class Enemy implements Collidable{
 		position= pos;
 		isTrash=false;
 		exploded=false;
+		
 		explosionIcon = new ImageIcon(explosion);
 		bImage = new BufferedImage(1280,720,BufferedImage.TYPE_INT_RGB);
 		enemyIcon = new ImageIcon(ship);
+		
+		
 		paintToImage();
 		
 		explosionTimer= new Timer(2000, new ActionListener(){
@@ -140,6 +148,7 @@ public class Enemy implements Collidable{
     }
     
     public void startExplosion(){
+    	explosion.playSound(EXPLOSION);
     	explosionTimer.start();
     	exploded=true;
     	codeLine="";
@@ -147,6 +156,9 @@ public class Enemy implements Collidable{
     public boolean exploded(){
     	return exploded;
     }
+public void setLine(String s){
+		codeLine = s;
+	}
     
     
 	
