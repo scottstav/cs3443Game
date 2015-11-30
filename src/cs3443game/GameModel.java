@@ -28,10 +28,10 @@ public class GameModel {
 	private ArrayList<Projectile>onScreenProjectiles;
 	private ArrayList<PowerUp>onScreenPowerUps;
 	private ArrayList<Bullet>bossProjectiles;
-	private Boss boss;
+	public Boss boss;
 	private Timer bossFireTimer;
 	private Timer bossChangeLine;
-	private boolean bossOnScreen;
+	boolean bossOnScreen;
 	private Integer points;
 	/**
 	 * Collection of lines that are currently being displayed.
@@ -54,7 +54,7 @@ public class GameModel {
 	 * Used to generate random array index
 	 */
 	private Random random;
-	Earth earth;
+	public Earth earth;
 
 	public static boolean pause;
 	
@@ -78,7 +78,12 @@ public class GameModel {
 					if(GameModel.this.boss.hasLine())
 						GameModel.this.boss.setLine("");
 					else   
-						GameModel.this.boss.setLine(GameModel.this.getCodeLine());
+					{
+						String line = GameModel.this.getCodeLine();
+						while(line.length() > 10)
+							line = GameModel.this.getCodeLine();
+						GameModel.this.boss.setLine(line);
+					}
 				}
 			}
 				
@@ -164,6 +169,8 @@ public class GameModel {
 		Enemy e;
 		Projectile p;
         PowerUp u = null;
+        
+        
         if(pause)
         {
         	for(int i=0; i<onScreenPowerUps.size(); i++){
@@ -188,7 +195,9 @@ public class GameModel {
 		for(int i=0; i<onScreenEnemies.size(); i++){
 			e=onScreenEnemies.get(i);
 			if(e instanceof Boss){
-				if(boss.translate()){
+				if(!bossOnScreen)
+					boss.translate(1);
+				else if(boss.translate(-1)){
 					beginFireSequence();
 				}
 			}
@@ -314,7 +323,15 @@ public class GameModel {
 							Boss b = (Boss) enemy;
 							if(!b.hasLine())
 								continue;
-							bossOnScreen=false;
+							else if(b.getLine().equals(s))
+								boss.bossHb.hit(34);
+							if(boss.bossHb.health <= 0)
+							{
+								onScreenEnemies.remove(boss);
+								bossOnScreen=false;
+							}
+							
+							continue;
 						}
 						enemy.collision();
 						updateScore();

@@ -50,6 +50,7 @@ public class GameView extends JPanel{
 	private JLabel score;
 	//private Projectile projo;
 	public int speed;
+	
 
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
 
@@ -161,6 +162,12 @@ public class GameView extends JPanel{
 		// access the model's health bar instance
 		g.setColor(model.earth.hbEarth.getColor());
 		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
+		
+		if(model.bossOnScreen)
+		{
+			g.setColor(model.boss.bossHb.getColor());
+			g.fillRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
+		}
 		
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0);
