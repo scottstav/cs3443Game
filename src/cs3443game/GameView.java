@@ -2,6 +2,7 @@ package cs3443game;
 
 
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -160,11 +162,21 @@ public class GameView extends JPanel{
 		g.drawImage (earth.getImage(), 0, 0, null);
 		
 		// access the model's health bar instance
+		Graphics2D g2 = (Graphics2D) g;
+		Stroke oldStroke = g2.getStroke();
+		g2.setColor(Color.WHITE);
+		g2.setStroke(new BasicStroke(6));
+		g2.drawRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
+		g2.setStroke(oldStroke);
 		g.setColor(model.earth.hbEarth.getColor());
 		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
 		
 		if(model.bossOnScreen)
 		{
+			g2.setColor(Color.WHITE);
+			g2.setStroke(new BasicStroke(6));
+			g2.drawRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
+			g2.setStroke(oldStroke);
 			g.setColor(model.boss.bossHb.getColor());
 			g.fillRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
 		}

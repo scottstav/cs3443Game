@@ -324,7 +324,7 @@ public class GameModel {
 							if(!b.hasLine())
 								continue;
 							else if(b.getLine().equals(s))
-								boss.bossHb.hit(34);
+								boss.bossHb.hit(27);
 							if(boss.bossHb.health <= 0)
 							{
 								onScreenEnemies.remove(boss);
