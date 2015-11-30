@@ -11,16 +11,27 @@ import javax.swing.JPanel;
 public class HostController implements ActionListener, KeyListener{
 	private HostView view;
 	private String s;
+	
 	public HostController(HostView v){
 		view = v;
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
-		System.out.println(arg0.getActionCommand());
-		view.switchView(arg0.getActionCommand());
+		if(arg0.getActionCommand().equals("button_addplayer"))
+		{
+			// Want to write the code to add the user from the JTextField to the
+			// JList for the leaderboard
+			System.out.println("Add a player here");
+		}
+		else
+		{	
+			System.out.println(arg0.getActionCommand());
+			view.switchView(arg0.getActionCommand());
+	
+		}
 	}
-
 	@Override
 
 	/**
@@ -28,7 +39,7 @@ public class HostController implements ActionListener, KeyListener{
 	 * is correctly typed in order for the screen line 
 	 * to be removed
 	 */
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e){
 		s=view.getText();
 		//check if string exists on screen
 		//if(model.contains(s)){
@@ -51,7 +62,4 @@ public class HostController implements ActionListener, KeyListener{
 		// TODO Auto-generated method stub
 
 	}
-
 }
-
-

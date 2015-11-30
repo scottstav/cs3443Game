@@ -16,7 +16,7 @@ public class Earth extends BufferedImage implements Collidable {
 		super(1280,720, BufferedImage.TYPE_INT_RGB);
 		imgEarth = new ImageIcon("images/earth.png");
 		imgEarth.paintIcon(null, this.createGraphics(), 0, 0);
-		hbEarth = new Health(this);
+		hbEarth = new Health(10, 10);
 	}
 
 

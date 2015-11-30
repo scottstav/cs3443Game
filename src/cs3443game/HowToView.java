@@ -11,11 +11,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * The "how to play" page.
+ * @author Taylor
+ *
+ */
 @SuppressWarnings("serial")
 public class HowToView extends JPanel {
 	
+	/**
+	 * Image variables 
+	 */
 	private Image background;
 	private ImageIcon back;
+	
+	/**
+	 * Sound effect variables 
+	 */
 	private SoundEffects button_press = new SoundEffects();
     private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
     
@@ -67,7 +79,6 @@ public class HowToView extends JPanel {
 		button_mainmenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				button_press.playSound(BUTTON_PRESS);
 			}
 		});

@@ -156,7 +156,8 @@ public class Enemy implements Collidable{
     public boolean exploded(){
     	return exploded;
     }
-public void setLine(String s){
+    
+    public void setLine(String s){
 		codeLine = s;
 	}
     

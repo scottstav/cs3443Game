@@ -9,6 +9,11 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Plays .wav files only. Do not use this class for sound effects.
+ * @author Taylor
+ *
+ */
 public class Music {
 	
 	private static Clip clip = null;
@@ -16,6 +21,10 @@ public class Music {
 	
 	public Music(){}
 
+	/**
+	 * Loads given audio file. Lots of error checking.
+	 * @param fileName
+	 */
 	public void loadFile(String fileName) {
 
 	        try {
@@ -47,81 +56,55 @@ public class Music {
 	        }
 
 	    }
-	    public void play(){
-	    	
-	        clip.setFramePosition(0); //resets clip to the beginning
-	        clip.start();
-	    }
 	    
-	    public void loop(){
-	    	
-	        clip.loop(Clip.LOOP_CONTINUOUSLY);
-	    }
+	/**
+	 * Plays audio file, resetting to begin of track each call
+	 */
+	public void play(){
+		clip.setFramePosition(0); //resets clip to the beginning
+		clip.start();
+	}
 	    
-	    public void stop(){
-	    	if (clip.isRunning()) 
-	    		System.out.println(clip.isRunning());
-	    		clip.stop();
-	     }
 	    
-	    public Clip getClip() {
-	    	return clip;
-	    }
+	/**
+	 * Loops the audio file
+	 */
+	public void loop(){
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
 	    
-	    public void setMute(boolean changeMute){
-	    	mute = changeMute;
-	    }
 	    
-	    public boolean getMute(){
-	    	return mute;
-	    }
+	/**
+	 * Stops the current clip
+	 */
+	public void stop(){
+		if (clip.isRunning()){ 
+			System.out.println(clip.isRunning());
+			clip.stop();
+		}
+	 }
+	        
+	/**
+	 * Returns the current loaded clip
+	 * @return clip the current clip
+	 */
+	public Clip getClip() {
+		return clip;
+	}    
 	    
+	/**
+	 * Sets the mute to on (true) or off (false)
+	 * @param changeMute
+	 */
+	public void setMute(boolean changeMute){
+		mute = changeMute;
+	}    
+	    
+	/**
+	 * Gets current mute status - true is muted, false is not muted
+	 * @return mute
+	 */
+	public boolean getMute(){
+		return mute;
+	}  
 }
-	
-//	//CURRENTLY NOT LOOPING
-//	public void play(String fileName) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
-//
-//		try {
-//		    File yourFile = new File(fileName);
-//		    AudioFormat format;
-//		    DataLine.Info info;
-//
-//		    stream = AudioSystem.getAudioInputStream(yourFile);
-//		    format = stream.getFormat();
-//		    info = new DataLine.Info(Clip.class, format);
-//		    clip = (Clip)AudioSystem.getLine(info);
-//		    clip.open(stream);
-//		    clip.start();
-//		}
-//		catch (FileNotFoundException ex) {
-//			System.out.println("File not found: " + fileName);
-//		}
-//		
-//////		ContinuousAudioDataStream loop = null;
-////	    InputStream in = null;
-////	    	    
-////	    try {
-////	    	in = new FileInputStream(fileName);
-////	    } catch (FileNotFoundException ex) {
-////	    	System.out.println("File not found: " + fileName);
-////	    }
-////	    try {
-////	    	audioStream = new AudioStream(in);
-//////	    	AudioData MD;
-////	    	AudioPlayer.player.start(audioStream);
-////
-////	    	System.out.println("Music should have started.");
-////	    	} catch (IOException ex) {
-////	    		System.out.println(ex.getMessage());
-////	    	}
-//	}
-//	
-//	//this currently doesn't work, the music is not stopping when method is called
-//	public void stop(){
-//		
-//		if(clip.isRunning() == true){		
-//			clip.stop();
-//			System.out.println("Music should have stopped.");
-//		}
-//	}
-//}

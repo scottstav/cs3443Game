@@ -15,12 +15,12 @@ public class Health {
 	public int hbX, hbY, hbWidth, hbHeight;
 	private Graphics g;
 	
-	public Health(Collidable col) {
+	public Health(int x, int y) {
 		// potentially, use collidable to determine health bar type and location
 		maxHealth = 100;
 		health = 100;
-		hbX = 10;
-		hbY = 10;
+		hbX = x;
+		hbY = y;
 		hbWidth = 350;
 		hbHeight = 30;
 		hbScale = 1;
@@ -35,9 +35,9 @@ public class Health {
 	 */
 	private Color determineColor() {
 		
-		if(hbScale > .40)
+		if(hbScale > .55)
 			return Color.green;
-		else if(hbScale > .20)
+		else if(hbScale > .30)
 			return Color.yellow;
 		else
 			return Color.red;

@@ -23,9 +23,9 @@ public class HostView extends JFrame {
 	private static final String OPTIONS = "button_options";
 	private static final String LEADERBOARDS = "button_lboards";
 	private static final String EXIT = "button_exit";
-	private static final String MODE1 = "button_mode1";
+	//private static final String MODE1 = "button_mode1";
 	private static final String BACK = "button_goback";
-	private static final String MODE_SELECT ="Select Mode";
+	//private static final String MODE_SELECT ="Select Mode";
 	/**
 	 * index of the previous screen, used for back button
 	 */
@@ -41,7 +41,7 @@ public class HostView extends JFrame {
 	
 	MenuView menu;
 	GameView game;
-	ModeSelection modeScreen;
+	//ModeSelection modeScreen;
 	//UserView userScreen;
 	GameModel mode;
 	HowToView howToScreen;
@@ -54,7 +54,7 @@ public class HostView extends JFrame {
 		menu = new MenuView();
 		mode = new GameModel();
 		game = new GameView();
-		modeScreen = new ModeSelection();
+		//modeScreen = new ModeSelection();
 		//userScreen = new UserView();
 		howToScreen = new HowToView();
 		settingsScreen = new SettingsView();
@@ -62,7 +62,7 @@ public class HostView extends JFrame {
 		
 		screenList.add(menu);
 		screenList.add(game);
-		screenList.add(modeScreen);
+		//screenList.add(modeScreen);
 		//screenList.add(userScreen);
 		screenList.add(howToScreen);
 		screenList.add(settingsScreen);
@@ -129,7 +129,7 @@ public class HostView extends JFrame {
 	 */
 	public void switchView(String screen){
 		remove(menu);
-		remove(modeScreen);
+		//remove(modeScreen);
 		//remove(userScreen);
 		remove(howToScreen);
 		remove(settingsScreen);
@@ -143,9 +143,7 @@ public class HostView extends JFrame {
 		else if(screen.equals(START)){
 			
 			previousIndex=currentIndex;
-			currentIndex = screenList.indexOf(modeScreen);
-		}		
-		else if(screen.equals(MODE1)){
+			currentIndex = screenList.indexOf(game);
 			previousIndex=currentIndex;
 			game.setMode(mode);
 			game.start();
@@ -157,12 +155,17 @@ public class HostView extends JFrame {
 				music.loadFile(GAME_MUSIC);
 				music.play();		
 				music.loop(); //loops the game music
-			}
+		}		
+//		else if(screen.equals(MODE1)){
+//			previousIndex=currentIndex;
+//			currentIndex = screenList.indexOf(game);
+//						
+//			}
 		}
-		else if(screen.equals(MODE_SELECT)){
-			previousIndex=currentIndex;
-			currentIndex = screenList.indexOf(modeScreen);
-		}
+//		else if(screen.equals(MODE_SELECT)){
+//			previousIndex=currentIndex;
+//			currentIndex = screenList.indexOf(modeScreen);
+//		}
 		else if(screen.equals(HOW_TO)){
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(howToScreen);
