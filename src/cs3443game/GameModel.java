@@ -366,7 +366,6 @@ public class GameModel {
 								bossOnScreen=false;
 								// ***pick a power up, corresponding to 1- ship,2 - freeze, or 3- health***//
 								pUpAvail = random.nextInt(3) + 1;
-								pUpAvail = 3;
 								System.out.println("Boss defeated, acquired powerup: " + pUpAvail);
 								boss.collision();
 								updateScore(50);
