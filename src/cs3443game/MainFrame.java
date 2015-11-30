@@ -1,11 +1,12 @@
 package cs3443game;
 
 import javax.swing.JFrame;
+
 import javax.swing.SwingUtilities;
 
-/**
- * main
- */
+import cs3443game.HostController;
+import cs3443game.HostView;
+
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 

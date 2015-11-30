@@ -3,7 +3,7 @@ while (scan.hasNextLine()) {
 String line = scan.nextLine();
 while (matcher.find()) {
 System.out.println(matcher.group(1));
-public class StringCompare 
+public class StringCompare
 String s2 = "goodbye";
 String s3 = "Happy Birthday";
 String s4 = "happy birthday";
