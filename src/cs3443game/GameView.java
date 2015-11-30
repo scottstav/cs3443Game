@@ -85,8 +85,15 @@ public class GameView extends JPanel{
 		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				model.translate();
-				GameView.this.repaint();
+				if(!model.gameOver)
+				{
+					model.translate();
+					GameView.this.repaint();
+				}
+				else
+				{
+					
+				}
 
 			}
 		});
@@ -94,9 +101,17 @@ public class GameView extends JPanel{
 		newLineTimer = new Timer(speed*500, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				model.createGrunt();
-				//model.createProjo();
-				GameView.this.repaint();
+				if(!model.gameOver)
+				{
+					model.createGrunt();
+					//model.createProjo();
+					GameView.this.repaint();
+				}
+				else
+				{
+					
+					
+				}
 			}
 		});
 

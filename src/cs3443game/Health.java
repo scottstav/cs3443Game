@@ -35,9 +35,9 @@ public class Health {
 	 */
 	private Color determineColor() {
 		
-		if(hbScale > .40)
+		if(hbScale > .55)
 			return Color.green;
-		else if(hbScale > .20)
+		else if(hbScale > .30)
 			return Color.yellow;
 		else
 			return Color.red;

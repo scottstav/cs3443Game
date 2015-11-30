@@ -55,9 +55,9 @@ public class GameModel {
 	 */
 	private Random random;
 	public Earth earth;
-
+	private boolean pUpAvail;
 	public static boolean pause;
-	
+	public boolean gameOver;
 
 	/**
 	 * put three arbitrary code lines into codeLineDB
@@ -71,6 +71,8 @@ public class GameModel {
 		bossProjectiles = new ArrayList<Bullet>();
 		points=0;
 		bossOnScreen=false;
+		pUpAvail = false;
+		gameOver = false;
 		bossChangeLine =  new Timer(5000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
@@ -170,6 +172,10 @@ public class GameModel {
 		Projectile p;
         PowerUp u = null;
         
+        if(earth.hbEarth.health <= 0)
+        {
+        	gameOver = true;
+        }
         
         if(pause)
         {
@@ -206,7 +212,6 @@ public class GameModel {
 				if(bossOnScreen && (e instanceof Bullet))
 				{
 					e.translate(-1,0);
-					
 					
 				}
 				else
@@ -305,8 +310,9 @@ public class GameModel {
 		public boolean process(String s){
 			Enemy enemy;
 			Boolean processed=false;
-			if(s.equals("power up")){
+			if(s.equals("power up") && pUpAvail){
 				createPowerUp();
+				pUpAvail = false;
 				pause = true;
 				java.util.Timer pUpSequence = new java.util.Timer();
 				pUpSequence.schedule(new setFalse(), 15*1000);
@@ -316,7 +322,7 @@ public class GameModel {
 
 			for(int i=0; i<onScreenEnemies.size(); i++){
 				enemy=onScreenEnemies.get(i);
-				System.out.println(enemy.getLine());
+				//System.out.println(enemy.getLine());
 				if(enemy!=null && enemy.getX()<=1280){
 					if(enemy.getLine().equals(s)){
 						if(enemy instanceof Boss){
@@ -324,17 +330,22 @@ public class GameModel {
 							if(!b.hasLine())
 								continue;
 							else if(b.getLine().equals(s))
+							{
 								boss.bossHb.hit(27);
+								processed =true;
+							}
 							if(boss.bossHb.health <= 0)
 							{
 								onScreenEnemies.remove(boss);
 								bossOnScreen=false;
+								pUpAvail = true;
+								boss.collision();
+								updateScore(30);
 							}
-							
-							continue;
+							return processed;
 						}
 						enemy.collision();
-						updateScore();
+						updateScore(10);
 						processed = true;
 					}
 				}
@@ -343,9 +354,8 @@ public class GameModel {
 			
 		}
 
-
-		public void updateScore(){
-			points=points+10;
+		public void updateScore(int amount){
+			points=points+amount;
 			if(points%100==0)
 				createBoss();
 
