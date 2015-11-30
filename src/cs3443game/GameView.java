@@ -92,7 +92,7 @@ public class GameView extends JPanel{
 				}
 				else
 				{
-					
+					shiftTimer.stop();
 				}
 
 			}
@@ -110,7 +110,7 @@ public class GameView extends JPanel{
 				else
 				{
 					
-					
+					newLineTimer.stop();
 				}
 			}
 		});

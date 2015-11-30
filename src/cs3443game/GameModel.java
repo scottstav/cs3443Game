@@ -33,6 +33,7 @@ public class GameModel {
 	private Timer bossChangeLine;
 	boolean bossOnScreen;
 	private Integer points;
+	public static boolean pIncoming;
 	/**
 	 * Collection of lines that are currently being displayed.
 	 * This is treated as a queue. As of now, the player must always
@@ -55,9 +56,10 @@ public class GameModel {
 	 */
 	private Random random;
 	public Earth earth;
-	private boolean pUpAvail;
-	public static boolean pause;
+	public static int pUpAvail;
+	//public static boolean pIncoming;
 	public boolean gameOver;
+	private int bossCount;
 
 	/**
 	 * put three arbitrary code lines into codeLineDB
@@ -71,8 +73,10 @@ public class GameModel {
 		bossProjectiles = new ArrayList<Bullet>();
 		points=0;
 		bossOnScreen=false;
-		pUpAvail = false;
+		pUpAvail = 0;
+		pIncoming = false;
 		gameOver = false;
+		bossCount = 100;
 		bossChangeLine =  new Timer(5000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
@@ -109,7 +113,6 @@ public class GameModel {
 			}
 		});
 
-		pause = false;
 		onScreenPowerUps = new ArrayList<PowerUp>();
 
 		try {
@@ -124,8 +127,9 @@ public class GameModel {
 			line = input.nextLine();
 			codeLineDB.add(line);	
 		}	
+		
 		input.close();
-		}
+	}
 
 		/**
 		 * gets a random code line from codeLineDB
@@ -177,7 +181,8 @@ public class GameModel {
         	gameOver = true;
         }
         
-        if(pause)
+        // first power up option clears the screen
+        if(pIncoming)
         {
         	for(int i=0; i<onScreenPowerUps.size(); i++){
     			u=onScreenPowerUps.get(i);
@@ -188,6 +193,7 @@ public class GameModel {
     		cleanUp();
         	return;
         }
+        
         
 
         for(int i=0; i<onScreenPowerUps.size(); i++){
@@ -278,7 +284,7 @@ public class GameModel {
 	 * code lines instead of just int a later on
 	 */
 	public void createGrunt(){
-		if(pause || bossOnScreen)
+		if(pIncoming || bossOnScreen)
 			return;
 		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
 		onScreenEnemies.add(enemy);
@@ -310,10 +316,10 @@ public class GameModel {
 		public boolean process(String s){
 			Enemy enemy;
 			Boolean processed=false;
-			if(s.equals("power up") && pUpAvail){
+			if(s.equals("power up") && pUpAvail > 0 && !bossOnScreen){
 				createPowerUp();
-				pUpAvail = false;
-				pause = true;
+				pUpAvail = 0;
+				pIncoming = true;
 				java.util.Timer pUpSequence = new java.util.Timer();
 				pUpSequence.schedule(new setFalse(), 15*1000);
 				processed=true;
@@ -332,18 +338,22 @@ public class GameModel {
 							else if(b.getLine().equals(s))
 							{
 								boss.bossHb.hit(27);
-								processed =true;
+								processed = true;
 							}
+							
 							if(boss.bossHb.health <= 0)
 							{
 								onScreenEnemies.remove(boss);
 								bossOnScreen=false;
-								pUpAvail = true;
+								// ***pick a power up, corresponding to 1- ship,2 - freeze, or 3- health***//
+								pUpAvail = 1;
 								boss.collision();
 								updateScore(30);
+								bossCount = points + 100;
 							}
 							return processed;
 						}
+						
 						enemy.collision();
 						updateScore(10);
 						processed = true;
@@ -356,7 +366,7 @@ public class GameModel {
 
 		public void updateScore(int amount){
 			points=points+amount;
-			if(points%100==0)
+			if((points == bossCount) && !bossOnScreen)
 				createBoss();
 
 		}
