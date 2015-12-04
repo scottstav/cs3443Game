@@ -103,11 +103,11 @@ public class GameModel {
 				if(GameModel.this.bossOnScreen==true){
 					cannon=r.nextInt()%3;
 					if(cannon==0)
-						GameModel.this.onScreenEnemies.add(boss.fireCannon0());
+						GameModel.this.onScreenEnemies.add(boss.fireCannon0(getCodeLine()));
 					if(cannon==1)
-						GameModel.this.onScreenEnemies.add(boss.fireCannon1());
+						GameModel.this.onScreenEnemies.add(boss.fireCannon1(getCodeLine()));
 					if(cannon==2)
-						GameModel.this.onScreenEnemies.add(boss.fireCannon2());
+						GameModel.this.onScreenEnemies.add(boss.fireCannon2(getCodeLine()));
 
 				}
 			}
@@ -274,7 +274,7 @@ public class GameModel {
 		
 		public void createBoss(){
 			if(!bossOnScreen){
-				boss = new Boss(""  , "images/boss.png", "explosion", new Point(1300,70) );
+				boss = new Boss(""  , "images/boss.png", "images/explosion.png", new Point(1300,70) );
 				onScreenEnemies.add(boss);
 				bossOnScreen = true;
 			}
@@ -358,11 +358,12 @@ public class GameModel {
 							{
 								boss.bossHb.hit(27);
 								processed = true;
+								boss.setLine("");
 							}
 							
 							if(boss.bossHb.health <= 0)
 							{
-								onScreenEnemies.remove(boss);
+								//onScreenEnemies.remove(boss);
 								bossOnScreen=false;
 								// ***pick a power up, corresponding to 1- ship,2 - freeze, or 3- health***//
 								pUpAvail = random.nextInt(3) + 1;
@@ -450,11 +451,6 @@ public class GameModel {
 
 		public boolean pixelPerfectCollision(Collidable collidableA, Collidable collidableB){
 
-			//int xStart= Math.max(collidableA.getX(), collidableB.getX());
-			//int xEnd= Math.min(collidableA.getX() + collidableA.getWidth(), collidableB.getX() + collidableB.getWidth());
-			//int yStart= Math.max(collidableA.getY(), collidableB.getY());
-			//int yEnd= Math.min(collidableA.getY() + collidableA.getHeight(), collidableB.getY() + collidableB.getHeight());
-			//if(collidableA instanceof Projectile){
 			int xStart=(int) Math.max(collidableA.getBounds().getX(), collidableB.getX());
 			int xEnd= (int)(Math.min(collidableA.getBounds().getX() + collidableA.getBounds().getWidth(),
 					collidableB.getBounds().getX() + collidableB.getBounds().getWidth()));

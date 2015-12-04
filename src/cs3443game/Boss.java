@@ -29,16 +29,16 @@ public class Boss extends Enemy{
 
 
 	}
-	public Bullet fireCannon0(){
-		return new Bullet("code", new Point(950,70+225));
+	public Bullet fireCannon0(String line){
+		return new Bullet(line, new Point(950,70+225));
 	}
 
-	public Bullet fireCannon1(){
-		return new Bullet("code", new Point(950,70+110));
+	public Bullet fireCannon1(String line){
+		return new Bullet(line, new Point(950,70+110));
 	}
 
-	public Bullet fireCannon2(){
-		return new Bullet("code li", new Point(950,70+340));
+	public Bullet fireCannon2(String line){
+		return new Bullet(line, new Point(950,70+340));
 	}
 	
 	public boolean hasLine(){
