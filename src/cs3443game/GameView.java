@@ -5,6 +5,7 @@ package cs3443game;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -45,13 +46,19 @@ public class GameView extends JPanel{
 	private Timer shiftTimer;
 
 	private JTextField input;
-
+	private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
+    private static String MUTE_PRESS = "soundeffects/mute_button_sound.wav";
 	private Image background;
 	private Earth earth;
 	private double angle = 0;
 	private JLabel score;
 	//private Projectile projo;
 	public int speed;
+	//private ImageIcon mute_unmute;
+	private ImageIcon back;
+	//private ImageIcon music_on;
+	//private ImageIcon music_off;
 	
 
 	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
@@ -63,6 +70,8 @@ public class GameView extends JPanel{
 		score = new JLabel("Score: 0");
 		score.setLocation(1150,0);
 		score.setSize(150,50);
+		//goToLeaderBoard(); 
+		setIcons();
 		score.setForeground(Color.WHITE);
 		add(score);
 		input= new JTextField(15);
@@ -73,7 +82,7 @@ public class GameView extends JPanel{
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
 
-		speed = 10;
+		speed = 5;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 		
@@ -85,14 +94,15 @@ public class GameView extends JPanel{
 		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver)
+				if(!GameModel.gameOver)
 				{
 					model.translate();
 					GameView.this.repaint();
 				}
 				else
 				{
-					shiftTimer.stop();
+					endGame();
+					
 				}
 
 			}
@@ -101,17 +111,13 @@ public class GameView extends JPanel{
 		newLineTimer = new Timer(speed*500, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver)
+				if(!GameModel.gameOver)
 				{
 					model.createGrunt();
 					//model.createProjo();
 					GameView.this.repaint();
 				}
-				else
-				{
-					
-					newLineTimer.stop();
-				}
+				
 			}
 		});
 
@@ -119,6 +125,41 @@ public class GameView extends JPanel{
 		//newLineTimer.start();
 	}
 	
+	public void endGame()
+	{
+		
+		shiftTimer.stop();
+		newLineTimer.stop();
+		setIcons();
+		goToLeaderboard();
+		//this.setVisible(false);
+	}
+	
+	 private void setIcons() {
+
+			//background = new ImageIcon("images/image_mainmenu.png").getImage();
+			back = new ImageIcon("images/button_goback.png");
+			//music_on = new ImageIcon("images/button_musicon.png");
+			//music_off = new ImageIcon("images/button_musicoff.png");
+			//mute_unmute = new ImageIcon("images/muteunmute.png");
+			
+	}
+	
+	 private void goToLeaderboard() {
+	    	
+			JButton button_mainmenu = new JButton(back);
+			button_mainmenu.setText("button_endgame");
+			button_mainmenu.setLocation(450, 600);
+			button_mainmenu.setSize(405, 50);
+			button_mainmenu.setBorderPainted(false);
+			button_mainmenu.setFocusPainted(false);
+			button_mainmenu.setContentAreaFilled(false);
+			button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			
+			this.add(button_mainmenu);
+			//button_mainmenu.doClick();
+	 }
+	 
 	public void setMode(GameModel m){
 		model = m;
 	}
@@ -172,6 +213,10 @@ public class GameView extends JPanel{
 	 */
 	protected void paintComponent(Graphics g) {
 
+		
+		if(GameModel.gameOver)
+			return;
+		
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
@@ -236,7 +281,7 @@ public class GameView extends JPanel{
  /**
  * 	THIS STUFF ONLY PAINTED IF :
  * 	* powerups exist
- *  * maybe we launche a projectile at enemies whose lines have been typed
+ *  * maybe we launch a projectile at enemies whose lines have been typed
 		Graphics2D g2d = (Graphics2D) g;
 		//int tx = 100 + icon.getIconWidth() / 2;
 		//int ty = 100 + icon.getIconHeight() / 2;
@@ -297,5 +342,7 @@ public class GameView extends JPanel{
 		if(angle >= 6.28)
 			angle = 0;
 	}
+	
+	
 
 }

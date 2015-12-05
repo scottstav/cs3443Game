@@ -81,7 +81,8 @@ public class SettingsView extends JPanel {
     /**
      * Method that turns the images into JButtons
      * @param menuContent
-     */private void setButtons(final JPanel settings) {
+     */
+    private void setButtons(final JPanel settings) {
     	
 		JButton button_mainmenu = new JButton(back);
 		button_mainmenu.setText("button_goback");
