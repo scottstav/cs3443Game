@@ -164,11 +164,15 @@ public class HostView extends JFrame {
 
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(game);
-			previousIndex=currentIndex;
+			
 			game.setMode(mode);
 			game.start();
+<<<<<<< HEAD
 			currentIndex = screenList.indexOf(game);
 
+=======
+			
+>>>>>>> almost added endgame sequence
 			music.stop();//this should stop the main menu music
 
 			if(music.getMute() == false){
@@ -192,6 +196,9 @@ public class HostView extends JFrame {
 			currentIndex = screenList.indexOf(leaderboardScreen);
 		}
 		else if(screen.equals(ENDGAME)){
+			if(music.getMute() == false)
+				music.stop();
+			
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(endGameScreen);
 		}

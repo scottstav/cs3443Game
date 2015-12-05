@@ -80,8 +80,13 @@ public class GameModel {
 	public Earth earth;
 	
 	public static int pUpAvail;
+<<<<<<< HEAD
 	
 	public boolean gameOver;
+=======
+	//public static boolean pIncoming;
+	public static boolean gameOver;
+>>>>>>> almost added endgame sequence
 	private int bossCount;
 
 	/**
@@ -178,6 +183,7 @@ public class GameModel {
 
 		return new Point(1280, y);
 	}
+	
 	public Point getRandomProjoPoint(){
 		
 		int y =random.nextInt();
@@ -531,4 +537,9 @@ public class GameModel {
 				}
 			}
 		}
+		
+		/**
+		 * end all game functions
+		 */
+		
 	}

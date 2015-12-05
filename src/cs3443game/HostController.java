@@ -1,6 +1,7 @@
 package cs3443game;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -41,7 +42,6 @@ public class HostController implements ActionListener, KeyListener{
 		{	
 			System.out.println(arg0.getActionCommand());
 			view.switchView(arg0.getActionCommand());
-
 		}
 	}
 	@Override
