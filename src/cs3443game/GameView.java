@@ -28,6 +28,11 @@ import javax.swing.Timer;
 import cs3443game.Collidable;
 
 @SuppressWarnings("serial")
+/**
+ * the screen in which the game is played
+ * @author Paco
+ *
+ */
 public class GameView extends JPanel{
 
 	/**
@@ -35,29 +40,40 @@ public class GameView extends JPanel{
 	 */
 	private GameModel model;
 	/**
-	 * timer that dictates when to put a new line
+	 * timer that dictates when to put a new enemy
 	 * on the screen
 	 */
-	private Timer newLineTimer;
+	private Timer newEnemyTimer;
 	/**
-	 * timer that controls how often to shift the lines to the right
+	 * timer that controls how often to translate screen objects
 	 */
 	private Timer shiftTimer;
 
+	/**
+	 * receives input from the user
+	 */
 	private JTextField input;
-
+	/**
+     *background image for game
+	 */
 	private Image background;
+	/**
+	 * the game's earth object
+	 */
 	private Earth earth;
 	private double angle = 0;
+	/**
+	 * label of the player's score
+	 */
 	private JLabel score;
-	//private Projectile projo;
+
 	public int speed;
-	
 
-	EnemyGrunt grunt= new EnemyGrunt("int", new Point(300,300));
-
+	/**
+	 * creates the gameView screen.
+	 */
 	GameView (){
-	
+
 		this.setLayout(null);
 		model = null;
 		score = new JLabel("Score: 0");
@@ -67,7 +83,7 @@ public class GameView extends JPanel{
 		add(score);
 		input= new JTextField(15);
 		input.setLocation(0,360);
-		
+
 		input.setSize(300,20);
 
 		JTextField field = new JTextField(15);
@@ -76,11 +92,11 @@ public class GameView extends JPanel{
 		speed = 10;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
-		
+
 		earth = new Earth();
-		
+
 		//sets up health stat instance
-		
+
 		// speed up time foe easier testing: sped up from 30 to 10
 		shiftTimer = new Timer(speed, new ActionListener(){
 
@@ -97,8 +113,8 @@ public class GameView extends JPanel{
 
 			}
 		});
-       
-		newLineTimer = new Timer(speed*500, new ActionListener(){
+
+		newEnemyTimer = new Timer(speed*500, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				if(!model.gameOver)
@@ -109,51 +125,62 @@ public class GameView extends JPanel{
 				}
 				else
 				{
-					
-					newLineTimer.stop();
+
+					newEnemyTimer.stop();
 				}
 			}
 		});
-
-		//shiftTimer.start();
-		//newLineTimer.start();
 	}
-	
+
+	/**
+	 * used to switch the screen's current game mode.
+	 * currently, only one mode is supported.
+	 * @param m mode to be set
+	 */
 	public void setMode(GameModel m){
 		model = m;
 	}
 	/**
-	 * not currently used. the idea is to start the 
-	 * timers as soon as the game starts, else the timers begin
-	 * right when the instance is created, so the user might hop into
-	 * a game that has already begun, depending on how long he takes in 
-	 * the menu.
+	 *begins the game's timers
 	 */
 	public void start(){
 		shiftTimer.start();
-		newLineTimer.start();
+		newEnemyTimer.start();
 	}
-	
+
 
 	/**
-	 * not currently used. the idea is to reset the timers for different
-	 * modes of the game. 
+     *resets the game's timers 
 	 */
 	public void reset(){
 		shiftTimer.restart();
-		newLineTimer.restart();
+		newEnemyTimer.restart();
 	}
 
+	/**
+	 * gets the player's input text
+	 * @return input text
+	 */
 	public String getText(){
 		return input.getText();
 	}
 
+	/**
+	 * resets the text of the input box to an empty string
+	 */
 	public void resetText(){
 		input.setText("");
 	}
 
+	/**
+	 * rotates the graphics object to paint an object at a specified angle
+	 * @param image image to be painted
+	 * @param coll collidable whose image will be pained
+	 * @param g graphics object to paint rotated object with
+	 * @param angle angle of rotation
+	 */
 	private void paintRotatedObject(Image image, Collidable coll, Graphics g, double angle){
-		
+
 		Graphics2D g2d = (Graphics2D) g;
 		AffineTransform oldXForm = g2d.getTransform();
 		int tx = coll.getX() + coll.getWidth() / 2;
@@ -165,17 +192,17 @@ public class GameView extends JPanel{
 		g2d.setTransform(oldXForm);
 
 	}
-	
+
 	@Override
 	/**
-	 * repaints the newly shifted/created lines
+	 * repaints the game view
 	 */
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
-		
+
 		// access the model's health bar instance
 		Graphics2D g2 = (Graphics2D) g;
 		Stroke oldStroke = g2.getStroke();
@@ -185,7 +212,7 @@ public class GameView extends JPanel{
 		g2.setStroke(oldStroke);
 		g.setColor(model.earth.hbEarth.getColor());
 		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
-		
+
 		if(model.bossOnScreen)
 		{
 			g2.setColor(Color.WHITE);
@@ -195,12 +222,12 @@ public class GameView extends JPanel{
 			g.setColor(model.boss.bossHb.getColor());
 			g.fillRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
 		}
-		
+
 		Enemy enemy = model.getScreenEnemy(0);
 		Projectile projo = model.getScreenProjo(0);
-	    PowerUp pUp = model.getScreenPowerUp(0);
-		Bullet bullet = model.getScreenBossBullet(0);
-		
+		PowerUp pUp = model.getScreenPowerUp(0);
+
+
 		//g.drawImage(boss.getImage(), boss.getX(), boss.getY(), null);
 
 		//g.setColor(Color.BLACK);
@@ -208,9 +235,8 @@ public class GameView extends JPanel{
 		//Projectile projo = null;
 
 		//repaints all enemies
-		ImageIcon icon = new ImageIcon("images/blueShip.png");
-
-	/*	for(int j=0; bullet!=null; j++){
+		
+		/*	for(int j=0; bullet!=null; j++){
 =======
 		for(int j=0; bullet!=null; j++){
 >>>>>>> master
@@ -221,22 +247,22 @@ public class GameView extends JPanel{
 			bullet = model.getScreenBossBullet(j);
 <<<<<<< HEAD
 		}*/
-		
-        //Projectile projo = null;
+
+		//Projectile projo = null;
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
 			g.setColor(Color.WHITE);
 			g.drawString(enemy.getLine(), (int) enemy.getX() , (int) enemy.getY()+enemy.getHeight()+10);
 
 			enemy = model.getScreenEnemy(j);
-          
+
 		}
-	     score.setText(model.getScore());
+		score.setText(model.getScore());
 		//repaints all projectiles
- /**
- * 	THIS STUFF ONLY PAINTED IF :
- * 	* powerups exist
- *  * maybe we launche a projectile at enemies whose lines have been typed
+		/**
+		 * 	THIS STUFF ONLY PAINTED IF :
+		 * 	* powerups exist
+		 *  * maybe we launche a projectile at enemies whose lines have been typed
 		Graphics2D g2d = (Graphics2D) g;
 		//int tx = 100 + icon.getIconWidth() / 2;
 		//int ty = 100 + icon.getIconHeight() / 2;
@@ -256,24 +282,24 @@ public class GameView extends JPanel{
 
 
 		}
- **/
+		 **/
 		for(int i=0; pUp!=null; i++){
 			if(pUp.isRotated())
 				paintRotatedObject(pUp.getImage(), pUp,g, pUp.getAngle());
-				else
-					g.drawImage(pUp.getImage(), pUp.getX(), pUp.getY(), null);			
+			else
+				g.drawImage(pUp.getImage(), pUp.getX(), pUp.getY(), null);			
 			pUp = model.getScreenPowerUp(i);
 
 		}
 
-		
 
 
 
-	
-		
-		
-		
+
+
+
+
+
 		/*int tx = projo.getX() + projo.getWidth() / 2;
 		int ty = projo.getY() + projo.getHeight() / 2;
 		g2d.translate(tx, ty);
