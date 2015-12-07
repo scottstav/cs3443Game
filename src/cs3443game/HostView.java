@@ -35,6 +35,10 @@ public class HostView extends JFrame {
 	private static final String MODE1 = "button_mode1";
 	private static final String BACK = "button_goback";
 
+	private static final String RETRY = "button_tryagain";
+	private static final String NEWPLAYER = "button_addplayer";
+
+
 	/**
 	 * index of the previous screen, used for back button
 	 */
@@ -75,6 +79,7 @@ public class HostView extends JFrame {
 	 * game's game over view
 	 */
 	EndGameView endGameScreen;
+	
 
 
 	/**
@@ -83,9 +88,8 @@ public class HostView extends JFrame {
 	 */
 	public HostView(){
 		menu = new MenuView();
-		mode = new GameModel();
-		game = new GameView();
-		
+		mode = new GameModel(this);
+		game = new GameView(this);
 		howToScreen = new HowToView();
 		settingsScreen = new SettingsView();
 		leaderboardScreen = new LeaderboardView();
@@ -160,13 +164,25 @@ public class HostView extends JFrame {
 		if(screen.equals(BACK))
 			currentIndex=previousIndex;
 
-		else if(screen.equals(START)){
-
+		else if(screen.equals(START) || screen.equals(RETRY)){
+			
+			
+			System.out.println(mode.gameOver());
+			
+			if(mode.gameOver())
+			{
+				mode = new GameModel(this);
+				game = new GameView(this);
+				//game.setMode(mode);
+				screenList.add(game);
+			}
+			
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(game);
 			
 			game.setMode(mode);
 			game.start();
+			
 			currentIndex = screenList.indexOf(game);
 
 			
@@ -203,7 +219,10 @@ public class HostView extends JFrame {
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(menu);
 		}
-
+		else if(screen.equals(NEWPLAYER)){
+			endGameScreen.addPlayer(mode.getPoints());
+		}
+		
 		if(currentIndex!=-1){
 			this.add(screenList.get(currentIndex));
 		}
@@ -218,7 +237,7 @@ public class HostView extends JFrame {
 	public String getText(){
 		return game.getText();
 	}
-
+	
 	/**
 	 * resets the game's input field
 	 */

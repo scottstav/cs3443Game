@@ -84,7 +84,7 @@ public class GameModel {
 	 * the game's earth object
 	 */
 	public Earth earth;
-	
+	public HostView host;
 	public int pUpAvail;
 	//public static boolean pIncoming;
 	private int bossCount;
@@ -92,15 +92,15 @@ public class GameModel {
 	/**
 	 * constructs the game's main mode
 	 */
-	public GameModel(){
+	public GameModel(HostView h){
+		host = h;
 		earth = new Earth();
 		random = new Random();
 		codeLineDB = new ArrayList<String>();
 		shortLineDB = new ArrayList<String>();
-
+		points = 0;
 		onScreenEnemies = new ArrayList<Enemy>();
 		onScreenProjectiles = new ArrayList<Projectile>();
-		points=0;
 		bossOnScreen=false;
 		pUpAvail = 0;
 		pIncoming = false;
@@ -220,7 +220,7 @@ public class GameModel {
         if(earth.hbEarth.health <= 0)
         {
         	gameOver = true;
-        	return;
+        	
         }
         
         // first power up option clears the screen
@@ -432,7 +432,7 @@ public class GameModel {
 								System.out.println("Boss defeated, acquired powerup: " + pUpAvail);
 								boss.collision();
 								updateScore(50);
-								bossCount = points + 100;
+								bossCount = getPoints() + 100;
 							}
 							return processed;
 						}
@@ -453,8 +453,8 @@ public class GameModel {
  * @param amount the amount of points the score will go up by
  */
 		public void updateScore(int amount){
-			points=points+amount;
-			if((points == bossCount) && !bossOnScreen)
+			points+=amount;
+			if((getPoints() == bossCount) && !bossOnScreen)
 				createBoss();
 
 		}
@@ -519,7 +519,7 @@ public class GameModel {
          * @return current score
          */
 		public String getScore(){
-			return "Score: "+points.toString();
+			return "Score: "+getPoints().toString();
 		}
 
 		/**
@@ -574,15 +574,21 @@ public class GameModel {
 		 */
 		
 		public void endGame() {
-		
+			host.switchView("button_endgame");
+			//newGame();
 			
 		}
 
 		public void newGame() {
-			// TODO Auto-generated method stub
 			gameOver = false;
 			
 		}
+
+		public Integer getPoints() {
+			return points;
+		}
+
+		
 		
 		
 	}

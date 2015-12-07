@@ -27,5 +27,10 @@ public class Player implements Comparable<Player>
 	{
 		return username + score;
 	}
+
+	public void setPoints(int points) {
+		score = points;
+		
+	}
 	
 }

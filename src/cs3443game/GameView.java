@@ -80,15 +80,15 @@ public class GameView extends JPanel{
 	//private ImageIcon music_on;
 	//private ImageIcon music_off;
 	private ImageIcon pUpIcon;
-
+	private JTextField field;
 
 	/**
 	 * creates the gameView screen.
 	 */
-	GameView (){
+	GameView (HostView h){
 
 		this.setLayout(null);
-		model = new GameModel();
+		model = new GameModel(h);
 		score = new JLabel("Score: 0");
 		score.setLocation(1150,0);
 		score.setSize(150,50);
@@ -97,11 +97,11 @@ public class GameView extends JPanel{
 		input= new JTextField(15);
 		input.setLocation(0,360);
 		input.setSize(300,20);
-		JTextField field = new JTextField(15);
+		field = new JTextField(15);
 		field.setLocation(500,640);
 		setMode(model);
 
-		speed = 10;
+		speed = 5;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 
@@ -156,11 +156,14 @@ public class GameView extends JPanel{
 	public void endGame()
 	{
 		//setIcons();
-		//goToLeaderboard();
-		//shiftTimer.stop();
-		//newLineTimer.stop();
-		//this.setVisible(false);
-		//model.endGame();
+		shiftTimer.stop();
+		newEnemyTimer.stop();
+		//remove(input);
+		//remove(score);
+		//remove(field);
+		this.setVisible(false);
+		model.endGame();
+		
 		
 	}
 	
@@ -174,20 +177,7 @@ public class GameView extends JPanel{
 			
 	}
 	
-	 private void goToLeaderboard() {
-	    	
-			JButton button_mainmenu = new JButton(back);
-			button_mainmenu.setText("button_endgame");
-			button_mainmenu.setLocation(450, 600);
-			button_mainmenu.setSize(405, 50);
-			button_mainmenu.setBorderPainted(false);
-			button_mainmenu.setFocusPainted(false);
-			button_mainmenu.setContentAreaFilled(false);
-			button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			
-			this.add(button_mainmenu);
-			//button_mainmenu.doClick();
-	 }
+	 
 	 
 	public void setMode(GameModel m){
 		model = m;
@@ -258,9 +248,6 @@ public class GameView extends JPanel{
 	protected void paintComponent(Graphics g) {
 
 		Image icon;
-		if(model.gameOver())
-			return;
-
 		
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);

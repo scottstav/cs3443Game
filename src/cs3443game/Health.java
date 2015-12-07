@@ -77,7 +77,7 @@ public class Health {
 	public void hit(int d)
 	{
 		// temporarily replacing with 99 so one hit kills for testing
-		health -= 25;
+		health -= 100;
 		hbScale = health / maxHealth;
 	}
 }
