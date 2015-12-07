@@ -43,23 +43,21 @@ public class HostController implements ActionListener, KeyListener{
 			System.out.println(arg0.getActionCommand());
 			view.switchView(arg0.getActionCommand());
 		}
+		
 	}
+	
 	@Override
-
 	/**
 	 *receives keyboard events here and sends them to the 
 	 *host view for processing.
 	 */
 	public void keyPressed(KeyEvent e){
 	    //check if enter was pressed
-		//if(e.getKeyCode()==10){
+		if(e.getKeyCode()==10){
 			s=view.getText();
-			//check if string exists on screen
-			
-			//reset text field after a match
 			if(view.process(s))
 				view.resetText();
-	//	}
+		}
 		
 
 	}
@@ -73,6 +71,7 @@ public class HostController implements ActionListener, KeyListener{
 
 	}
 
+	
 	@Override
 	/**
 	 * not used

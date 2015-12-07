@@ -167,17 +167,14 @@ public class HostView extends JFrame {
 			
 			game.setMode(mode);
 			game.start();
-<<<<<<< HEAD
 			currentIndex = screenList.indexOf(game);
 
-=======
 			
->>>>>>> almost added endgame sequence
 			music.stop();//this should stop the main menu music
 
 			if(music.getMute() == false){
 				music.loadFile(GAME_MUSIC);
-				music.play();		
+				music.play();		 
 				music.loop(); //loops the game music
 			}		
 			

@@ -17,8 +17,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -54,15 +57,12 @@ public class GameView extends JPanel{
 	 * receives input from the user
 	 */
 	private JTextField input;
-<<<<<<< HEAD
 	/**
      *background image for game
 	 */
-=======
 	private SoundEffects button_press = new SoundEffects();
     private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
     private static String MUTE_PRESS = "soundeffects/mute_button_sound.wav";
->>>>>>> almost added endgame sequence
 	private Image background;
 	/**
 	 * the game's earth object
@@ -73,18 +73,14 @@ public class GameView extends JPanel{
 	 * label of the player's score
 	 */
 	private JLabel score;
-<<<<<<< HEAD
-=======
 	//private Projectile projo;
 	public int speed;
 	//private ImageIcon mute_unmute;
 	private ImageIcon back;
 	//private ImageIcon music_on;
 	//private ImageIcon music_off;
-	
->>>>>>> almost added endgame sequence
+	private ImageIcon pUpIcon;
 
-	public int speed;
 
 	/**
 	 * creates the gameView screen.
@@ -92,21 +88,18 @@ public class GameView extends JPanel{
 	GameView (){
 
 		this.setLayout(null);
-		model = null;
+		model = new GameModel();
 		score = new JLabel("Score: 0");
 		score.setLocation(1150,0);
 		score.setSize(150,50);
-		//goToLeaderBoard(); 
-		setIcons();
 		score.setForeground(Color.WHITE);
 		add(score);
 		input= new JTextField(15);
 		input.setLocation(0,360);
-
 		input.setSize(300,20);
-
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
+		setMode(model);
 
 		speed = 5;
 		add(input);
@@ -117,10 +110,11 @@ public class GameView extends JPanel{
 		//sets up health stat instance
 
 		// speed up time foe easier testing: sped up from 30 to 10
+		
 		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!GameModel.gameOver)
+				if(!model.gameOver())
 				{
 					model.translate();
 					GameView.this.repaint();
@@ -137,41 +131,37 @@ public class GameView extends JPanel{
 		newEnemyTimer = new Timer(speed*500, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!GameModel.gameOver)
+				if(!model.gameOver())
 				{
 					model.createGrunt();
 					//model.createProjo();
 					GameView.this.repaint();
 				}
-<<<<<<< HEAD
 				else
 				{
 
 					newEnemyTimer.stop();
 				}
-=======
-				
->>>>>>> almost added endgame sequence
 			}
 		});
+		
 	}
-<<<<<<< HEAD
 
 	/**
 	 * used to switch the screen's current game mode.
 	 * currently, only one mode is supported.
 	 * @param m mode to be set
 	 */
-=======
 	
 	public void endGame()
 	{
-		
-		shiftTimer.stop();
-		newLineTimer.stop();
-		setIcons();
-		goToLeaderboard();
+		//setIcons();
+		//goToLeaderboard();
+		//shiftTimer.stop();
+		//newLineTimer.stop();
 		//this.setVisible(false);
+		//model.endGame();
+		
 	}
 	
 	 private void setIcons() {
@@ -199,14 +189,19 @@ public class GameView extends JPanel{
 			//button_mainmenu.doClick();
 	 }
 	 
->>>>>>> almost added endgame sequence
 	public void setMode(GameModel m){
 		model = m;
 	}
+	
 	/**
+<<<<<<< HEAD
 	 *begins the game's timers
+=======
+	 * start and stop game time 
+>>>>>>> health bar, bug fixes, etc
 	 */
 	public void start(){
+		model.newGame();
 		shiftTimer.start();
 		newEnemyTimer.start();
 	}
@@ -263,31 +258,46 @@ public class GameView extends JPanel{
 	protected void paintComponent(Graphics g) {
 
 		
-		if(GameModel.gameOver)
+		if(model.gameOver())
 			return;
+
 		
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
+		
+		// draw power up icons if available
+		if(model.pUpAvail == 1 || model.pUpAvail == 2 || model.pUpAvail == 3)
+		{
+			
+			ImageIcon icon = new ImageIcon("images/pUpShipIcon.png"); 
+			g.drawImage(icon.getImage(), 0, 0, null);
+	
+		}
 
 		// access the model's health bar instance
 		Graphics2D g2 = (Graphics2D) g;
+		
+		g.setColor(model.earth.hbEarth.getColor());
+		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
 		Stroke oldStroke = g2.getStroke();
 		g2.setColor(Color.WHITE);
 		g2.setStroke(new BasicStroke(6));
-		g2.drawRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
+		g2.drawRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), 350, 30 );
 		g2.setStroke(oldStroke);
 		g.setColor(model.earth.hbEarth.getColor());
 		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
 
+		
 		if(model.bossOnScreen)
 		{
-			g2.setColor(Color.WHITE);
-			g2.setStroke(new BasicStroke(6));
-			g2.drawRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
-			g2.setStroke(oldStroke);
+			
 			g.setColor(model.boss.bossHb.getColor());
 			g.fillRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
+			g2.setColor(Color.WHITE);
+			g2.setStroke(new BasicStroke(6));
+			g2.drawRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), 350, 30 );
+			g2.setStroke(oldStroke);
 		}
 
 		Enemy enemy = model.getScreenEnemy(0);
@@ -304,6 +314,11 @@ public class GameView extends JPanel{
 		//repaints all enemies
 		
 		/*	for(int j=0; bullet!=null; j++){
+=======
+		//ImageIcon icon = new ImageIcon("images/blueShip.png");
+
+	/*	for(int j=0; bullet!=null; j++){
+>>>>>>> health bar, bug fixes, etc
 =======
 		for(int j=0; bullet!=null; j++){
 >>>>>>> master
@@ -326,7 +341,6 @@ public class GameView extends JPanel{
 		}
 		score.setText(model.getScore());
 		//repaints all projectiles
-<<<<<<< HEAD
 		/**
 		 * 	THIS STUFF ONLY PAINTED IF :
 		 * 	* powerups exist
@@ -365,14 +379,6 @@ public class GameView extends JPanel{
 			pUp = model.getScreenPowerUp(i);
 
 		}
-
-
-
-
-
-
-
-
 
 		/*int tx = projo.getX() + projo.getWidth() / 2;
 		int ty = projo.getY() + projo.getHeight() / 2;
