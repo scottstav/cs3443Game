@@ -125,7 +125,7 @@ public class GameModel {
 				
 		});
 
-		bossFireTimer =  new Timer(2000, new ActionListener(){
+		bossFireTimer =  new Timer(3000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				int cannon;

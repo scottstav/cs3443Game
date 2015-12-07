@@ -101,7 +101,7 @@ public class GameView extends JPanel{
 		field.setLocation(500,640);
 		setMode(model);
 
-		speed = 5;
+		speed = 10;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 
@@ -257,7 +257,7 @@ public class GameView extends JPanel{
 	 */
 	protected void paintComponent(Graphics g) {
 
-		
+		Image icon;
 		if(model.gameOver())
 			return;
 
@@ -267,11 +267,26 @@ public class GameView extends JPanel{
 		g.drawImage (earth.getImage(), 0, 0, null);
 		
 		// draw power up icons if available
-		if(model.pUpAvail == 1 || model.pUpAvail == 2 || model.pUpAvail == 3)
+		if(model.pUpAvail != 0)
 		{
-			
-			ImageIcon icon = new ImageIcon("images/pUpShipIcon.png"); 
-			g.drawImage(icon.getImage(), 0, 0, null);
+			if(model.pUpAvail == 1)
+			{
+				icon = new ImageIcon("images/powerUpShipIcon.png").getImage();
+
+				g.drawImage(icon, 400, 10, null);
+			}
+			else if(model.pUpAvail == 2)
+			{
+				icon = new ImageIcon("images/Freeze.png").getImage();
+
+				g.drawImage(icon, 400, 10, null);
+			}
+			else if(model.pUpAvail == 3)
+			{
+				icon = new ImageIcon("images/Health.png").getImage();
+
+				g.drawImage(icon, 400, 10, null);
+			}
 	
 		}
 
@@ -285,9 +300,6 @@ public class GameView extends JPanel{
 		g2.setStroke(new BasicStroke(6));
 		g2.drawRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), 350, 30 );
 		g2.setStroke(oldStroke);
-		g.setColor(model.earth.hbEarth.getColor());
-		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
-
 		
 		if(model.bossOnScreen)
 		{
