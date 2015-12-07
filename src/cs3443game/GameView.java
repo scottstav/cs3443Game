@@ -5,6 +5,7 @@ package cs3443game;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -16,8 +17,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -56,6 +60,9 @@ public class GameView extends JPanel{
 	/**
      *background image for game
 	 */
+	private SoundEffects button_press = new SoundEffects();
+    private static String BUTTON_PRESS = "soundeffects/button_boop.wav";
+    private static String MUTE_PRESS = "soundeffects/mute_button_sound.wav";
 	private Image background;
 	/**
 	 * the game's earth object
@@ -66,8 +73,14 @@ public class GameView extends JPanel{
 	 * label of the player's score
 	 */
 	private JLabel score;
-
+	//private Projectile projo;
 	public int speed;
+	//private ImageIcon mute_unmute;
+	private ImageIcon back;
+	//private ImageIcon music_on;
+	//private ImageIcon music_off;
+	private ImageIcon pUpIcon;
+
 
 	/**
 	 * creates the gameView screen.
@@ -75,7 +88,7 @@ public class GameView extends JPanel{
 	GameView (){
 
 		this.setLayout(null);
-		model = null;
+		model = new GameModel();
 		score = new JLabel("Score: 0");
 		score.setLocation(1150,0);
 		score.setSize(150,50);
@@ -83,13 +96,12 @@ public class GameView extends JPanel{
 		add(score);
 		input= new JTextField(15);
 		input.setLocation(0,360);
-
 		input.setSize(300,20);
-
 		JTextField field = new JTextField(15);
 		field.setLocation(500,640);
+		setMode(model);
 
-		speed = 10;
+		speed = 5;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 
@@ -98,17 +110,19 @@ public class GameView extends JPanel{
 		//sets up health stat instance
 
 		// speed up time foe easier testing: sped up from 30 to 10
+		
 		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver)
+				if(!model.gameOver())
 				{
 					model.translate();
 					GameView.this.repaint();
 				}
 				else
 				{
-					shiftTimer.stop();
+					endGame();
+					
 				}
 
 			}
@@ -117,7 +131,7 @@ public class GameView extends JPanel{
 		newEnemyTimer = new Timer(speed*500, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver)
+				if(!model.gameOver())
 				{
 					model.createGrunt();
 					//model.createProjo();
@@ -130,6 +144,7 @@ public class GameView extends JPanel{
 				}
 			}
 		});
+		
 	}
 
 	/**
@@ -137,13 +152,56 @@ public class GameView extends JPanel{
 	 * currently, only one mode is supported.
 	 * @param m mode to be set
 	 */
+	
+	public void endGame()
+	{
+		//setIcons();
+		//goToLeaderboard();
+		//shiftTimer.stop();
+		//newLineTimer.stop();
+		//this.setVisible(false);
+		//model.endGame();
+		
+	}
+	
+	 private void setIcons() {
+
+			//background = new ImageIcon("images/image_mainmenu.png").getImage();
+			back = new ImageIcon("images/button_goback.png");
+			//music_on = new ImageIcon("images/button_musicon.png");
+			//music_off = new ImageIcon("images/button_musicoff.png");
+			//mute_unmute = new ImageIcon("images/muteunmute.png");
+			
+	}
+	
+	 private void goToLeaderboard() {
+	    	
+			JButton button_mainmenu = new JButton(back);
+			button_mainmenu.setText("button_endgame");
+			button_mainmenu.setLocation(450, 600);
+			button_mainmenu.setSize(405, 50);
+			button_mainmenu.setBorderPainted(false);
+			button_mainmenu.setFocusPainted(false);
+			button_mainmenu.setContentAreaFilled(false);
+			button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			
+			this.add(button_mainmenu);
+			//button_mainmenu.doClick();
+	 }
+	 
 	public void setMode(GameModel m){
 		model = m;
 	}
+	
 	/**
+<<<<<<< HEAD
 	 *begins the game's timers
+=======
+	 * start and stop game time 
+>>>>>>> health bar, bug fixes, etc
 	 */
 	public void start(){
+		model.newGame();
 		shiftTimer.start();
 		newEnemyTimer.start();
 	}
@@ -199,28 +257,47 @@ public class GameView extends JPanel{
 	 */
 	protected void paintComponent(Graphics g) {
 
+		
+		if(model.gameOver())
+			return;
+
+		
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
+		
+		// draw power up icons if available
+		if(model.pUpAvail == 1 || model.pUpAvail == 2 || model.pUpAvail == 3)
+		{
+			
+			ImageIcon icon = new ImageIcon("images/pUpShipIcon.png"); 
+			g.drawImage(icon.getImage(), 0, 0, null);
+	
+		}
 
 		// access the model's health bar instance
 		Graphics2D g2 = (Graphics2D) g;
+		
+		g.setColor(model.earth.hbEarth.getColor());
+		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
 		Stroke oldStroke = g2.getStroke();
 		g2.setColor(Color.WHITE);
 		g2.setStroke(new BasicStroke(6));
-		g2.drawRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
+		g2.drawRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), 350, 30 );
 		g2.setStroke(oldStroke);
 		g.setColor(model.earth.hbEarth.getColor());
 		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
 
+		
 		if(model.bossOnScreen)
 		{
-			g2.setColor(Color.WHITE);
-			g2.setStroke(new BasicStroke(6));
-			g2.drawRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
-			g2.setStroke(oldStroke);
+			
 			g.setColor(model.boss.bossHb.getColor());
 			g.fillRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), (int) model.boss.bossHb.getWidth(), model.boss.bossHb.getHeight() );
+			g2.setColor(Color.WHITE);
+			g2.setStroke(new BasicStroke(6));
+			g2.drawRect(model.boss.bossHb.getX(), model.boss.bossHb.getY(), 350, 30 );
+			g2.setStroke(oldStroke);
 		}
 
 		Enemy enemy = model.getScreenEnemy(0);
@@ -237,6 +314,11 @@ public class GameView extends JPanel{
 		//repaints all enemies
 		
 		/*	for(int j=0; bullet!=null; j++){
+=======
+		//ImageIcon icon = new ImageIcon("images/blueShip.png");
+
+	/*	for(int j=0; bullet!=null; j++){
+>>>>>>> health bar, bug fixes, etc
 =======
 		for(int j=0; bullet!=null; j++){
 >>>>>>> master
@@ -263,6 +345,12 @@ public class GameView extends JPanel{
 		 * 	THIS STUFF ONLY PAINTED IF :
 		 * 	* powerups exist
 		 *  * maybe we launche a projectile at enemies whose lines have been typed
+=======
+ /**
+ * 	THIS STUFF ONLY PAINTED IF :
+ * 	* powerups exist
+ *  * maybe we launch a projectile at enemies whose lines have been typed
+>>>>>>> almost added endgame sequence
 		Graphics2D g2d = (Graphics2D) g;
 		//int tx = 100 + icon.getIconWidth() / 2;
 		//int ty = 100 + icon.getIconHeight() / 2;
@@ -292,14 +380,6 @@ public class GameView extends JPanel{
 
 		}
 
-
-
-
-
-
-
-
-
 		/*int tx = projo.getX() + projo.getWidth() / 2;
 		int ty = projo.getY() + projo.getHeight() / 2;
 		g2d.translate(tx, ty);
@@ -323,5 +403,7 @@ public class GameView extends JPanel{
 		if(angle >= 6.28)
 			angle = 0;
 	}
+	
+	
 
 }

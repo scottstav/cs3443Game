@@ -5,10 +5,17 @@ import java.util.TimerTask;
 public class setFalse extends TimerTask {
 
 
+	private GameModel model;
+	public setFalse(GameModel m)
+	{
+		model = m;
+	}
+	
 	@Override
 	public void run() {
-		GameModel.pIncoming = false;
-		GameModel.pUpAvail = 0;
+		model.pIncoming = false;
+		model.pUpAvail = 0;
 	}
+
 
 }
