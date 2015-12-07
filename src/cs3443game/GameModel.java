@@ -1,5 +1,6 @@
   package cs3443game;
 
+import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ public class GameModel {
 	 * Contains lines of code to be put on screen
 	 */
 	private ArrayList<String> codeLineDB;
+	private ArrayList<String> shortLineDB;
 
 
 	/**
@@ -33,7 +35,7 @@ public class GameModel {
 	private Timer bossChangeLine;
 	boolean bossOnScreen;
 	private Integer points;
-	public static boolean pIncoming;
+	public boolean pIncoming;
 	/**
 	 * Collection of lines that are currently being displayed.
 	 * This is treated as a queue. As of now, the player must always
@@ -42,6 +44,8 @@ public class GameModel {
 	 * 
 	 */
 	//private ArrayList<String> onScreenLines;
+	
+	private boolean gameOver;
 
 
 	/**
@@ -56,9 +60,8 @@ public class GameModel {
 	 */
 	private Random random;
 	public Earth earth;
-	public static int pUpAvail;
+	public int pUpAvail;
 	//public static boolean pIncoming;
-	public static boolean gameOver;
 	private int bossCount;
 
 	/**
@@ -68,17 +71,20 @@ public class GameModel {
 		earth = new Earth();
 		random = new Random();
 		codeLineDB = new ArrayList<String>();
+		shortLineDB = new ArrayList<String>();
+
 		onScreenEnemies = new ArrayList<Enemy>();
 		onScreenProjectiles = new ArrayList<Projectile>();
 		bossProjectiles = new ArrayList<Bullet>();
 		points=0;
-		bossOnScreen=false;
+		bossOnScreen = false;
 		pUpAvail = 0;
 		pIncoming = false;
 		gameOver = false;
 		bossCount = 100;
+		
 		bossChangeLine =  new Timer(5000, new ActionListener(){
-
+		
 			public void actionPerformed(ActionEvent e){
 				if(GameModel.this.bossOnScreen==true){
 					if(GameModel.this.boss.hasLine())
@@ -95,7 +101,7 @@ public class GameModel {
 				
 		});
 
-		bossFireTimer =  new Timer(5000, new ActionListener(){
+		bossFireTimer =  new Timer(2000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				int cannon;
@@ -103,16 +109,19 @@ public class GameModel {
 				if(GameModel.this.bossOnScreen==true){
 					cannon=r.nextInt()%3;
 					if(cannon==0)
-						GameModel.this.onScreenEnemies.add(boss.fireCannon0(getCodeLine()));
+						GameModel.this.onScreenEnemies.add(boss.fireCannon0(getShortCodeLine()));
 					if(cannon==1)
-						GameModel.this.onScreenEnemies.add(boss.fireCannon1(getCodeLine()));
+						GameModel.this.onScreenEnemies.add(boss.fireCannon1(getShortCodeLine()));
 					if(cannon==2)
-						GameModel.this.onScreenEnemies.add(boss.fireCannon2(getCodeLine()));
+						GameModel.this.onScreenEnemies.add(boss.fireCannon2(getShortCodeLine()));
 
 				}
 			}
+
+			
 		});
 
+		
 		onScreenPowerUps = new ArrayList<PowerUp>();
 
 		try {
@@ -125,10 +134,18 @@ public class GameModel {
 
 		while (input.hasNext()) {
 			line = input.nextLine();
-			codeLineDB.add(line);	
+			if(line.length() > 8)
+				codeLineDB.add(line);
+			else
+				shortLineDB.add(line);
 		}	
 		
 		input.close();
+	}
+	
+	public String getShortCodeLine() {
+		int index = random.nextInt(shortLineDB.size());
+		return shortLineDB.get(index);
 	}
 
 		/**
@@ -180,6 +197,7 @@ public class GameModel {
         if(earth.hbEarth.health <= 0)
         {
         	gameOver = true;
+        	return;
         }
         
         // first power up option clears the screen
@@ -260,8 +278,11 @@ public class GameModel {
 		}
 	
 		public void beginFireSequence(){
-			bossChangeLine.start();
+			
+			while(pIncoming){}
+			
 			bossFireTimer.start();
+			bossChangeLine.start();
 		}
 
 		/**
@@ -332,6 +353,11 @@ public class GameModel {
 		public boolean process(String s){
 			Enemy enemy;
 			Boolean processed=false;
+			
+			//dont compare blank lines and return false
+			if(s.equals(""))
+				return false;
+			
 			if(s.equals("power up") && pUpAvail > 0 && !bossOnScreen){
 				
 				pIncoming = true;
@@ -340,7 +366,7 @@ public class GameModel {
 				if(pUpAvail != 3)
 				{
 					java.util.Timer pUpSequence = new java.util.Timer();
-					pUpSequence.schedule(new setFalse(), 15*1000);
+					pUpSequence.schedule(new setFalse(this), 15*1000);
 				}
 				processed=true;
 				return true;
@@ -377,7 +403,9 @@ public class GameModel {
 						}
 						
 						enemy.collision();
-						updateScore(10);
+						
+						//********* updating score by 100 for testing******
+						updateScore(100);
 						processed = true;
 					}
 				}
@@ -483,9 +511,25 @@ public class GameModel {
 				}
 			}
 		}
+
+		public boolean gameOver() {
+			return gameOver;
+		}
 		
 		/**
 		 * end all game functions
 		 */
+		
+		public void endGame() {
+		
+			
+		}
+
+		public void newGame() {
+			// TODO Auto-generated method stub
+			gameOver = false;
+			
+		}
+		
 		
 	}
