@@ -80,15 +80,15 @@ public class GameView extends JPanel{
 	//private ImageIcon music_on;
 	//private ImageIcon music_off;
 	private ImageIcon pUpIcon;
-
+	private JTextField field;
 
 	/**
 	 * creates the gameView screen.
 	 */
-	GameView (){
+	GameView (HostView h){
 
 		this.setLayout(null);
-		model = new GameModel();
+		model = new GameModel(h);
 		score = new JLabel("Score: 0");
 		score.setLocation(1150,0);
 		score.setSize(150,50);
@@ -97,7 +97,7 @@ public class GameView extends JPanel{
 		input= new JTextField(15);
 		input.setLocation(0,360);
 		input.setSize(300,20);
-		JTextField field = new JTextField(15);
+		field = new JTextField(15);
 		field.setLocation(500,640);
 		setMode(model);
 
@@ -156,11 +156,14 @@ public class GameView extends JPanel{
 	public void endGame()
 	{
 		//setIcons();
-		//goToLeaderboard();
-		//shiftTimer.stop();
-		//newLineTimer.stop();
-		//this.setVisible(false);
-		//model.endGame();
+		shiftTimer.stop();
+		newEnemyTimer.stop();
+		//remove(input);
+		//remove(score);
+		//remove(field);
+		this.setVisible(false);
+		model.endGame();
+		
 		
 	}
 	
@@ -174,20 +177,7 @@ public class GameView extends JPanel{
 			
 	}
 	
-	 private void goToLeaderboard() {
-	    	
-			JButton button_mainmenu = new JButton(back);
-			button_mainmenu.setText("button_endgame");
-			button_mainmenu.setLocation(450, 600);
-			button_mainmenu.setSize(405, 50);
-			button_mainmenu.setBorderPainted(false);
-			button_mainmenu.setFocusPainted(false);
-			button_mainmenu.setContentAreaFilled(false);
-			button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			
-			this.add(button_mainmenu);
-			//button_mainmenu.doClick();
-	 }
+	 
 	 
 	public void setMode(GameModel m){
 		model = m;
@@ -257,21 +247,33 @@ public class GameView extends JPanel{
 	 */
 	protected void paintComponent(Graphics g) {
 
-		
-		if(model.gameOver())
-			return;
-
+		Image icon;
 		
 		super.paintComponent(g);
 		g.drawImage (background, 0, 0, null);
 		g.drawImage (earth.getImage(), 0, 0, null);
 		
 		// draw power up icons if available
-		if(model.pUpAvail == 1 || model.pUpAvail == 2 || model.pUpAvail == 3)
+		if(model.pUpAvail != 0)
 		{
-			
-			ImageIcon icon = new ImageIcon("images/pUpShipIcon.png"); 
-			g.drawImage(icon.getImage(), 0, 0, null);
+			if(model.pUpAvail == 1)
+			{
+				icon = new ImageIcon("images/powerUpShipIcon.png").getImage();
+
+				g.drawImage(icon, 400, 10, null);
+			}
+			else if(model.pUpAvail == 2)
+			{
+				icon = new ImageIcon("images/Freeze.png").getImage();
+
+				g.drawImage(icon, 400, 10, null);
+			}
+			else if(model.pUpAvail == 3)
+			{
+				icon = new ImageIcon("images/Health.png").getImage();
+
+				g.drawImage(icon, 400, 10, null);
+			}
 	
 		}
 
@@ -285,9 +287,6 @@ public class GameView extends JPanel{
 		g2.setStroke(new BasicStroke(6));
 		g2.drawRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), 350, 30 );
 		g2.setStroke(oldStroke);
-		g.setColor(model.earth.hbEarth.getColor());
-		g.fillRect(model.earth.hbEarth.getX(), model.earth.hbEarth.getY(), (int) model.earth.hbEarth.getWidth(), model.earth.hbEarth.getHeight() );
-
 		
 		if(model.bossOnScreen)
 		{

@@ -32,17 +32,8 @@ public class HostController implements ActionListener, KeyListener{
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 
-		if(arg0.getActionCommand().equals("button_addplayer"))
-		{
-			// Want to write the code to add the user from the JTextField to the
-			// JList for the leaderboard
-			System.out.println("Add a player here");
-		}
-		else
-		{	
-			System.out.println(arg0.getActionCommand());
-			view.switchView(arg0.getActionCommand());
-		}
+		System.out.println(arg0.getActionCommand());
+		view.switchView(arg0.getActionCommand());
 		
 	}
 	

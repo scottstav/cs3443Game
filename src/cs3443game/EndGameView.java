@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 
+
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -17,6 +19,7 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class EndGameView extends JPanel {
 	
+	private ArrayList<Player> users;
 	private Image background;
 	private ImageIcon mainmenu;
 	private ImageIcon addplayer;
@@ -28,10 +31,12 @@ public class EndGameView extends JPanel {
 	{	
     	this.setLayout(null); //this allows us to move the buttons to specific x,y coords
     	setIcons(); //calls method to set the images to icons
-    	setButtons(this); //calls method to turn those images into JButtons
+    	setButtons(); //calls method to turn those images into JButtons
     	setBackground(new Color(0, true));
         setSize(1280, 720);
         setVisible(true);
+        users = new ArrayList<Player>();
+        
     }
 
 	/**
@@ -43,6 +48,18 @@ public class EndGameView extends JPanel {
     {
         //Paint background
         g.drawImage (background, 0, 0, null);
+        String[] infoArray = new String[users.size()];
+        int i = 0;
+		for(Player user : users)
+		{
+        	infoArray[i] = user.toString();
+        	i++;
+		}
+    	listbox = new JList<>(infoArray);
+    	
+    	listbox.setSize(200, 200);
+    	listbox.setLocation(560, 360);
+    	this.add(listbox);
     }
 
 
@@ -61,20 +78,16 @@ public class EndGameView extends JPanel {
      * Method that turns the images into JButtons
      * @param menuContent
      */
-     private void setButtons(JPanel lboardContent)
+     private void setButtons()
      {
     	textField = new JTextField(10);
     	textField.setLocation(540,280);
 		textField.setSize(120,20);
     	add(textField);
     	
-    	String user[] = {"Susan", "Scott", "Paco", "Kurt" };
+    	
   
     	// Create a new listbox control
-    	listbox = new JList<String>(user);
-    	listbox.setSize(200, 200);
-    	listbox.setLocation(560, 360);
-    	lboardContent.add(listbox);
     	
     	JButton addPlayer = new JButton(addplayer);
     	addPlayer.setText("button_addplayer");
@@ -104,12 +117,28 @@ public class EndGameView extends JPanel {
 		button_mainmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		//adds the buttons to the JPanel
-		lboardContent.add(button_mainmenu);
-		lboardContent.add(button_tryagain);
-		lboardContent.add(addPlayer);
+		this.add(button_mainmenu);
+		this.add(button_tryagain);
+		this.add(addPlayer);
 	}
      
     public String getText(){
  		return textField.getText();
  	}
+
+	public void addPlayer(int points) {
+		Player player = getPlayer();
+		player.setPoints(points);
+		users.add(player);
+		
+		this.repaint();
+		
+	}
+
+	private Player getPlayer() {
+		System.out.println(textField.getText());
+		Player player = new Player(textField.getText());
+		
+		return player;
+	}
 }
