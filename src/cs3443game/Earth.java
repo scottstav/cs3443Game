@@ -88,7 +88,7 @@ public void collision() {
 	//get type of object collision to determine damage amount
 	//for now just call 10 for testing
 	System.out.println("earth was struck, taking damage!");
-	hbEarth.hit(10);
+	hbEarth.hit(20);
 	
 }
 

@@ -26,6 +26,7 @@ public class EndGameView extends JPanel {
 	private ImageIcon tryagain;
 	JTextField textField;
 	JList<String> listbox;
+	String[] infoArray;
 
 	public EndGameView()
 	{	
@@ -35,7 +36,7 @@ public class EndGameView extends JPanel {
     	setBackground(new Color(0, true));
         setSize(1280, 720);
         setVisible(true);
-        users = new ArrayList<Player>();
+        setUsers(new ArrayList<Player>());
         
     }
 
@@ -48,9 +49,9 @@ public class EndGameView extends JPanel {
     {
         //Paint background
         g.drawImage (background, 0, 0, null);
-        String[] infoArray = new String[users.size()];
+        infoArray = new String[getUsers().size()];
         int i = 0;
-		for(Player user : users)
+		for(Player user : getUsers())
 		{
         	infoArray[i] = user.toString();
         	i++;
@@ -84,8 +85,6 @@ public class EndGameView extends JPanel {
     	textField.setLocation(540,280);
 		textField.setSize(120,20);
     	add(textField);
-    	
-    	
   
     	// Create a new listbox control
     	
@@ -129,7 +128,7 @@ public class EndGameView extends JPanel {
 	public void addPlayer(int points) {
 		Player player = getPlayer();
 		player.setPoints(points);
-		users.add(player);
+		getUsers().add(player);
 		
 		this.repaint();
 		
@@ -140,5 +139,13 @@ public class EndGameView extends JPanel {
 		Player player = new Player(textField.getText());
 		
 		return player;
+	}
+
+	public ArrayList<Player> getUsers() {
+		return users;
+	}
+
+	public void setUsers(ArrayList<Player> users) {
+		this.users = users;
 	}
 }

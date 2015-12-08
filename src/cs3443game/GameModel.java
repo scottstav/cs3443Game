@@ -417,7 +417,7 @@ public class GameModel {
 						enemy.collision();
 						
 						//********* updating score by 100 for testing******
-						updateScore(100);
+						updateScore(20);
 						processed = true;
 					}
 				}

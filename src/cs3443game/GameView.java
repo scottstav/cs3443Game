@@ -103,51 +103,40 @@ public class GameView extends JPanel{
 		field.setLocation(500,640);
 		setMode(model);
 		
-		speed = 1;
+		speed = 10;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 
 		earth = new Earth();
-
-		//sets up health stat instance
-
-		// speed up time foe easier testing: sped up from 30 to 10
 		
 		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver())
-				{
-					model.translate();
-					GameView.this.repaint();
-				}
-				else
+				if(model.gameOver())
 				{
 					endGame();
-					
 				}
-
+				
+				model.translate();
+				GameView.this.repaint();
 			}
 		});
 
-		newEnemyTimer = new Timer(speed*500, new ActionListener(){
+		newEnemyTimer = new Timer(3000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver())
+				if(model.gameOver())
 				{
-					model.createGrunt();
-					//model.createProjo();
-					GameView.this.repaint();
+					endGame();
 				}
-				else
-				{
 
-					newEnemyTimer.stop();
-				}
+				model.createGrunt();
+				//model.createProjo();
+				GameView.this.repaint();
+				
 			}
 		});
 		
-		this.setVisible(true);
 		
 	}
 

@@ -83,8 +83,11 @@ public class HostView extends JFrame {
 	 * game's game over view
 	 */
 	EndGameView endGameScreen;
-	
 
+	/**
+	 * Game's host controller
+	 */
+	HostController con;
 
 	/**
 	 * creates the host view. All views are instantiated and put into a collection
@@ -96,8 +99,8 @@ public class HostView extends JFrame {
 		game = new GameView(this);
 		howToScreen = new HowToView();
 		settingsScreen = new SettingsView();
-		leaderboardScreen = new LeaderboardView();
 		endGameScreen = new EndGameView();
+		leaderboardScreen = new LeaderboardView(endGameScreen);
 
 		screenList.add(menu);
 		screenList.add(game);
@@ -131,6 +134,7 @@ public class HostView extends JFrame {
 	 * @param c HostController instance
 	 */
 	public void register(HostController c){
+		con = c;
 		Component components[];
 		for(int i=0; i<screenList.size(); i++){
 			components = screenList.get(i).getComponents();
@@ -170,17 +174,14 @@ public class HostView extends JFrame {
 
 		else if(screen.equals(START) || screen.equals(RETRY)){
 			
-			
-			System.out.println(mode.gameOver());
-			
 			if(mode.gameOver())
 			{
-                HostController controller = new HostController(this);
-                this.register(controller);
 				mode = new GameModel(this);
 				game = new GameView(this);
 				game.setMode(mode);
 				screenList.add(game);
+				this.register(con);
+
 			}
 			
 			previousIndex=currentIndex;
