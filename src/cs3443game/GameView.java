@@ -81,6 +81,7 @@ public class GameView extends JPanel{
 	//private ImageIcon music_off;
 	private ImageIcon pUpIcon;
 	private JTextField field;
+	
 
 	/**
 	 * creates the gameView screen.
@@ -158,6 +159,7 @@ public class GameView extends JPanel{
 		//setIcons();
 		shiftTimer.stop();
 		newEnemyTimer.stop();
+
 		//remove(input);
 		//remove(score);
 		//remove(field);

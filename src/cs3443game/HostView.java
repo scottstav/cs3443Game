@@ -48,9 +48,13 @@ public class HostView extends JFrame {
 	 */
 	int currentIndex;
 
+	/**
+	 * Music for menu, in-game, and game over screens
+	 */
 	private Music music = new Music(); //main menu music
 	private static final String MAIN_MENU_MUSIC = "music/mainmenu.wav";
 	private static final String GAME_MUSIC = "music/gamemusic.wav";
+	private static final String GAME_OVER = "music/gameover.wav";
 	/**
 	 * the game's menu view
 	 */
@@ -209,8 +213,13 @@ public class HostView extends JFrame {
 			currentIndex = screenList.indexOf(leaderboardScreen);
 		}
 		else if(screen.equals(ENDGAME)){
-			if(music.getMute() == false)
-				music.stop();
+			music.stop();//this should stop the in-game music
+
+			if(music.getMute() == false){
+				music.loadFile(GAME_OVER);
+				music.play();		 
+				music.loop(); //loops the end-game music
+			}
 			
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(endGameScreen);
@@ -218,6 +227,15 @@ public class HostView extends JFrame {
 		else if(screen.equals(MAIN)){
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(menu);
+			
+			music.stop();//this should stop the end-of-game music
+
+			if(music.getMute() == false){
+				music.loadFile(MAIN_MENU_MUSIC);
+				music.play();		 
+				music.loop(); //loops the menu music
+			}
+			
 		}
 		else if(screen.equals(NEWPLAYER)){
 			endGameScreen.addPlayer(mode.getPoints());
