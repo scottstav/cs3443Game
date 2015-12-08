@@ -23,6 +23,7 @@ public class HostController implements ActionListener, KeyListener{
 	 */
 	public HostController(HostView v){
 		view = v;
+		//view.register(this);
 	}
 
 	@Override

@@ -81,6 +81,7 @@ public class GameView extends JPanel{
 	//private ImageIcon music_off;
 	private ImageIcon pUpIcon;
 	private JTextField field;
+	private HostController hc;
 
 	/**
 	 * creates the gameView screen.
@@ -100,8 +101,8 @@ public class GameView extends JPanel{
 		field = new JTextField(15);
 		field.setLocation(500,640);
 		setMode(model);
-
-		speed = 5;
+		
+		speed = 1;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 
@@ -144,6 +145,8 @@ public class GameView extends JPanel{
 				}
 			}
 		});
+		
+		this.setVisible(true);
 		
 	}
 

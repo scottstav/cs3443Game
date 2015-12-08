@@ -171,9 +171,11 @@ public class HostView extends JFrame {
 			
 			if(mode.gameOver())
 			{
+                HostController controller = new HostController(this);
+                this.register(controller);
 				mode = new GameModel(this);
 				game = new GameView(this);
-				//game.setMode(mode);
+				game.setMode(mode);
 				screenList.add(game);
 			}
 			

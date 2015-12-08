@@ -151,7 +151,7 @@ public class GameModel {
 		try {
 			input = new Scanner(new File("input"));
 		} catch (Exception FileNotFoundException) {
-			System.err.println("failed to open data.txt");
+			System.err.println("failed to open input.txt");
 			System.exit(1);
 		}
 		String line = null;
@@ -388,7 +388,6 @@ public class GameModel {
 		public boolean process(String s){
 			Enemy enemy;
 			Boolean processed=false;
-			
 			//dont compare blank lines and return false
 			if(s.equals(""))
 				return false;
