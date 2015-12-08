@@ -38,10 +38,7 @@ public class GameModel {
 	 * collection of enemies on screen
 	 */
 	private ArrayList<Enemy> onScreenEnemies;
-	/**
-	 * collection of projectiles on screen
-	 */
-	private ArrayList<Projectile>onScreenProjectiles;
+
 	/**
 	 * collection of power ups on screen
 	 */
@@ -98,9 +95,11 @@ public class GameModel {
 		random = new Random();
 		codeLineDB = new ArrayList<String>();
 		shortLineDB = new ArrayList<String>();
-		points = 0;
+
 		onScreenEnemies = new ArrayList<Enemy>();
-		onScreenProjectiles = new ArrayList<Projectile>();
+		points=0;
+		bossOnScreen = false;
+		onScreenEnemies = new ArrayList<Enemy>();
 		bossOnScreen=false;
 		pUpAvail = 0;
 		pIncoming = false;
@@ -214,13 +213,11 @@ public class GameModel {
 	 */
 	public void translate(){
 		Enemy e;
-		Projectile p;
         PowerUp u = null;
         
         if(earth.hbEarth.health <= 0)
         {
         	gameOver = true;
-        	
         }
         
         // first power up option clears the screen
@@ -287,14 +284,6 @@ public class GameModel {
 		}
 	
 
-			for(int i=0; i<onScreenProjectiles.size(); i++){
-				p=onScreenProjectiles.get(i);
-				p.translate(1, 0);
-				p.paintToImage();
-
-			}
-
-
 			//check for collisions after this translation
 			collisions();
 			cleanUp();
@@ -306,10 +295,8 @@ public class GameModel {
 	 * to begin displaying a code line. 
 	 */
 		public void beginFireSequence(){
-			while(pIncoming)
-			{
-				
-			}
+			
+			while(pIncoming){}
 			
 			bossFireTimer.start();
 			bossChangeLine.start();
@@ -356,15 +343,6 @@ public class GameModel {
 			return;
 		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
 		onScreenEnemies.add(enemy);
-	}
-
-
-
-	public Projectile getScreenProjo(int i){
-		if(i>=0 && i<onScreenProjectiles.size())
-	    	    return onScreenProjectiles.get(i);
-
-		return null;
 	}
 	
 	/**
@@ -466,7 +444,6 @@ public class GameModel {
 		public void collisions(){
 
 			Enemy enemy;
-			Projectile projo;
 			PowerUp pUp;
 
 			for(int i=0; i<onScreenEnemies.size(); i++){
@@ -480,13 +457,6 @@ public class GameModel {
 					pUp=onScreenPowerUps.get(h);
 					if(collided(pUp,enemy))
 						continue;
-				}
-				for(int j=0; j<onScreenProjectiles.size(); j++){
-					projo = getScreenProjo(j);
-					if(projo.isTrash())
-						continue;
-					if(collided(projo,enemy))
-						break;
 				}
 			}
 
@@ -556,12 +526,6 @@ public class GameModel {
 					onScreenEnemies.remove(i);
 				}
 			}
-
-			for(int i=0; i<onScreenProjectiles.size(); i++){
-				if(onScreenProjectiles.get(i).isTrash()){
-					onScreenProjectiles.remove(i);
-				}
-			}
 		}
 
 		public boolean gameOver() {
@@ -586,8 +550,6 @@ public class GameModel {
 		public Integer getPoints() {
 			return points;
 		}
-
-		
 		
 		
 	}
