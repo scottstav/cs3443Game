@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 
 
+
+
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -25,8 +28,9 @@ public class EndGameView extends JPanel {
 	private ImageIcon addplayer;
 	private ImageIcon tryagain;
 	JTextField textField;
-	JList<String> listbox;
 	String[] infoArray;
+	DefaultListModel<String> info;
+	JList<String> listbox;
 
 	public EndGameView()
 	{	
@@ -37,6 +41,8 @@ public class EndGameView extends JPanel {
         setSize(1280, 720);
         setVisible(true);
         setUsers(new ArrayList<Player>());
+        info = new DefaultListModel<>();
+        listbox = new JList<>( info );
         
     }
 
@@ -49,14 +55,12 @@ public class EndGameView extends JPanel {
     {
         //Paint background
         g.drawImage (background, 0, 0, null);
-        infoArray = new String[getUsers().size()];
-        int i = 0;
+        
 		for(Player user : getUsers())
 		{
-        	infoArray[i] = user.toString();
-        	i++;
+			if(!info.contains(user.toString()))
+        		info.addElement(user.toString());
 		}
-    	listbox = new JList<>(infoArray);
     	
     	listbox.setSize(200, 200);
     	listbox.setLocation(560, 360);
@@ -64,7 +68,11 @@ public class EndGameView extends JPanel {
     }
 
 
-    /**
+    private ArrayList<Player> getUsers() {
+    	return users;
+	}
+
+	/**
      * Method that sets the icons with images & the background image too
      */
     private void setIcons()
@@ -85,7 +93,7 @@ public class EndGameView extends JPanel {
     	textField.setLocation(540,280);
 		textField.setSize(120,20);
     	add(textField);
-  
+	
     	// Create a new listbox control
     	
     	JButton addPlayer = new JButton(addplayer);
@@ -141,11 +149,9 @@ public class EndGameView extends JPanel {
 		return player;
 	}
 
-	public ArrayList<Player> getUsers() {
-		return users;
-	}
 
 	public void setUsers(ArrayList<Player> users) {
 		this.users = users;
 	}
+
 }
