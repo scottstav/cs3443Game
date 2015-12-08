@@ -71,18 +71,18 @@ public class HowToView extends JPanel {
      */private void setButtons(JPanel howToContent)
      {
     	 
-    	 JTextArea textArea = new JTextArea(
-    			    "How to play CyberBlocks" + "\n" +
-    			    "CyberBlocks is a typing test game that challenges the user at typing lines of code." +
-    			    "More info goes here " +
-    			    "info info info"
-    			);
-    	textArea.setFont(new Font("Consolas", Font.ITALIC, 16));
-    	textArea.setSize(400,250);
-    	textArea.setLocation(440,260);
-    	textArea.setLineWrap(true);
-    	textArea.setWrapStyleWord(true);
-    	add(textArea);
+//    	 JTextArea textArea = new JTextArea(
+//    			    "How to play CyberBlocks" + "\n" +
+//    			    "CyberBlocks is a typing test game that challenges the user at typing lines of code." +
+//    			    "More info goes here " +
+//    			    "info info info"
+//    			);
+//    	textArea.setFont(new Font("Consolas", Font.ITALIC, 16));
+//    	textArea.setSize(400,250);
+//    	textArea.setLocation(440,260);
+//    	textArea.setLineWrap(true);
+//    	textArea.setWrapStyleWord(true);
+//    	add(textArea);
     	
 		JButton button_mainmenu = new JButton(back);
 		button_mainmenu.setText("button_goback");
