@@ -1,5 +1,21 @@
+int size;
+char name;
+double number;
+int iCount;
+double gpa;
+Enemy enemyship1;
+Player player;
+int rsz;
+int i = 0;
+int fdout;
+int fdin;
+movl (%eax), %edx
+cmpl %eax, %ebx
+if(size < a.size());
+pid_t pid;
+pid = getpid();
+@tfiles = grep(-f && -T, @files);
+char records[BUF_SZ];
 int a;
-int b;
-int c;
-int d;
-int int a;
+String user[10];
+ArrayList<Player> players;

@@ -81,7 +81,6 @@ public class GameView extends JPanel{
 	//private ImageIcon music_off;
 	private ImageIcon pUpIcon;
 	private JTextField field;
-	
 
 	/**
 	 * creates the gameView screen.
@@ -93,6 +92,8 @@ public class GameView extends JPanel{
 		score = new JLabel("Score: 0");
 		score.setLocation(1150,0);
 		score.setSize(150,50);
+		//goToLeaderBoard(); 
+		setIcons();
 		score.setForeground(Color.WHITE);
 		add(score);
 		input= new JTextField(15);
@@ -101,52 +102,44 @@ public class GameView extends JPanel{
 		field = new JTextField(15);
 		field.setLocation(500,640);
 		setMode(model);
-
-		speed = 5;
+		
+		speed = 10;
 		add(input);
 		background = new ImageIcon("images/space.jpg").getImage();
 
 		earth = new Earth();
-
-		//sets up health stat instance
-
-		// speed up time foe easier testing: sped up from 30 to 10
 		
 		shiftTimer = new Timer(speed, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver())
-				{
-					model.translate();
-					GameView.this.repaint();
-				}
-				else
+				if(model.gameOver())
 				{
 					endGame();
-					
 				}
-
+				
+				model.translate();
+				GameView.this.repaint();
 			}
 		});
 
-		newEnemyTimer = new Timer(speed*500, new ActionListener(){
+		newEnemyTimer = new Timer(3000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-				if(!model.gameOver())
+				if(model.gameOver())
 				{
-					model.createGrunt();
-					//model.createProjo();
-					GameView.this.repaint();
+					endGame();
 				}
-				else
-				{
 
-					newEnemyTimer.stop();
-				}
+				model.createGrunt();
+				//model.createProjo();
+				GameView.this.repaint();
+				
 			}
 		});
 		
+		
 	}
+
 
 	/**
 	 * used to switch the screen's current game mode.
@@ -186,11 +179,8 @@ public class GameView extends JPanel{
 	}
 	
 	/**
-<<<<<<< HEAD
 	 *begins the game's timers
-=======
 	 * start and stop game time 
->>>>>>> health bar, bug fixes, etc
 	 */
 	public void start(){
 		model.newGame();
@@ -242,6 +232,7 @@ public class GameView extends JPanel{
 		g2d.setTransform(oldXForm);
 
 	}
+
 
 	@Override
 	/**
@@ -337,8 +328,9 @@ public class GameView extends JPanel{
 			g.drawString(enemy.getLine(), (int) enemy.getX() , (int) enemy.getY()+enemy.getHeight()+10);
 
 			enemy = model.getScreenEnemy(j);
-
+          
 		}
+	    score.setText(model.getScore());
 		score.setText(model.getScore());
 		
 		for(int i=0; pUp!=null; i++){
@@ -350,7 +342,7 @@ public class GameView extends JPanel{
 
 		}
 	}
+}
 	
 	
 
-}

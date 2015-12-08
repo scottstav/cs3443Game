@@ -95,7 +95,10 @@ public class GameModel {
 		random = new Random();
 		codeLineDB = new ArrayList<String>();
 		shortLineDB = new ArrayList<String>();
-		points = 0;
+
+		onScreenEnemies = new ArrayList<Enemy>();
+		points=0;
+		bossOnScreen = false;
 		onScreenEnemies = new ArrayList<Enemy>();
 		bossOnScreen=false;
 		pUpAvail = 0;
@@ -147,7 +150,7 @@ public class GameModel {
 		try {
 			input = new Scanner(new File("input"));
 		} catch (Exception FileNotFoundException) {
-			System.err.println("failed to open data.txt");
+			System.err.println("failed to open input.txt");
 			System.exit(1);
 		}
 		String line = null;
@@ -193,6 +196,16 @@ public class GameModel {
 
 		return new Point(1280, y);
 	}
+	
+	public Point getRandomProjoPoint(){
+		
+		int y =random.nextInt();
+		if(y<0)
+			y=y*-1;
+		y = y % 650;
+		
+		return new Point(-50, y);
+	}
 
 	/**
 	 *this method dictates movement on screen by calling the translate method of all screen
@@ -205,7 +218,6 @@ public class GameModel {
         if(earth.hbEarth.health <= 0)
         {
         	gameOver = true;
-        	
         }
         
         // first power up option clears the screen
@@ -283,10 +295,8 @@ public class GameModel {
 	 * to begin displaying a code line. 
 	 */
 		public void beginFireSequence(){
-			while(pIncoming)
-			{
-				
-			}
+			
+			while(pIncoming){}
 			
 			bossFireTimer.start();
 			bossChangeLine.start();
@@ -356,7 +366,6 @@ public class GameModel {
 		public boolean process(String s){
 			Enemy enemy;
 			Boolean processed=false;
-			
 			//dont compare blank lines and return false
 			if(s.equals(""))
 				return false;
@@ -408,7 +417,7 @@ public class GameModel {
 						enemy.collision();
 						
 						//********* updating score by 100 for testing******
-						updateScore(100);
+						updateScore(20);
 						processed = true;
 					}
 				}
@@ -541,8 +550,6 @@ public class GameModel {
 		public Integer getPoints() {
 			return points;
 		}
-
-		
 		
 		
 	}
