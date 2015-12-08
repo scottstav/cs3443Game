@@ -68,7 +68,7 @@ public class GameView extends JPanel{
 	 * the game's earth object
 	 */
 	private Earth earth;
-	private double angle = 0;
+	
 	/**
 	 * label of the player's score
 	 */
@@ -302,7 +302,6 @@ public class GameView extends JPanel{
 		}
 
 		Enemy enemy = model.getScreenEnemy(0);
-		Projectile projo = model.getScreenProjo(0);
 		PowerUp pUp = model.getScreenPowerUp(0);
 
 
@@ -331,7 +330,7 @@ public class GameView extends JPanel{
 <<<<<<< HEAD
 		}*/
 
-		//Projectile projo = null;
+	
 		for(int j=0; enemy!=null; j++){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), null);
 			g.setColor(Color.WHITE);
@@ -341,37 +340,7 @@ public class GameView extends JPanel{
 
 		}
 		score.setText(model.getScore());
-		//repaints all projectiles
-		/**
-		 * 	THIS STUFF ONLY PAINTED IF :
-		 * 	* powerups exist
-		 *  * maybe we launche a projectile at enemies whose lines have been typed
-=======
- /**
- * 	THIS STUFF ONLY PAINTED IF :
- * 	* powerups exist
- *  * maybe we launch a projectile at enemies whose lines have been typed
->>>>>>> almost added endgame sequence
-		Graphics2D g2d = (Graphics2D) g;
-		//int tx = 100 + icon.getIconWidth() / 2;
-		//int ty = 100 + icon.getIconHeight() / 2;
-		//g2d.drawImage(icon.getImage(), 50, 50, null);
-		AffineTransform oldXForm = g2d.getTransform();
-		for(int h=0; projo!=null; h++){
-			int tx = projo.getX() + projo.getWidth() / 2;
-			int ty = projo.getY() + projo.getHeight() / 2;
-			g2d.translate(tx, ty);
-			g2d.rotate(angle);
-			g2d.translate(tx * -1, ty * -1);
-			projo.calculateBounds(angle);
-			g2d.drawImage(projo.getImage(), projo.getX(), projo.getY(), null);
-			projo.updateBufferedImage(angle);
-			projo = model.getScreenProjo(h);
-			g2d.setTransform(oldXForm);
-
-
-		}
-		 **/
+		
 		for(int i=0; pUp!=null; i++){
 			if(pUp.isRotated())
 				paintRotatedObject(pUp.getImage(), pUp,g, pUp.getAngle());
@@ -380,29 +349,6 @@ public class GameView extends JPanel{
 			pUp = model.getScreenPowerUp(i);
 
 		}
-
-		/*int tx = projo.getX() + projo.getWidth() / 2;
-		int ty = projo.getY() + projo.getHeight() / 2;
-		g2d.translate(tx, ty);
-		g2d.rotate(angle);
-		g2d.translate(tx * -1, ty * -1);
-		g2d.drawImage(projo.getImage(), projo.getX(), projo.getY(), null);
-
-	    g2d.setTransform(oldXForm);
-	    g2d.drawRect((int)projo.getBounds().getX(),(int)projo.getBounds().getY(),(int)projo.getBounds().getWidth(),(int)projo.getBounds().getHeight());
-	    //System.out.printf("%d  %d  %d  %d\n",(int)projo.getBounds().getX(),(int)projo.getBounds().getY(),(int)projo.getBounds().getWidth(),(int)projo.getBounds().getHeight());
-	    projo.calculateBounds(angle);*/
-		//System.out.println(projo.getBounds());
-		//BufferedImage img = new BufferedImage(400,400,BufferedImage.TYPE_INT_RGB);
-
-		//icon.paintIcon(null, img.createGraphics(),100,100);
-
-
-
-		//g2d.drawImage(icon.getImage(), 100, 100, null);
-		angle=angle+.01d;
-		if(angle >= 6.28)
-			angle = 0;
 	}
 	
 	

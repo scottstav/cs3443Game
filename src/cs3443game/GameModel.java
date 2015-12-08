@@ -38,10 +38,7 @@ public class GameModel {
 	 * collection of enemies on screen
 	 */
 	private ArrayList<Enemy> onScreenEnemies;
-	/**
-	 * collection of projectiles on screen
-	 */
-	private ArrayList<Projectile>onScreenProjectiles;
+
 	/**
 	 * collection of power ups on screen
 	 */
@@ -100,7 +97,6 @@ public class GameModel {
 		shortLineDB = new ArrayList<String>();
 		points = 0;
 		onScreenEnemies = new ArrayList<Enemy>();
-		onScreenProjectiles = new ArrayList<Projectile>();
 		bossOnScreen=false;
 		pUpAvail = 0;
 		pIncoming = false;
@@ -197,16 +193,6 @@ public class GameModel {
 
 		return new Point(1280, y);
 	}
-	
-	public Point getRandomProjoPoint(){
-		
-		int y =random.nextInt();
-		if(y<0)
-			y=y*-1;
-		y = y % 650;
-		
-		return new Point(-50, y);
-	}
 
 	/**
 	 *this method dictates movement on screen by calling the translate method of all screen
@@ -214,7 +200,6 @@ public class GameModel {
 	 */
 	public void translate(){
 		Enemy e;
-		Projectile p;
         PowerUp u = null;
         
         if(earth.hbEarth.health <= 0)
@@ -287,14 +272,6 @@ public class GameModel {
 		}
 	
 
-			for(int i=0; i<onScreenProjectiles.size(); i++){
-				p=onScreenProjectiles.get(i);
-				p.translate(1, 0);
-				p.paintToImage();
-
-			}
-
-
 			//check for collisions after this translation
 			collisions();
 			cleanUp();
@@ -356,15 +333,6 @@ public class GameModel {
 			return;
 		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
 		onScreenEnemies.add(enemy);
-	}
-
-
-
-	public Projectile getScreenProjo(int i){
-		if(i>=0 && i<onScreenProjectiles.size())
-	    	    return onScreenProjectiles.get(i);
-
-		return null;
 	}
 	
 	/**
@@ -467,7 +435,6 @@ public class GameModel {
 		public void collisions(){
 
 			Enemy enemy;
-			Projectile projo;
 			PowerUp pUp;
 
 			for(int i=0; i<onScreenEnemies.size(); i++){
@@ -481,13 +448,6 @@ public class GameModel {
 					pUp=onScreenPowerUps.get(h);
 					if(collided(pUp,enemy))
 						continue;
-				}
-				for(int j=0; j<onScreenProjectiles.size(); j++){
-					projo = getScreenProjo(j);
-					if(projo.isTrash())
-						continue;
-					if(collided(projo,enemy))
-						break;
 				}
 			}
 
@@ -555,12 +515,6 @@ public class GameModel {
 			for(int i=0; i<onScreenEnemies.size(); i++){
 				if(onScreenEnemies.get(i).isTrash()){
 					onScreenEnemies.remove(i);
-				}
-			}
-
-			for(int i=0; i<onScreenProjectiles.size(); i++){
-				if(onScreenProjectiles.get(i).isTrash()){
-					onScreenProjectiles.remove(i);
 				}
 			}
 		}
