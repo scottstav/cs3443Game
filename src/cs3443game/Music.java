@@ -18,6 +18,7 @@ public class Music {
 	
 	private static Clip clip = null;
 	private static boolean mute = false; //game is not muted by default
+	private static String fileNameReturn;
 	
 	public Music(){}
 
@@ -54,6 +55,8 @@ public class Music {
 	            e.printStackTrace();
 	            throw new RuntimeException("Sound: Line Unavailable Exception Error: " + e);
 	        }
+	        
+	        fileNameReturn = fileName;
 
 	    }
 	    
@@ -107,4 +110,10 @@ public class Music {
 	public boolean getMute(){
 		return mute;
 	}  
+	
+	public String getFileName(){
+		
+		System.out.println(fileNameReturn);
+		return fileNameReturn;
+	}
 }

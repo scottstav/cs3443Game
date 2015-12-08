@@ -232,9 +232,11 @@ public class HostView extends JFrame {
 			previousIndex=currentIndex;
 			currentIndex = screenList.indexOf(menu);
 			
-			music.stop();//this should stop the end-of-game music
-
-			if(music.getMute() == false){
+			if(music.getFileName() != "music/mainmenu.wav"){
+					music.stop();//this should stop the end-of-game music
+			}
+			
+			if(music.getMute() == false && music.getFileName() != "music/mainmenu.wav"){
 				music.loadFile(MAIN_MENU_MUSIC);
 				music.play();		 
 				music.loop(); //loops the menu music
