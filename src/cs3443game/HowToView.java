@@ -60,7 +60,7 @@ public class HowToView extends JPanel {
      */
     private void setIcons() {
 
-		background = new ImageIcon("images/image_howtoplay.png").getImage();
+		background = new ImageIcon("images/image_howtoplay_clark.png").getImage();
 		back = new ImageIcon("images/button_goback.png");
 		
 	}
