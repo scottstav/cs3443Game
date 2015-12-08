@@ -12,22 +12,61 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
-
+/**
+ * power ups that help the player clear the screen of enemies
+ * @author Paco
+ *
+ */
 public class PowerUp implements Collidable{
-
+	/**
+	 * image of power up
+	 */
 	protected ImageIcon powerUpIcon;
+	/**
+	 * position of power up
+	 */
 	private Point position; 
+	/**
+	 * denotes whether power up is ready to leave screen
+	 */
 	private boolean isTrash;
+	/**
+	 * power up's buffered image
+	 */
 	protected BufferedImage bImage;
+	/**
+	 * height of power up
+	 */
 	private int height;
+	/**
+	 * width of power up
+	 */
 	private int width;
+	/**
+	 * bounds of power up
+	 */
 	private Rectangle bounds;
+	/**
+	 * current angle of rotation of power up
+	 */
 	private double angle;
+	/**
+	 * denotes whether power up has reached resting place
+	 */
 	public boolean inPosition;
+	/**
+	 * dictates power up rotation
+	 */
 	private Timer rotationTimer;
+	/**
+	 * direction of rotation
+	 */
 	private boolean reverse;
 
-
+	/**
+	 * creates a power up from a path to a power up image
+	 * @param file
+	 */
 	public PowerUp(String file){
 		powerUpIcon = new ImageIcon(file);
 		bImage = new BufferedImage(2000,2000,BufferedImage.TYPE_INT_RGB);
@@ -46,10 +85,17 @@ public class PowerUp implements Collidable{
 			}
 		});
 	}
-
+	/**
+	 * returns the power up's image
+	 * @return
+	 */
 	public Image getImage(){
 		return powerUpIcon.getImage();
 	}
+
+	/**
+	 * rotates the power up
+	 */
 	public void rotate(){
 		double delta=.01d;
 		if(angle>Math.PI/4)
@@ -63,7 +109,10 @@ public class PowerUp implements Collidable{
 		calculateBounds(angle);
 		updateBufferedImage(angle);
 	}
-	
+	/**
+	 * repaints the power up to its buffered image for collision purposes
+	 * @param angle
+	 */
 	public void updateBufferedImage(double angle){
 		bImage = new BufferedImage(2000,2000,BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = bImage.createGraphics();
@@ -76,7 +125,10 @@ public class PowerUp implements Collidable{
 		powerUpIcon.paintIcon(null, g2d, getX(), getY());
 		g2d.setTransform(oldXForm);
 	}
-
+	/**
+	 * when the power up rotates, its bounds change. This method recalculates those bounds. 
+	 * @param angle angle of rotation
+	 */
 	public void calculateBounds(double angle){
 		int newWidth;
 		int newHeight;
@@ -93,13 +145,20 @@ public class PowerUp implements Collidable{
 		bounds.setBounds(newX,newY,newWidth,newHeight);
 
 	}
-	
+	/**
+	 * 
+	 * @return true if boss has reached its resting position
+	 */
 	public boolean inPosition(){
 		return inPosition;
 	}
-	
+
+	/**
+	 * translates the power up on screen
+	 * @param dir direction of translation
+	 */
 	public void translate(int dir){
-		
+
 		if(dir == -1)
 		{
 			powerUpIcon = new ImageIcon("images/powerUpShip.png");
@@ -107,7 +166,7 @@ public class PowerUp implements Collidable{
 		}
 		if(inPosition && (dir == 1))
 			return;
-		
+
 		position.setLocation(position.getX()+dir, position.getY());
 		if((getX()==-50) && (dir == 1)){
 			inPosition=true;
@@ -120,65 +179,96 @@ public class PowerUp implements Collidable{
 
 
 	}
+	/**
+	 * returns the power up's current rotation angle
+	 * @return
+	 */
 	public double getAngle(){
 		return angle;
 	}
+
+	/**
+	 * after the power up reaches its resting place, this causes the power up
+	 * to begin firing and rotating
+	 */
 	public void beginRotation(){
 		powerUpIcon = new ImageIcon("images/powerUpShipFire.png");
-		//width= powerUpIcon.getIconWidth();
-		//height = powerUpIcon.getIconHeight();
 		rotationTimer.start();
 
 	}
 	@Override
+	/**
+	 * gets the power ups height
+	 * @return height in pixels
+	 */
 	public int getHeight() {
-		//if(isRotated())
-		//	return (int) bounds.getHeight();
-		//else
+
 		return height;
 	}
 
 	@Override
+	/**
+	 * gets the power up's width
+	 * @return width in pixels
+	 */
 	public int getWidth() {
-		//if(isRotated())
-		//	return (int) bounds.getWidth();
-		//	else
+
 		return width;
 	}
 
 	@Override
+	/**
+	 * gets the power up's x coordinate
+	 * @return x coordinate
+	 */
 	public int getX() {
-		//if(isRotated())
-		//	return (int) bounds.getX();
-		//else
+
 		return (int) position.getX();
 	}
 
 	@Override
+	/**
+	 * gets the power up's y coordinate
+	 * @return y coordinate
+	 */
 	public int getY() {
-		//if(isRotated())
-		//	return (int) bounds.getY();
-		//else
+
 		return (int) position.getY();
 	}
 
 	@Override
+	/**
+	 * gets RGB value of power up at specified pixel
+	 * @param x x coordinate of specified pixel
+	 * @param y y coordinate of specified pixel
+	 * @return RGB value of pixel
+	 */
 	public int getRGB(int x, int y) {
 		return bImage.getRGB(x, y);
 	}
 
 	@Override
+	/**
+	 * bounds of power up as a rectangle2D object
+	 * @return bounds of power up
+	 */
 	public Rectangle2D getBounds() {
 
 		return bounds.getBounds2D();
 	}
 
 	@Override
+	/**
+	 * unused, power ups are invincible
+	 */
 	public void collision() {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * 
+	 * @return true if power up is rotated, false otherwise
+	 */
 	public boolean isRotated(){
 		if(angle==0d)
 			return false;

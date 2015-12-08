@@ -9,12 +9,7 @@ import javax.swing.ImageIcon;
 
 
 /**
- * This is meant for intermediate enemies. 
- * Instances of this class will eventually be 
- * initialized from an array list of code lines
- * of appropriate size for this class. Let's 
- * get some ideas going for other grunt attributes
- * to add to this class. 
+ *Grunt enemy class. used to instantiate small enemies.
  * @author Paco
  *
  */

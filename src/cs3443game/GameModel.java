@@ -13,6 +13,14 @@ import java.util.Scanner;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+/**
+ * the main mode of the game. This class contains 
+ * methods for screen-object translation, collision detection, 
+ * screen clean up, random code line generation, enemy creation, 
+ * and input processing. 
+ * @author Paco
+ *
+ */
 public class GameModel {
 	/**
 	 * Contains lines of code to be put on screen
@@ -26,22 +34,33 @@ public class GameModel {
 	 */
 	private Scanner input;
 
+	/**
+	 * collection of enemies on screen
+	 */
 	private ArrayList<Enemy> onScreenEnemies;
-	private ArrayList<Projectile>onScreenProjectiles;
+
+	/**
+	 * collection of power ups on screen
+	 */
 	private ArrayList<PowerUp>onScreenPowerUps;
-	private ArrayList<Bullet>bossProjectiles;
+	
+	//private ArrayList<Bullet>bossProjectiles;
+	/**
+	 * the game's boss
+	 */
 	public Boss boss;
+	/**
+	 * timer that determines the boss's fire rate
+	 */
 	private Timer bossFireTimer;
+	/**
+	 * timer that determines the rate that the boss changes code lines
+	 */
 	private Timer bossChangeLine;
 	boolean bossOnScreen;
-	private Integer points;
 	public boolean pIncoming;
 	/**
-	 * Collection of lines that are currently being displayed.
-	 * This is treated as a queue. As of now, the player must always
-	 * target the first line that appears on the screen.  
-	 * 
-	 * 
+	 * determines whether the boss is on screen or not
 	 */
 	//private ArrayList<String> onScreenLines;
 	
@@ -49,35 +68,39 @@ public class GameModel {
 
 
 	/**
-	 * Collection of the current (x,y) points of all lines on screen
-	 * index of onScreenLines corresponds to index of this variable
+	 * the amount of points accumulated by the player
 	 */
-	//private ArrayList<Point> screenLinePointDB;
-
+	private Integer points;
+	
+	
 	/**
-	 * Used to generate random starting points
-	 * Used to generate random array index
+	 * used to generate random code lines
 	 */
 	private Random random;
+	/**
+	 * the game's earth object
+	 */
 	public Earth earth;
+	public HostView host;
 	public int pUpAvail;
 	//public static boolean pIncoming;
 	private int bossCount;
 
 	/**
-	 * put three arbitrary code lines into codeLineDB
+	 * constructs the game's main mode
 	 */
-	public GameModel(){
+	public GameModel(HostView h){
+		host = h;
 		earth = new Earth();
 		random = new Random();
 		codeLineDB = new ArrayList<String>();
 		shortLineDB = new ArrayList<String>();
 
 		onScreenEnemies = new ArrayList<Enemy>();
-		onScreenProjectiles = new ArrayList<Projectile>();
-		bossProjectiles = new ArrayList<Bullet>();
 		points=0;
 		bossOnScreen = false;
+		onScreenEnemies = new ArrayList<Enemy>();
+		bossOnScreen=false;
 		pUpAvail = 0;
 		pIncoming = false;
 		gameOver = false;
@@ -101,7 +124,7 @@ public class GameModel {
 				
 		});
 
-		bossFireTimer =  new Timer(2000, new ActionListener(){
+		bossFireTimer =  new Timer(3000, new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
 				int cannon;
@@ -185,19 +208,16 @@ public class GameModel {
 	}
 
 	/**
-	 * translates screen lines to the left of the screen
-	 * Might want to use the translate method of the Point class,
-	 * but this works for now
+	 *this method dictates movement on screen by calling the translate method of all screen
+	 *objects.
 	 */
 	public void translate(){
 		Enemy e;
-		Projectile p;
         PowerUp u = null;
         
         if(earth.hbEarth.health <= 0)
         {
         	gameOver = true;
-        	return;
         }
         
         // first power up option clears the screen
@@ -264,19 +284,16 @@ public class GameModel {
 		}
 	
 
-			for(int i=0; i<onScreenProjectiles.size(); i++){
-				p=onScreenProjectiles.get(i);
-				p.translate(1, 0);
-				p.paintToImage();
-
-			}
-
-
 			//check for collisions after this translation
 			collisions();
 			cleanUp();
 		}
 	
+	/**
+	 * when the boss has reached its resting position, this method 
+	 * begins the boss's firing sequence. This method also causes the boss
+	 * to begin displaying a code line. 
+	 */
 		public void beginFireSequence(){
 			
 			while(pIncoming){}
@@ -285,15 +302,17 @@ public class GameModel {
 			bossChangeLine.start();
 		}
 
-		/**
-		 * creates grunt enemy. will be loaded with different
-		 * code lines instead of just int a later on
-		 */
+	/*
+	 * creates a power up ship that helps clear the screen of enemies.
+	 */
 		
 		public void createPowerUp(){
 			onScreenPowerUps.add(new PowerUp("images/powerUpShip.png"));
 		}
 		
+		/**
+		 * creates the game's boss
+		 */
 		public void createBoss(){
 			if(!bossOnScreen){
 				boss = new Boss(""  , "images/boss.png", "images/explosion.png", new Point(1300,70) );
@@ -304,7 +323,7 @@ public class GameModel {
 		}
 
 		/**
-		 * returns a screen enemy at the specified position
+		 * returns a screen enemy from the enemy collection at the specified position
 		 * @param i index of enemy to return
 		 * @return enemy at specified position, null if invalid value was given
 		 */
@@ -317,8 +336,7 @@ public class GameModel {
 	
 
 	/**
-	 * creates grunt enemy. will be loaded with different
-	 * code lines instead of just int a later on
+	 * creates grunt enemy and loads it with a random code line
 	 */
 	public void createGrunt(){
 		if(pIncoming || bossOnScreen)
@@ -326,22 +344,12 @@ public class GameModel {
 		Enemy enemy = new EnemyGrunt(getCodeLine(), getRandomPoint());
 		onScreenEnemies.add(enemy);
 	}
-
-
-
-	public Bullet getScreenBossBullet(int i){
-		if(i>=0 && i<bossProjectiles.size())
-			return bossProjectiles.get(i);
-
-		return null;
-	}
-	public Projectile getScreenProjo(int i){
-		if(i>=0 && i<onScreenProjectiles.size())
-	    	    return onScreenProjectiles.get(i);
-
-		return null;
-	}
 	
+	/**
+	 * returns a power up from the power up collection at the specified position
+	 * @param i index of power up to return
+	 * @return power up at specified position, null if invalid value was given
+	 */
 	public PowerUp getScreenPowerUp(int i){
 		if(i>=0 && i<onScreenPowerUps.size())
 		    return onScreenPowerUps.get(i);
@@ -349,7 +357,12 @@ public class GameModel {
 		return null;
 		}
 
-
+/**
+ * processes the player's input.
+ * checks the input text to see if it matches with the code lines of enemies on screen.
+ * If text matches an enemy's line, the enemy takes damage or it is destroyed. 
+ * also checks to see if the player is attempting to use a power up. 
+ */
 		public boolean process(String s){
 			Enemy enemy;
 			Boolean processed=false;
@@ -397,7 +410,7 @@ public class GameModel {
 								System.out.println("Boss defeated, acquired powerup: " + pUpAvail);
 								boss.collision();
 								updateScore(50);
-								bossCount = points + 100;
+								bossCount = getPoints() + 100;
 							}
 							return processed;
 						}
@@ -413,29 +426,28 @@ public class GameModel {
 			return processed;
 			
 		}
-
+/**
+ * updates the player's score. Also creates a boss if the player has reached a certain score
+ * @param amount the amount of points the score will go up by
+ */
 		public void updateScore(int amount){
-			points=points+amount;
-			if((points == bossCount) && !bossOnScreen)
+			points+=amount;
+			if((getPoints() == bossCount) && !bossOnScreen)
 				createBoss();
 
 		}
-		public int getProjoSize(){
-			return onScreenProjectiles.size();
-		}
-		
-
-		public int getEnemySize(){
-			return onScreenEnemies.size();
-		}
-
+	
+        /**
+         * checks to see if the bounds of on screen objects intersect. 
+         * If bounds intersect, pixel perfect collision is called to see
+         * if the images are truly colliding. 
+         */
 		public void collisions(){
 
 			Enemy enemy;
-			Projectile projo;
 			PowerUp pUp;
 
-			for(int i=0; i<getEnemySize(); i++){
+			for(int i=0; i<onScreenEnemies.size(); i++){
 				enemy = getScreenEnemy(i);
 				if(enemy.exploded())
 					continue;
@@ -447,22 +459,21 @@ public class GameModel {
 					if(collided(pUp,enemy))
 						continue;
 				}
-				for(int j=0; j<getProjoSize(); j++){
-					projo = getScreenProjo(j);
-					if(projo.isTrash())
-						continue;
-					if(collided(projo,enemy))
-						break;
-				}
 			}
 
 		}
 
-
+        /**
+         * method that is used by the collisions method to check if
+         * two collidable objects have truly collided
+         * @param a first collidable object
+         * @param b second collidable object
+         * @return true if objects collided, false otherwise
+         */
 		public boolean collided(Collidable a, Collidable b){
 					
 			if(a.getBounds().intersects(b.getBounds())){
-				//System.out.println("intersection");
+				
 				if(pixelPerfectCollision(a, b)){
 					a.collision();
 					b.collision();
@@ -473,11 +484,21 @@ public class GameModel {
 	}
 	
 	
-
+        /**
+         * gets the current score
+         * @return current score
+         */
 		public String getScore(){
-			return "Score: "+points.toString();
+			return "Score: "+getPoints().toString();
 		}
 
+		/**
+		 * checks collisions down to the pixel. Calculates the area of overlap between the two
+		 * collidable objects, and checks the pixels of that area to see the two images overlap
+		 * @param collidableA first collidable object
+		 * @param collidableB second collidable object
+		 * @return true if collision occurred, false otherwise
+		 */
 		public boolean pixelPerfectCollision(Collidable collidableA, Collidable collidableB){
 
 			int xStart=(int) Math.max(collidableA.getBounds().getX(), collidableB.getX());
@@ -497,17 +518,13 @@ public class GameModel {
 			}
 			return false;
 		}
-
+        /**
+         * cleans up objects that are ready to be removed from the screen. 
+         */
 		public void cleanUp(){
 			for(int i=0; i<onScreenEnemies.size(); i++){
 				if(onScreenEnemies.get(i).isTrash()){
 					onScreenEnemies.remove(i);
-				}
-			}
-
-			for(int i=0; i<onScreenProjectiles.size(); i++){
-				if(onScreenProjectiles.get(i).isTrash()){
-					onScreenProjectiles.remove(i);
 				}
 			}
 		}
@@ -521,14 +538,18 @@ public class GameModel {
 		 */
 		
 		public void endGame() {
-		
+			host.switchView("button_endgame");
+			//newGame();
 			
 		}
 
 		public void newGame() {
-			// TODO Auto-generated method stub
 			gameOver = false;
 			
+		}
+
+		public Integer getPoints() {
+			return points;
 		}
 		
 		
