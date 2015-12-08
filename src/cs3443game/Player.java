@@ -20,12 +20,17 @@ public class Player implements Comparable<Player>
 	@Override
 	public int compareTo(Player o)
 	{
-		return 0;
+		if(this.score > o.score)
+			return 1;
+		else if(this.score == o.score)
+			return 0;
+		else 
+			return -1;
 	}
 	
 	public String toString()
 	{
-		return username + score;
+		return "Player: " + username + "	Score: " + score;
 	}
 
 	public void setPoints(int points) {

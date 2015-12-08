@@ -24,6 +24,7 @@ public class LeaderboardView extends JPanel {
 	private ImageIcon mainmenu;
 	private ImageIcon addplayer;
 	private ImageIcon tryagain;
+	EndGameView view;
 	JTextField textField;
 	JList<String> listbox;
 
@@ -35,7 +36,8 @@ public class LeaderboardView extends JPanel {
     	setBackground(new Color(0, true));
         setSize(1280, 720);
         setVisible(true);
-        users = v.getUsers();
+        view = v;
+        listbox = view.listbox;
         
     }
 
@@ -47,16 +49,8 @@ public class LeaderboardView extends JPanel {
     public void paintComponent(Graphics g)
     {
         //Paint background
-        g.drawImage (background, 0, 0, null);
-        String[] infoArray = new String[users.size()];
-        int i = 0;
-		for(Player user : users)
-		{
-        	infoArray[i] = user.toString();
-        	i++;
-		}
-    	listbox = new JList<>(infoArray);
     	
+        g.drawImage (background, 0, 0, null);
     	listbox.setSize(200, 200);
     	listbox.setLocation(560, 360);
     	this.add(listbox);
