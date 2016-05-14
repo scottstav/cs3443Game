@@ -1,17 +1,10 @@
 package cs3443game;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
-
-
-
-
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +14,6 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class EndGameView extends JPanel {
-	
 	private ArrayList<Player> users;
 	private Image background;
 	private ImageIcon mainmenu;
@@ -43,12 +35,10 @@ public class EndGameView extends JPanel {
         setUsers(new ArrayList<Player>());
         info = new DefaultListModel<>();
         listbox = new JList<>( info );
-        
     }
 
 	/**
 	 * Class to set the JPanel background
-	 *
 	 */
     @Override
     public void paintComponent(Graphics g)
@@ -139,7 +129,6 @@ public class EndGameView extends JPanel {
 		getUsers().add(player);
 		
 		this.repaint();
-		
 	}
 
 	private Player getPlayer() {
@@ -153,5 +142,4 @@ public class EndGameView extends JPanel {
 	public void setUsers(ArrayList<Player> users) {
 		this.users = users;
 	}
-
 }

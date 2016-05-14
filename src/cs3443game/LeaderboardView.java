@@ -1,8 +1,6 @@
 package cs3443game;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -38,7 +36,6 @@ public class LeaderboardView extends JPanel {
         setVisible(true);
         view = v;
         listbox = view.listbox;
-        
     }
 
 	/**
@@ -49,13 +46,11 @@ public class LeaderboardView extends JPanel {
     public void paintComponent(Graphics g)
     {
         //Paint background
-    	
         g.drawImage (background, 0, 0, null);
     	listbox.setSize(200, 200);
     	listbox.setLocation(560, 360);
     	this.add(listbox);
     }
-
 
     /**
      * Method that sets the icons with images & the background image too
@@ -74,7 +69,6 @@ public class LeaderboardView extends JPanel {
      */
      private void setButtons()
      {
-    	
 		JButton button_tryagain = new JButton(tryagain);
 		button_tryagain.setText("button_tryagain");
 		button_tryagain.setLocation(415, 600);
@@ -97,7 +91,4 @@ public class LeaderboardView extends JPanel {
 		this.add(button_mainmenu);
 		this.add(button_tryagain);
 	}
-     
-
-
 }
