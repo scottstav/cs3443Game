@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -148,7 +149,9 @@ public class GameModel {
 		onScreenPowerUps = new ArrayList<PowerUp>();
 
 		try {
-			input = new Scanner(new File("input"));
+			URL url = new URL("http://www.puzzlers.org/pub/wordlists/pocket.txt");
+			input = new Scanner(url.openStream());
+			//input = new Scanner(new File("./input"));
 		} catch (Exception FileNotFoundException) {
 			System.err.println("failed to open input.txt");
 			System.exit(1);
